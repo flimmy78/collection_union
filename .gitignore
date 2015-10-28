@@ -1,0 +1,14 @@
+*.o
+*.d
+*.crf
+*.bin
+*.plg
+*.tra
+*.map
+*.lst
+*.hex
+*.lnp
+*.axf
+*.bak
+*.plg
+MDK-ARM/obj/Project.htm

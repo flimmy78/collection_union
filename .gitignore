@@ -11,4 +11,5 @@
 *.axf
 *.bak
 *.plg
+Project.*
 MDK-ARM/obj/Project.htm

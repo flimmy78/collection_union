@@ -40,10 +40,8 @@ extern uint16 gVersion;
 **********************************************************************************************************/
 
 static  OS_STK         App_TaskStartStk[APP_TASK_START_STK_SIZE];
-
 uint8 gTASK_DeadTask;
 uint8 gDebugLevel = 4;
-
 uint8 gRestartFlag = FALSE;
 
 /**********************************************************************************************************
@@ -65,14 +63,11 @@ static  void  App_TaskStart			(void		*p_arg);
 
 INT32S main (void)
 {
-    CPU_INT08U  os_err;
+	CPU_INT08U  os_err;
 	os_err = os_err; /* prevent warning... */
-
 	/* Note:  由于使用UCOS, 在OS运行之前运行,注意别使能任何中断. */
 	CPU_IntDis();                    /* Disable all ints until we are ready to accept them.  */
-
-    OSInit();                        /* Initialize "uC/OS-II, The Real-Time Kernel".         */
-
+	OSInit();                        /* Initialize "uC/OS-II, The Real-Time Kernel".         */
 
 	os_err = OSTaskCreateExt((void (*)(void *)) App_TaskStart,  /* Create the start task.                               */
                              (void          * ) 0,
@@ -83,19 +78,16 @@ INT32S main (void)
                              (INT32U          ) APP_TASK_START_STK_SIZE,
                              (void          * )0,
                              (INT16U          )(OS_TASK_OPT_STK_CLR | OS_TASK_OPT_STK_CHK));
-	
+
 	BSP_FSMC_IO_Init();
 	BSP_SRAM_Init();
 	LOG_QueueCreate();
 	Createtasks_up();
-    CreateMboxs_up();
-    
-    CreateTasks_Tasks();   //创建管理Tasks1()、Tasks2()和Tasks4()的任务
-    
-    CreateMboxs_Tasks();   //创建管理Mbox的任务
+	CreateMboxs_up();
+	CreateTasks_Tasks();   //创建管理Tasks1()、Tasks2()和Tasks4()的任务
+	CreateMboxs_Tasks();   //创建管理Mbox的任务
 	CreateMutexs_Tasks();  //创建管理Mutexs的任务
-
-	OSStart();                               	/* Start multitasking (i.e. give control to uC/OS-II).  */
+	OSStart();/* Start multitasking (i.e. give control to uC/OS-II).  */
 
 	return (0);
 }
@@ -126,9 +118,9 @@ static  void  App_TaskStart ( void *p_arg )
 	InitFeedDogFuns();
 	/***************************************************/
 	
-    OS_CPU_SysTickInit();                                    /* Initialize the SysTick.                              */
+	OS_CPU_SysTickInit();                                    /* Initialize the SysTick.                              */
 #if (OS_TASK_STAT_EN > 0)
-    OSStatInit();                                            /* Determine CPU capacity.                              */
+	OSStatInit();                                            /* Determine CPU capacity.                              */
 #endif
 
 //	OSTimeDly(OS_TICKS_PER_SEC*2);
@@ -150,25 +142,23 @@ static  void  App_TaskStart ( void *p_arg )
 
 	while(1)
     {
-    	OSTimeDly(OS_TICKS_PER_SEC);
+		OSTimeDly(OS_TICKS_PER_SEC);
 		//LOG_WriteSysLog_Format(LOG_LEVEL_INFO, "INFO: [App_TaskStart] Per Second Check OK!");
 		/*begin:yangfei added test*/
 			{
 			//uint8 SendBuff[]={0xaa,0x55};
-		       //uint8 SendBuff[]={0xfe, 0xfe, 0x68, 0x20, 0x20, 0x58, 0x35, 0x72, 0x69, 0x55, 0x66, 0x04, 0x04, 0xa0, 0x17, 00, 0x99, 0x23, 0x16};
-                     //UpDevSend(UP_COMMU_DEV_485,  SendBuff,  sizeof(SendBuff)); 
+				 //uint8 SendBuff[]={0xfe, 0xfe, 0x68, 0x20, 0x20, 0x58, 0x35, 0x72, 0x69, 0x55, 0x66, 0x04, 0x04, 0xa0, 0x17, 00, 0x99, 0x23, 0x16};
+							//UpDevSend(UP_COMMU_DEV_485,  SendBuff,  sizeof(SendBuff)); 
 			}
 	
 		/*end:yangfei added test*/
-
 		
 		ProBltStaDog();
-		
-        #if WDT_TYPE ==1 
+
+		#if WDT_TYPE ==1 
 		IWDG_ReloadCounter();
-        #endif
-			
-		
+		#endif
+
 		if(gRestartFlag==TRUE)
 		{
 			rest++;
@@ -182,31 +172,29 @@ static  void  App_TaskStart ( void *p_arg )
 		{
 			rest=0;
 		}
-		
 
-        num=(num+1)%64;  //本任务每64秒检查其他各任务工作是否正常 
-        if(num)	continue;      
+		num=(num+1)%64;  //本任务每64秒检查其他各任务工作是否正常 
+		if(num)	continue;
 
 		for(i=0; i<OS_LOWEST_PRIO+1; i++)
+		{
+			if(gTasksWatchDog[i].Monitor==FALSE)
 			{
-				if(gTasksWatchDog[i].Monitor==FALSE)
-					{
-						continue;
-					}
+				continue;
+			}
 
-				if(gTasksWatchDog[i].CounterPre==gTasksWatchDog[i].CounterCur)
-					{
-						gTASK_DeadTask=i;
-						#if WDT_TASK_MONIT_EN == 1
-						while(1);
-						#endif 
-					}
-				else{
-						gTasksWatchDog[i].CounterPre=gTasksWatchDog[i].CounterCur;
-					}
-			}//由于本任务优先级最高，所以这里对gTasksWatchDog的访问不需要关中断，各任务喂狗时要注意关中断
+			if(gTasksWatchDog[i].CounterPre==gTasksWatchDog[i].CounterCur)
+			{
+				gTASK_DeadTask=i;
+				#if WDT_TASK_MONIT_EN == 1
+				while(1);
+				#endif 
+			}
+			else{
+				gTasksWatchDog[i].CounterPre=gTasksWatchDog[i].CounterCur;
+			}
+		}//由于本任务优先级最高，所以这里对gTasksWatchDog的访问不需要关中断，各任务喂狗时要注意关中断
 	}
-	
 }
 
 /*********************************************************************************************************

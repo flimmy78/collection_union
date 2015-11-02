@@ -12,4 +12,5 @@
 *.bak
 *.plg
 Project.*
+*/obj/*
 MDK-ARM/obj/Project.htm

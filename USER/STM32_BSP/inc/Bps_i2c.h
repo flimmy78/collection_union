@@ -7,7 +7,7 @@
 extern OS_EVENT *I2cMsgSem;
 extern OS_EVENT *I2cMsgRetSem;
 #endif
-extern uint8 I2C_ReadByte(uint8* pBuffer,   uint16 length,   uint16 ReadAddress,  uint8 DeviceAddress);
+extern uint8 I2C_ReadByte(uint8 *pBuffer,   uint16 length,   uint16 ReadAddress,  uint8 DeviceAddress);
 
 #endif
 /*********************************************************************************************************

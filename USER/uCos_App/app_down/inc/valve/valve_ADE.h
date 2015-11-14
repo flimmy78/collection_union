@@ -4,14 +4,14 @@
   * @author  zjjin
   * @version V0.0.0
   * @date    08-10-2015
-  * @brief   
+  * @brief
   ********************************************************************************************************
   * @attention
   *		航天德鲁协议阀控器功能实现相关代码，相对于原德鲁阀控协议有些调整
   		为了与原兼容，另加本文件。
   *
   ********************************************************************************************************
-  */  
+  */
 
 
 #ifndef _VALVE_ADE_H_
@@ -53,8 +53,8 @@ extern uint16 gADEVALVE_Table[][2];
 
 
 
-extern uint8 ValveContron_ADE(MeterFileType *p_mf,uint8 functype,uint8 *p_DataIn,uint8 *p_databuf,uint8 *p_datalenback);
-extern uint8 ADEValveCommunicate(MeterFileType *p_mf,uint8 ADE_Functype,uint8 *p_DataIn,uint8 *p_databuf,uint8 *p_datalenback);
+extern uint8 ValveContron_ADE(MeterFileType *p_mf, uint8 functype, uint8 *p_DataIn, uint8 *p_databuf, uint8 *p_datalenback);
+extern uint8 ADEValveCommunicate(MeterFileType *p_mf, uint8 ADE_Functype, uint8 *p_DataIn, uint8 *p_databuf, uint8 *p_datalenback);
 
 #endif  //#ifndef _VALVE_ADE_H_
 

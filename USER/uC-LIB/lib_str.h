@@ -84,7 +84,7 @@
 *
 *           (3) NO compiler-supplied standard library functions SHOULD be used.
 *
-*               #### The reference to standard library header files SHOULD be removed once all custom 
+*               #### The reference to standard library header files SHOULD be removed once all custom
 *               library functions are implemented WITHOUT reference to ANY standard library function(s).
 *
 *               See also 'STANDARD LIBRARY MACRO'S  Note #1'.
@@ -95,7 +95,7 @@
 #include  <lib_def.h>
 #include  <app_cfg.h>
 
-                                                                /* See Note #3.                                         */
+/* See Note #3.                                         */
 #include  <stdlib.h>
 #include  <ctype.h>
 #include  <errno.h>
@@ -130,11 +130,11 @@
 * Note(s) : (1) Configure LIB_STR_CFG_FP_EN to enable/disable floating point string function(s).
 *********************************************************************************************************
 */
-                                                                /* Configure floating point feature(s) [see Note #1] :  */
+/* Configure floating point feature(s) [see Note #1] :  */
 #ifndef  LIB_STR_CFG_FP_EN
 #define  LIB_STR_CFG_FP_EN                      DEF_DISABLED
-                                                                /*   DEF_DISABLED     Floating point functions DISABLED */
-                                                                /*   DEF_ENABLED      Floating point functions ENABLED  */
+/*   DEF_DISABLED     Floating point functions DISABLED */
+/*   DEF_ENABLED      Floating point functions ENABLED  */
 #endif
 
 
@@ -172,14 +172,14 @@
 *
 * Note(s) : (1) NO compiler-supplied standard library functions SHOULD be used.
 *
-*               #### The reference to standard memory functions SHOULD be removed once all custom library 
+*               #### The reference to standard memory functions SHOULD be removed once all custom library
 *               functions are implemented WITHOUT reference to ANY standard library function(s).
 *
 *               See also 'INCLUDE FILES  Note #3'.
 *********************************************************************************************************
 */
 
-                                                                /* See Note #1.                                         */
+/* See Note #1.                                         */
 #define  Str_IsPrint(a)                 isprint(a)
 
 #define  Str_ToLong(a, b, c)            strtol((char *)a, (char **)b, c)

@@ -26,19 +26,19 @@
 
 extern uint8 UpcomInit(void);
 extern uint8 UpGetStart(uint8 dev, uint16 OutTime);
-extern uint8 UpGetch(uint8 dev,uint8* data,uint16 OutTime);
+extern uint8 UpGetch(uint8 dev, uint8 *data, uint16 OutTime);
 extern uint8 UpQueueFlush(uint8 dev);
-extern uint8 UpRecQueueWrite(uint8 dev,uint8* buf,uint32 n);
-extern void UpDevSend(uint8 dev,uint8 *Data, uint32 n);
+extern uint8 UpRecQueueWrite(uint8 dev, uint8 *buf, uint32 n);
+extern void UpDevSend(uint8 dev, uint8 *Data, uint32 n);
 
-extern uint8 DuGetch(uint8 dev,uint8* data,uint16 OutTime);
-extern void ChangeDuBps(uint8 dev,uint32 bps);
-extern void DuSend(uint8 dev,uint8* buf,uint32 n);
+extern uint8 DuGetch(uint8 dev, uint8 *data, uint16 OutTime);
+extern void ChangeDuBps(uint8 dev, uint32 bps);
+extern void DuSend(uint8 dev, uint8 *buf, uint32 n);
 extern uint8 DuQueueFlush(uint8 dev);   //Çå¿Õ»º³åÇø
 
 
-extern uint16 TestUpRec(uint8 dev,uint8* buff,uint16 max);
-extern uint16 TestDownRec(uint8 dev,uint8* buff,uint16 max);
+extern uint16 TestUpRec(uint8 dev, uint8 *buff, uint16 max);
+extern uint16 TestDownRec(uint8 dev, uint8 *buff, uint16 max);
 
 
 #endif

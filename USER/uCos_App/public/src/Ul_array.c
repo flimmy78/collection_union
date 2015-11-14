@@ -12,37 +12,37 @@ save_timearea_info savetimeinfo = {0};       //ÓÉÓÚ·§ÃÅ¼ÇÂ¼´ò¿ªÊ±¼äÎªÀÛ¼ÆÖµ£¬Õâ¸
 ²ÎÊı                 - userId  ÓÃ»§id
 				-opentime ·§ÃÅ´ò¿ªÊ±¼ä
 ·µ»Ø     ·§ÃÅ´ò¿ªÊ±¼ä£¬µ¥Î»Îª·ÖÖÓ
-                          
+
 ********************************************************/
 
-uint32 getOpentime(uint8 userId,uint32 opentime)
+uint32 getOpentime(uint8 userId, uint32 opentime)
 {
-	uint32 i = 0;
-	uint32 oldopentime = 0;
-	uint32 oldValveHot = 0;
-	uint32 time;
-	uint8 *dataBuf;
-	save_valve_info *opentimeinfo = savetimeinfo.valve_info;
-	for(i = 0; i < MAX_VALVE_NUM;i++)
-	{
-		if(opentimeinfo[i].user_id == userId)
-		{
-		   oldopentime = opentimeinfo[i].oldOpentime;
-		   opentimeinfo[i].oldOpentime = opentime;
-		   debug_info(gDebugModule[TIME_AREA],"userid=%d,opentime=%x,oldopentime=%x\r\n",userId,opentime,oldopentime);
-		   time = opentime - oldopentime;
-		   dataBuf = (uint8 *)&time;
-		   return ((dataBuf[3] *10000 + dataBuf[2] *100 +dataBuf[1]) * 60 + HexToBcd(dataBuf[0])*100/2*60);	   
-		}
-		if(opentimeinfo[i].user_id == 0xff)
-			break;
-	}
-	if(i == MAX_VALVE_NUM)
-		return 0;
-	opentimeinfo[i].user_id = userId;
-	opentimeinfo[i].oldOpentime = opentime;
-	opentimeinfo[i].oldValveHot = 0;
-	return 0;
+    uint32 i = 0;
+    uint32 oldopentime = 0;
+    uint32 oldValveHot = 0;
+    uint32 time;
+    uint8 *dataBuf;
+    save_valve_info *opentimeinfo = savetimeinfo.valve_info;
+    for(i = 0; i < MAX_VALVE_NUM; i++)
+    {
+        if(opentimeinfo[i].user_id == userId)
+        {
+            oldopentime = opentimeinfo[i].oldOpentime;
+            opentimeinfo[i].oldOpentime = opentime;
+            debug_info(gDebugModule[TIME_AREA], "userid=%d,opentime=%x,oldopentime=%x\r\n", userId, opentime, oldopentime);
+            time = opentime - oldopentime;
+            dataBuf = (uint8 *)&time;
+            return ((dataBuf[3] * 10000 + dataBuf[2] * 100 + dataBuf[1]) * 60 + HexToBcd(dataBuf[0]) * 100 / 2 * 60);
+        }
+        if(opentimeinfo[i].user_id == 0xff)
+            break;
+    }
+    if(i == MAX_VALVE_NUM)
+        return 0;
+    opentimeinfo[i].user_id = userId;
+    opentimeinfo[i].oldOpentime = opentime;
+    opentimeinfo[i].oldValveHot = 0;
+    return 0;
 }
 
 
@@ -51,36 +51,36 @@ uint32 getOpentime(uint8 userId,uint32 opentime)
 
 ²ÎÊı                 - userId  ÓÃ»§id
 
-·µ»Ø    
-                          
+·µ»Ø
+
 ********************************************************/
 
-save_valve_info * getValveHot(uint8 userId)
+save_valve_info *getValveHot(uint8 userId)
 {
-	uint32 i = 0;
-	//uint32 oldopentime = 0;
-	//uint32 oldValveHot = 0;
-	//uint32 time;
-	//uint8 *dataBuf;
-	save_valve_info *opentimeinfo = savetimeinfo.valve_info;
-	for(i = 0; i < MAX_VALVE_NUM;i++)
-	{
-		if(opentimeinfo[i].user_id == userId)
-		{
-		   return &opentimeinfo[i];
-		}
-		
-		if(opentimeinfo[i].user_id == 0xff)
-		{
-			break;
-		}
-	}
-	if(i == MAX_VALVE_NUM)
-		return 0;
-	opentimeinfo[i].user_id = userId;
-	opentimeinfo[i].oldOpentime = 0;
-	opentimeinfo[i].oldValveHot = 0;
-	return &opentimeinfo[i];
+    uint32 i = 0;
+    //uint32 oldopentime = 0;
+    //uint32 oldValveHot = 0;
+    //uint32 time;
+    //uint8 *dataBuf;
+    save_valve_info *opentimeinfo = savetimeinfo.valve_info;
+    for(i = 0; i < MAX_VALVE_NUM; i++)
+    {
+        if(opentimeinfo[i].user_id == userId)
+        {
+            return &opentimeinfo[i];
+        }
+
+        if(opentimeinfo[i].user_id == 0xff)
+        {
+            break;
+        }
+    }
+    if(i == MAX_VALVE_NUM)
+        return 0;
+    opentimeinfo[i].user_id = userId;
+    opentimeinfo[i].oldOpentime = 0;
+    opentimeinfo[i].oldValveHot = 0;
+    return &opentimeinfo[i];
 }
 
 
@@ -92,11 +92,11 @@ save_valve_info * getValveHot(uint8 userId)
 ul_array_t *
 ul_array_create()
 {
-	memset(arr_data,0,sizeof(TimeAreaArith) * MAX_VALVE_NUM);
-	memset(&savetimeinfo,0xff,sizeof(save_timearea_info));
-	savetimeinfo.totalHot = 0;
-	savetimeinfo.allocHot = 0;
-	arr_head.elts = arr_data;
+    memset(arr_data, 0, sizeof(TimeAreaArith) * MAX_VALVE_NUM);
+    memset(&savetimeinfo, 0xff, sizeof(save_timearea_info));
+    savetimeinfo.totalHot = 0;
+    savetimeinfo.allocHot = 0;
+    arr_head.elts = arr_data;
     arr_head.nelts = 0;
     arr_head.size = sizeof(TimeAreaArith);
     arr_head.nalloc = MAX_VALVE_NUM;
@@ -111,7 +111,8 @@ ul_array_push(ul_array_t *a)
 {
     TimeAreaArith        *elt = NULL;
 
-    if (a->nelts == a->nalloc) {
+    if (a->nelts == a->nalloc)
+    {
         return NULL;
     }
 
@@ -126,12 +127,12 @@ ul_array_push(ul_array_t *a)
 void
 ul_array_destroy(ul_array_t *a)
 {
-    
+
 }
 /*****************************************************
 Çå¿ÕÊı×é£¬¶àÏß³Ì²»°²È«
 ********************************************************/
 void ul_array_clean(ul_array_t *a)
 {
-     a->nelts = 0;
+    a->nelts = 0;
 }

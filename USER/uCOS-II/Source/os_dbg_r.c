@@ -13,10 +13,10 @@
 *
 * LICENSING TERMS:
 * ---------------
-*   uC/OS-II is provided in source form for FREE evaluation, for educational use or for peaceful research.  
-* If you plan on using  uC/OS-II  in a commercial product you need to contact Micriµm to properly license 
-* its use in your product. We provide ALL the source code for your convenience and to help you experience 
-* uC/OS-II.   The fact that the  source is provided does  NOT  mean that you can use it without  paying a 
+*   uC/OS-II is provided in source form for FREE evaluation, for educational use or for peaceful research.
+* If you plan on using  uC/OS-II  in a commercial product you need to contact Micriµm to properly license
+* its use in your product. We provide ALL the source code for your convenience and to help you experience
+* uC/OS-II.   The fact that the  source is provided does  NOT  mean that you can use it without  paying a
 * licensing fee.
 *********************************************************************************************************
 */
@@ -99,7 +99,7 @@ INT16U  const  OSTaskDelEn         = OS_TASK_DEL_EN;
 INT16U  const  OSTaskIdleStkSize   = OS_TASK_IDLE_STK_SIZE;
 INT16U  const  OSTaskProfileEn     = OS_TASK_PROFILE_EN;
 INT16U  const  OSTaskMax           = OS_MAX_TASKS + OS_N_SYS_TASKS; /* Total max. number of tasks      */
-INT16U  const  OSTaskNameEn        = OS_TASK_NAME_EN;  
+INT16U  const  OSTaskNameEn        = OS_TASK_NAME_EN;
 INT16U  const  OSTaskStatEn        = OS_TASK_STAT_EN;
 INT16U  const  OSTaskStatStkSize   = OS_TASK_STAT_STK_SIZE;
 INT16U  const  OSTaskStatStkChkEn  = OS_TASK_STAT_STK_CHK_EN;
@@ -143,61 +143,61 @@ INT16U  const  OSTmrWheelTblSize   = 0u;
 
 INT16U  const  OSDataSize = sizeof(OSCtxSwCtr)
 #if (OS_EVENT_EN) && (OS_MAX_EVENTS > 0u)
-                          + sizeof(OSEventFreeList)
-                          + sizeof(OSEventTbl)
+                            + sizeof(OSEventFreeList)
+                            + sizeof(OSEventTbl)
 #endif
 #if (OS_FLAG_EN > 0u) && (OS_MAX_FLAGS > 0u)
-                          + sizeof(OSFlagTbl)
-                          + sizeof(OSFlagFreeList)
+                            + sizeof(OSFlagTbl)
+                            + sizeof(OSFlagFreeList)
 #endif
 #if OS_TASK_STAT_EN > 0u
-                          + sizeof(OSCPUUsage)
-                          + sizeof(OSIdleCtrMax)
-                          + sizeof(OSIdleCtrRun)
-                          + sizeof(OSStatRdy)
-                          + sizeof(OSTaskStatStk)
+                            + sizeof(OSCPUUsage)
+                            + sizeof(OSIdleCtrMax)
+                            + sizeof(OSIdleCtrRun)
+                            + sizeof(OSStatRdy)
+                            + sizeof(OSTaskStatStk)
 #endif
 #if OS_TICK_STEP_EN > 0u
-                          + sizeof(OSTickStepState)
+                            + sizeof(OSTickStepState)
 #endif
 #if (OS_MEM_EN > 0u) && (OS_MAX_MEM_PART > 0u)
-                          + sizeof(OSMemFreeList)
-                          + sizeof(OSMemTbl)
+                            + sizeof(OSMemFreeList)
+                            + sizeof(OSMemTbl)
 #endif
 #if (OS_Q_EN > 0u) && (OS_MAX_QS > 0u)
-                          + sizeof(OSQFreeList)
-                          + sizeof(OSQTbl)
+                            + sizeof(OSQFreeList)
+                            + sizeof(OSQTbl)
 #endif
-#if OS_TIME_GET_SET_EN > 0u   
-                          + sizeof(OSTime)
+#if OS_TIME_GET_SET_EN > 0u
+                            + sizeof(OSTime)
 #endif
 #if (OS_TMR_EN > 0u) && (OS_TMR_CFG_MAX > 0u)
-                          + sizeof(OSTmrFree)
-                          + sizeof(OSTmrUsed)
-                          + sizeof(OSTmrTime)
-                          + sizeof(OSTmrSem)
-                          + sizeof(OSTmrSemSignal)
-                          + sizeof(OSTmrTbl)
-                          + sizeof(OSTmrFreeList)
-                          + sizeof(OSTmrTaskStk)
-                          + sizeof(OSTmrWheelTbl)
+                            + sizeof(OSTmrFree)
+                            + sizeof(OSTmrUsed)
+                            + sizeof(OSTmrTime)
+                            + sizeof(OSTmrSem)
+                            + sizeof(OSTmrSemSignal)
+                            + sizeof(OSTmrTbl)
+                            + sizeof(OSTmrFreeList)
+                            + sizeof(OSTmrTaskStk)
+                            + sizeof(OSTmrWheelTbl)
 #endif
-                          + sizeof(OSIntNesting)
-                          + sizeof(OSLockNesting)
-                          + sizeof(OSPrioCur)
-                          + sizeof(OSPrioHighRdy)
-                          + sizeof(OSRdyGrp)
-                          + sizeof(OSRdyTbl)
-                          + sizeof(OSRunning)
-                          + sizeof(OSTaskCtr)
-                          + sizeof(OSIdleCtr)
-                          + sizeof(OSTaskIdleStk)
-                          + sizeof(OSTCBCur)
-                          + sizeof(OSTCBFreeList)
-                          + sizeof(OSTCBHighRdy)
-                          + sizeof(OSTCBList)
-                          + sizeof(OSTCBPrioTbl)
-                          + sizeof(OSTCBTbl);
+                            + sizeof(OSIntNesting)
+                            + sizeof(OSLockNesting)
+                            + sizeof(OSPrioCur)
+                            + sizeof(OSPrioHighRdy)
+                            + sizeof(OSRdyGrp)
+                            + sizeof(OSRdyTbl)
+                            + sizeof(OSRunning)
+                            + sizeof(OSTaskCtr)
+                            + sizeof(OSIdleCtr)
+                            + sizeof(OSTaskIdleStk)
+                            + sizeof(OSTCBCur)
+                            + sizeof(OSTCBFreeList)
+                            + sizeof(OSTCBHighRdy)
+                            + sizeof(OSTCBList)
+                            + sizeof(OSTCBPrioTbl)
+                            + sizeof(OSTCBTbl);
 
 #endif
 
@@ -217,7 +217,7 @@ INT16U  const  OSDataSize = sizeof(OSCtxSwCtr)
 *
 * Note(s)    : (1) This code doesn't do anything, it simply prevents the compiler from optimizing out
 *                  the 'const' variables which are declared in this file.
-*              (2) You may decide to 'compile out' the code (by using #if 0/#endif) INSIDE the function 
+*              (2) You may decide to 'compile out' the code (by using #if 0/#endif) INSIDE the function
 *                  if your compiler DOES NOT optimize out the 'const' variables above.
 *********************************************************************************************************
 */
@@ -291,7 +291,7 @@ void  OSDebugInit (void)
 #if OS_TMR_EN > 0u
     ptemp = (void const *)&OSTmrTbl[0];
     ptemp = (void const *)&OSTmrWheelTbl[0];
-    
+
     ptemp = (void const *)&OSTmrEn;
     ptemp = (void const *)&OSTmrCfgMax;
     ptemp = (void const *)&OSTmrCfgNameEn;
@@ -311,4 +311,4 @@ void  OSDebugInit (void)
     ptemp = ptemp;                             /* Prevent compiler warning for 'ptemp' not being used! */
 }
 #endif
-	 	   	  		 			 	    		   		 		 	 	 			 	    		   	 			 	  	 		 				 		  			 		 					 	  	  		      		  	   		      		  	 		 	      		   		 		  	 		 	      		  		  		  
+

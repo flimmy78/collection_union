@@ -104,7 +104,7 @@
 *                                   <compiler>                      directory name for specific compiler
 *
 *           (2) Compiler MUST be configured to include the '\<Custom Library Directory>\uC-LIB\',
-*               '\<CPU-Compiler Directory>\' directory, & the specific CPU-compiler directory as 
+*               '\<CPU-Compiler Directory>\' directory, & the specific CPU-compiler directory as
 *               additional include path directories.
 *********************************************************************************************************
 */
@@ -142,7 +142,7 @@
 #define  DEF_OK                                            1
 
 
-                                                                /* -------------------- BIT DEFINES ------------------- */
+/* -------------------- BIT DEFINES ------------------- */
 #define  DEF_BIT_NONE                                   0x00
 
 #define  DEF_BIT_00                                     0x01
@@ -181,7 +181,7 @@
 #define  DEF_BIT_30                               0x40000000
 #define  DEF_BIT_31                               0x80000000
 
-                                                                /* ------------------- OCTET DEFINES ------------------ */
+/* ------------------- OCTET DEFINES ------------------ */
 #define  DEF_OCTET_NBR_BITS                                8
 #define  DEF_OCTET_MASK                                 0xFF
 
@@ -190,10 +190,10 @@
 
 
 /*$PAGE*/
-                                                                /* ------------------ INTEGER DEFINES ----------------- */
+/* ------------------ INTEGER DEFINES ----------------- */
 #define  DEF_INT_08_NBR_BITS                               8
 #define  DEF_INT_08_MASK                                0xFF
-                                                            
+
 #define  DEF_INT_08U_MIN_VAL                               0u
 #define  DEF_INT_08U_MAX_VAL                             255u
 
@@ -206,7 +206,7 @@
 
 #define  DEF_INT_16_NBR_BITS                              16
 #define  DEF_INT_16_MASK                              0xFFFF
-                                                            
+
 #define  DEF_INT_16U_MIN_VAL                               0u
 #define  DEF_INT_16U_MAX_VAL                           65535u
 
@@ -219,7 +219,7 @@
 
 #define  DEF_INT_32_NBR_BITS                              32
 #define  DEF_INT_32_MASK                          0xFFFFFFFF
-                                                            
+
 #define  DEF_INT_32U_MIN_VAL                               0u
 #define  DEF_INT_32U_MAX_VAL                      4294967295u
 
@@ -232,7 +232,7 @@
 
 #define  DEF_INT_64_NBR_BITS                              64
 #define  DEF_INT_64_MASK                  0xFFFFFFFFFFFFFFFF
-                                                            
+
 #define  DEF_INT_64U_MIN_VAL                               0u
 #define  DEF_INT_64U_MAX_VAL            18446744073709551615u
 
@@ -244,14 +244,14 @@
 
 
 /*$PAGE*/
-                                                                /* ---------------- CPU INTEGER DEFINES --------------- */
+/* ---------------- CPU INTEGER DEFINES --------------- */
 #define  DEF_INT_CPU_NBR_BITS                           (CPU_CFG_DATA_SIZE * DEF_OCTET_NBR_BITS)
 
 
 #if     (DEF_INT_CPU_NBR_BITS == DEF_INT_08_NBR_BITS)
 
 #define  DEF_INT_CPU_MASK                                DEF_INT_08_MASK
-                                                                   
+
 #define  DEF_INT_CPU_U_MIN_VAL                           DEF_INT_08U_MIN_VAL
 #define  DEF_INT_CPU_U_MAX_VAL                           DEF_INT_08U_MAX_VAL
 
@@ -265,7 +265,7 @@
 #elif   (DEF_INT_CPU_NBR_BITS == DEF_INT_16_NBR_BITS)
 
 #define  DEF_INT_CPU_MASK                                DEF_INT_16_MASK
-                                                                   
+
 #define  DEF_INT_CPU_U_MIN_VAL                           DEF_INT_16U_MIN_VAL
 #define  DEF_INT_CPU_U_MAX_VAL                           DEF_INT_16U_MAX_VAL
 
@@ -279,7 +279,7 @@
 #elif   (DEF_INT_CPU_NBR_BITS == DEF_INT_32_NBR_BITS)
 
 #define  DEF_INT_CPU_MASK                                DEF_INT_32_MASK
-                                                    
+
 #define  DEF_INT_CPU_U_MIN_VAL                           DEF_INT_32U_MIN_VAL
 #define  DEF_INT_CPU_U_MAX_VAL                           DEF_INT_32U_MAX_VAL
 
@@ -293,7 +293,7 @@
 #elif   (DEF_INT_CPU_NBR_BITS == DEF_INT_64_NBR_BITS)
 
 #define  DEF_INT_CPU_MASK                                DEF_INT_64_MASK
-                                                                   
+
 #define  DEF_INT_CPU_U_MIN_VAL                           DEF_INT_64U_MIN_VAL
 #define  DEF_INT_CPU_U_MAX_VAL                           DEF_INT_64U_MAX_VAL
 
@@ -302,7 +302,7 @@
 
 #define  DEF_INT_CPU_S_MIN_VAL_ONES_CPL                  DEF_INT_64S_MIN_VAL_ONES_CPL
 #define  DEF_INT_CPU_S_MAX_VAL_ONES_CPL                  DEF_INT_64S_MAX_VAL_ONES_CPL
-                                                      
+
 
 #else
 
@@ -313,7 +313,7 @@
 
 
 /*$PAGE*/
-                                                                /* ------------------- TIME DEFINES ------------------- */
+/* ------------------- TIME DEFINES ------------------- */
 #define  DEF_TIME_NBR_HR_PER_DAY                          24uL
 
 #define  DEF_TIME_NBR_MIN_PER_HR                          60uL
@@ -422,7 +422,7 @@ typedef  CPU_INT16U  LIB_ERR;
 *
 * Caller(s)   : Application.
 *
-* Note(s)     : (1) 'bit_field'/'bit_shift' values that overflow the target CPU &/or compiler environment 
+* Note(s)     : (1) 'bit_field'/'bit_shift' values that overflow the target CPU &/or compiler environment
 *                   (e.g. negative or greater-than-CPU-data-size values) MAY generate compiler warnings
 *                   &/or errors.
 *********************************************************************************************************
@@ -488,7 +488,7 @@ typedef  CPU_INT16U  LIB_ERR;
 *               mask        Mask of bits to check if set.
 *
 * Return(s)   : DEF_YES, if ALL specified bit(s) are     set in value.
-*     
+*
 *               DEF_NO,	 if ALL specified bit(s) are NOT set in value.
 *
 * Caller(s)   : Application.
@@ -511,7 +511,7 @@ typedef  CPU_INT16U  LIB_ERR;
 *               mask        Mask of bits to check if clear.
 *
 * Return(s)   : DEF_YES, if ALL specified bit(s) are     clear in value.
-*     
+*
 *               DEF_NO,	 if ALL specified bit(s) are NOT clear in value.
 *
 * Caller(s)   : Application.
@@ -535,7 +535,7 @@ typedef  CPU_INT16U  LIB_ERR;
 *               mask        Mask of bits to check if set.
 *
 * Return(s)   : DEF_YES, if ANY specified bit(s) are     set in value.
-*     
+*
 *               DEF_NO,	 if ALL specified bit(s) are NOT set in value.
 *
 * Caller(s)   : Application.
@@ -558,7 +558,7 @@ typedef  CPU_INT16U  LIB_ERR;
 *               mask        Mask of bits to check if clear.
 *
 * Return(s)   : DEF_YES, if ANY specified bit(s) are     clear in value.
-*     
+*
 *               DEF_NO,	 if ALL specified bit(s) are NOT clear in value.
 *
 * Note(s)     : none.

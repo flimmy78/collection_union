@@ -213,7 +213,7 @@ OS_STK *OSTaskStkInit (void (*task)(void *p_arg), void *p_arg, OS_STK *ptos, INT
     (void)opt;                                   /* 'opt' is not used, prevent warning                 */
     stk       = ptos;                            /* Load stack pointer                                 */
 
-                                                 /* Registers stacked as if auto-saved on exception    */
+    /* Registers stacked as if auto-saved on exception    */
     *(stk)    = (INT32U)0x01000000L;             /* xPSR                                               */
     *(--stk)  = (INT32U)task;                    /* Entry Point                                        */
     *(--stk)  = (INT32U)0xFFFFFFFEL;             /* R14 (LR) (init value will cause fault if ever used)*/
@@ -223,7 +223,7 @@ OS_STK *OSTaskStkInit (void (*task)(void *p_arg), void *p_arg, OS_STK *ptos, INT
     *(--stk)  = (INT32U)0x01010101L;             /* R1                                                 */
     *(--stk)  = (INT32U)p_arg;                   /* R0 : argument                                      */
 
-                                                 /* Remaining registers saved on process stack         */
+    /* Remaining registers saved on process stack         */
     *(--stk)  = (INT32U)0x11111111L;             /* R11                                                */
     *(--stk)  = (INT32U)0x10101010L;             /* R10                                                */
     *(--stk)  = (INT32U)0x09090909L;             /* R9                                                 */
@@ -303,7 +303,8 @@ void  OSTimeTickHook (void)
 
 #if OS_TMR_EN > 0
     OSTmrCtr++;
-    if (OSTmrCtr >= (OS_TICKS_PER_SEC / OS_TMR_CFG_TICKS_PER_SEC)) {
+    if (OSTmrCtr >= (OS_TICKS_PER_SEC / OS_TMR_CFG_TICKS_PER_SEC))
+    {
         OSTmrCtr = 0;
         OSTmrSignal();
     }
@@ -346,11 +347,11 @@ void  OS_CPU_SysTickHandler (void)
 *********************************************************************************************************
 *                                          OS_CPU_SysTickClkFreq()
 *
-* Description: 
+* Description:
 *
 * Arguments  : none.
 *
-* Note(s)    : 1) 
+* Note(s)    : 1)
 *********************************************************************************************************
 */
 INT32U OS_CPU_SysTickClkFreq(void)
@@ -376,11 +377,11 @@ INT32U OS_CPU_SysTickClkFreq(void)
 
 void  OS_CPU_SysTickInit (void)
 {
-	/* SYSTICK分频--时钟节拍为:OS_TICKS_PER_SEC	*/
-	if ( SysTick_Config(SystemCoreClock / OS_TICKS_PER_SEC) )
-  	{ 
-  	  	/* Capture error */ 
-    	while (1);
-  	}
-    
+    /* SYSTICK分频--时钟节拍为:OS_TICKS_PER_SEC	*/
+    if ( SysTick_Config(SystemCoreClock / OS_TICKS_PER_SEC) )
+    {
+        /* Capture error */
+        while (1);
+    }
+
 }

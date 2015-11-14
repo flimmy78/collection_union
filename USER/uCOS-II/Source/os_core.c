@@ -35,7 +35,8 @@
 *********************************************************************************************************
 */
 
-INT8U  const  OSUnMapTbl[256] = {
+INT8U  const  OSUnMapTbl[256] =
+{
     0u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, 3u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, /* 0x00 to 0x0F                   */
     4u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, 3u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, /* 0x10 to 0x1F                   */
     5u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, 3u, 0u, 1u, 0u, 2u, 0u, 1u, 0u, /* 0x20 to 0x2F                   */
@@ -117,35 +118,40 @@ INT8U  OSEventNameGet (OS_EVENT   *pevent,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {               /* Is 'pevent' a NULL pointer?                        */
+    if (pevent == (OS_EVENT *)0)                 /* Is 'pevent' a NULL pointer?                        */
+    {
         *perr = OS_ERR_PEVENT_NULL;
         return (0u);
     }
-    if (pname == (INT8U **)0) {                   /* Is 'pname' a NULL pointer?                         */
+    if (pname == (INT8U **)0)                     /* Is 'pname' a NULL pointer?                         */
+    {
         *perr = OS_ERR_PNAME_NULL;
         return (0u);
     }
 #endif
-    if (OSIntNesting > 0u) {                     /* See if trying to call from an ISR                  */
+    if (OSIntNesting > 0u)                       /* See if trying to call from an ISR                  */
+    {
         *perr  = OS_ERR_NAME_GET_ISR;
         return (0u);
     }
-    switch (pevent->OSEventType) {
-        case OS_EVENT_TYPE_SEM:
-        case OS_EVENT_TYPE_MUTEX:
-        case OS_EVENT_TYPE_MBOX:
-        case OS_EVENT_TYPE_Q:
-             break;
+    switch (pevent->OSEventType)
+    {
+    case OS_EVENT_TYPE_SEM:
+    case OS_EVENT_TYPE_MUTEX:
+    case OS_EVENT_TYPE_MBOX:
+    case OS_EVENT_TYPE_Q:
+        break;
 
-        default:
-             *perr = OS_ERR_EVENT_TYPE;
-             return (0u);
+    default:
+        *perr = OS_ERR_EVENT_TYPE;
+        return (0u);
     }
     OS_ENTER_CRITICAL();
     *pname = pevent->OSEventName;
@@ -195,35 +201,40 @@ void  OSEventNameSet (OS_EVENT  *pevent,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {               /* Is 'pevent' a NULL pointer?                        */
+    if (pevent == (OS_EVENT *)0)                 /* Is 'pevent' a NULL pointer?                        */
+    {
         *perr = OS_ERR_PEVENT_NULL;
         return;
     }
-    if (pname == (INT8U *)0) {                   /* Is 'pname' a NULL pointer?                         */
+    if (pname == (INT8U *)0)                     /* Is 'pname' a NULL pointer?                         */
+    {
         *perr = OS_ERR_PNAME_NULL;
         return;
     }
 #endif
-    if (OSIntNesting > 0u) {                     /* See if trying to call from an ISR                  */
+    if (OSIntNesting > 0u)                       /* See if trying to call from an ISR                  */
+    {
         *perr = OS_ERR_NAME_SET_ISR;
         return;
     }
-    switch (pevent->OSEventType) {
-        case OS_EVENT_TYPE_SEM:
-        case OS_EVENT_TYPE_MUTEX:
-        case OS_EVENT_TYPE_MBOX:
-        case OS_EVENT_TYPE_Q:
-             break;
+    switch (pevent->OSEventType)
+    {
+    case OS_EVENT_TYPE_SEM:
+    case OS_EVENT_TYPE_MUTEX:
+    case OS_EVENT_TYPE_MBOX:
+    case OS_EVENT_TYPE_Q:
+        break;
 
-        default:
-             *perr = OS_ERR_EVENT_TYPE;
-             return;
+    default:
+        *perr = OS_ERR_EVENT_TYPE;
+        return;
     }
     OS_ENTER_CRITICAL();
     pevent->OSEventName = pname;
@@ -326,148 +337,170 @@ INT16U  OSEventPendMulti (OS_EVENT  **pevents_pend,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if (OS_ARG_CHK_EN > 0u)
-    if (pevents_pend == (OS_EVENT **)0) {               /* Validate 'pevents_pend'                     */
-       *perr =  OS_ERR_PEVENT_NULL;
+    if (pevents_pend == (OS_EVENT **)0)                 /* Validate 'pevents_pend'                     */
+    {
+        *perr =  OS_ERR_PEVENT_NULL;
         return (0u);
     }
-    if (*pevents_pend  == (OS_EVENT *)0) {              /* Validate 'pevents_pend'                     */
-       *perr =  OS_ERR_PEVENT_NULL;
+    if (*pevents_pend  == (OS_EVENT *)0)                /* Validate 'pevents_pend'                     */
+    {
+        *perr =  OS_ERR_PEVENT_NULL;
         return (0u);
     }
-    if (pevents_rdy  == (OS_EVENT **)0) {               /* Validate 'pevents_rdy'                      */
-       *perr =  OS_ERR_PEVENT_NULL;
+    if (pevents_rdy  == (OS_EVENT **)0)                 /* Validate 'pevents_rdy'                      */
+    {
+        *perr =  OS_ERR_PEVENT_NULL;
         return (0u);
     }
-    if (pmsgs_rdy == (void **)0) {                      /* Validate 'pmsgs_rdy'                        */
-       *perr =  OS_ERR_PEVENT_NULL;
+    if (pmsgs_rdy == (void **)0)                        /* Validate 'pmsgs_rdy'                        */
+    {
+        *perr =  OS_ERR_PEVENT_NULL;
         return (0u);
     }
 #endif
 
-   *pevents_rdy = (OS_EVENT *)0;                        /* Init array to NULL in case of errors        */
+    *pevents_rdy = (OS_EVENT *)0;                        /* Init array to NULL in case of errors        */
 
     pevents     =  pevents_pend;
     pevent      = *pevents;
-    while  (pevent != (OS_EVENT *)0) {
-        switch (pevent->OSEventType) {                  /* Validate event block types                  */
+    while  (pevent != (OS_EVENT *)0)
+    {
+        switch (pevent->OSEventType)                    /* Validate event block types                  */
+        {
 #if (OS_SEM_EN  > 0u)
-            case OS_EVENT_TYPE_SEM:
-                 break;
+        case OS_EVENT_TYPE_SEM:
+            break;
 #endif
 #if (OS_MBOX_EN > 0u)
-            case OS_EVENT_TYPE_MBOX:
-                 break;
+        case OS_EVENT_TYPE_MBOX:
+            break;
 #endif
 #if ((OS_Q_EN   > 0u) && (OS_MAX_QS > 0u))
-            case OS_EVENT_TYPE_Q:
-                 break;
+        case OS_EVENT_TYPE_Q:
+            break;
 #endif
 
-            case OS_EVENT_TYPE_MUTEX:
-            case OS_EVENT_TYPE_FLAG:
-            default:
-                *perr = OS_ERR_EVENT_TYPE;
-                 return (0u);
+        case OS_EVENT_TYPE_MUTEX:
+        case OS_EVENT_TYPE_FLAG:
+        default:
+            *perr = OS_ERR_EVENT_TYPE;
+            return (0u);
         }
         pevents++;
         pevent = *pevents;
     }
 
-    if (OSIntNesting  > 0u) {                           /* See if called from ISR ...                  */
-       *perr =  OS_ERR_PEND_ISR;                        /* ... can't PEND from an ISR                  */
+    if (OSIntNesting  > 0u)                             /* See if called from ISR ...                  */
+    {
+        *perr =  OS_ERR_PEND_ISR;                        /* ... can't PEND from an ISR                  */
         return (0u);
     }
-    if (OSLockNesting > 0u) {                           /* See if called with scheduler locked ...     */
-       *perr =  OS_ERR_PEND_LOCKED;                     /* ... can't PEND when locked                  */
+    if (OSLockNesting > 0u)                             /* See if called with scheduler locked ...     */
+    {
+        *perr =  OS_ERR_PEND_LOCKED;                     /* ... can't PEND when locked                  */
         return (0u);
     }
 
-/*$PAGE*/
+    /*$PAGE*/
     OS_ENTER_CRITICAL();
     events_rdy     =  OS_FALSE;
     events_rdy_nbr =  0u;
     events_stat    =  OS_STAT_RDY;
     pevents        =  pevents_pend;
     pevent         = *pevents;
-    while (pevent != (OS_EVENT *)0) {                   /* See if any events already available         */
-        switch (pevent->OSEventType) {
+    while (pevent != (OS_EVENT *)0)                     /* See if any events already available         */
+    {
+        switch (pevent->OSEventType)
+        {
 #if (OS_SEM_EN > 0u)
-            case OS_EVENT_TYPE_SEM:
-                 if (pevent->OSEventCnt > 0u) {         /* If semaphore count > 0, resource available; */
-                     pevent->OSEventCnt--;              /* ... decrement semaphore,                ... */
-                    *pevents_rdy++ =  pevent;           /* ... and return available semaphore event    */
-                      events_rdy   =  OS_TRUE;
-                    *pmsgs_rdy++   = (void *)0;         /* NO message returned  for semaphores         */
-                      events_rdy_nbr++;
+        case OS_EVENT_TYPE_SEM:
+            if (pevent->OSEventCnt > 0u)           /* If semaphore count > 0, resource available; */
+            {
+                pevent->OSEventCnt--;              /* ... decrement semaphore,                ... */
+                *pevents_rdy++ =  pevent;           /* ... and return available semaphore event    */
+                events_rdy   =  OS_TRUE;
+                *pmsgs_rdy++   = (void *)0;         /* NO message returned  for semaphores         */
+                events_rdy_nbr++;
 
-                 } else {
-                      events_stat |=  OS_STAT_SEM;      /* Configure multi-pend for semaphore events   */
-                 }
-                 break;
+            }
+            else
+            {
+                events_stat |=  OS_STAT_SEM;      /* Configure multi-pend for semaphore events   */
+            }
+            break;
 #endif
 
 #if (OS_MBOX_EN > 0u)
-            case OS_EVENT_TYPE_MBOX:
-                 if (pevent->OSEventPtr != (void *)0) { /* If mailbox NOT empty;                   ... */
-                                                        /* ... return available message,           ... */
-                    *pmsgs_rdy++         = (void *)pevent->OSEventPtr;
-                     pevent->OSEventPtr  = (void *)0;
-                    *pevents_rdy++       =  pevent;     /* ... and return available mailbox event      */
-                      events_rdy         =  OS_TRUE;
-                      events_rdy_nbr++;
+        case OS_EVENT_TYPE_MBOX:
+            if (pevent->OSEventPtr != (void *)0)   /* If mailbox NOT empty;                   ... */
+            {
+                /* ... return available message,           ... */
+                *pmsgs_rdy++         = (void *)pevent->OSEventPtr;
+                pevent->OSEventPtr  = (void *)0;
+                *pevents_rdy++       =  pevent;     /* ... and return available mailbox event      */
+                events_rdy         =  OS_TRUE;
+                events_rdy_nbr++;
 
-                 } else {
-                      events_stat |= OS_STAT_MBOX;      /* Configure multi-pend for mailbox events     */
-                 }
-                 break;
+            }
+            else
+            {
+                events_stat |= OS_STAT_MBOX;      /* Configure multi-pend for mailbox events     */
+            }
+            break;
 #endif
 
 #if ((OS_Q_EN > 0u) && (OS_MAX_QS > 0u))
-            case OS_EVENT_TYPE_Q:
-                 pq = (OS_Q *)pevent->OSEventPtr;
-                 if (pq->OSQEntries > 0u) {             /* If queue NOT empty;                     ... */
-                                                        /* ... return available message,           ... */
-                    *pmsgs_rdy++ = (void *)*pq->OSQOut++;
-                     if (pq->OSQOut == pq->OSQEnd) {    /* If OUT ptr at queue end, ...                */
-                         pq->OSQOut  = pq->OSQStart;    /* ... wrap   to queue start                   */
-                     }
-                     pq->OSQEntries--;                  /* Update number of queue entries              */
-                    *pevents_rdy++ = pevent;            /* ... and return available queue event        */
-                      events_rdy   = OS_TRUE;
-                      events_rdy_nbr++;
+        case OS_EVENT_TYPE_Q:
+            pq = (OS_Q *)pevent->OSEventPtr;
+            if (pq->OSQEntries > 0u)               /* If queue NOT empty;                     ... */
+            {
+                /* ... return available message,           ... */
+                *pmsgs_rdy++ = (void *)*pq->OSQOut++;
+                if (pq->OSQOut == pq->OSQEnd)      /* If OUT ptr at queue end, ...                */
+                {
+                    pq->OSQOut  = pq->OSQStart;    /* ... wrap   to queue start                   */
+                }
+                pq->OSQEntries--;                  /* Update number of queue entries              */
+                *pevents_rdy++ = pevent;            /* ... and return available queue event        */
+                events_rdy   = OS_TRUE;
+                events_rdy_nbr++;
 
-                 } else {
-                      events_stat |= OS_STAT_Q;         /* Configure multi-pend for queue events       */
-                 }
-                 break;
+            }
+            else
+            {
+                events_stat |= OS_STAT_Q;         /* Configure multi-pend for queue events       */
+            }
+            break;
 #endif
 
-            case OS_EVENT_TYPE_MUTEX:
-            case OS_EVENT_TYPE_FLAG:
-            default:
-                 OS_EXIT_CRITICAL();
-                *pevents_rdy = (OS_EVENT *)0;           /* NULL terminate return event array           */
-                *perr        =  OS_ERR_EVENT_TYPE;
-                 return (events_rdy_nbr);
+        case OS_EVENT_TYPE_MUTEX:
+        case OS_EVENT_TYPE_FLAG:
+        default:
+            OS_EXIT_CRITICAL();
+            *pevents_rdy = (OS_EVENT *)0;           /* NULL terminate return event array           */
+            *perr        =  OS_ERR_EVENT_TYPE;
+            return (events_rdy_nbr);
         }
         pevents++;
         pevent = *pevents;
     }
 
-    if ( events_rdy == OS_TRUE) {                       /* Return any events already available         */
-       *pevents_rdy = (OS_EVENT *)0;                    /* NULL terminate return event array           */
+    if ( events_rdy == OS_TRUE)                         /* Return any events already available         */
+    {
+        *pevents_rdy = (OS_EVENT *)0;                    /* NULL terminate return event array           */
         OS_EXIT_CRITICAL();
-       *perr        =  OS_ERR_NONE;
+        *perr        =  OS_ERR_NONE;
         return (events_rdy_nbr);
     }
-/*$PAGE*/
-                                                        /* Otherwise, must wait until any event occurs */
+    /*$PAGE*/
+    /* Otherwise, must wait until any event occurs */
     OSTCBCur->OSTCBStat     |= events_stat  |           /* Resource not available, ...                 */
                                OS_STAT_MULTI;           /* ... pend on multiple events                 */
     OSTCBCur->OSTCBStatPend  = OS_STAT_PEND_OK;
@@ -478,74 +511,80 @@ INT16U  OSEventPendMulti (OS_EVENT  **pevents_pend,
     OS_Sched();                                         /* Find next highest priority task ready       */
     OS_ENTER_CRITICAL();
 
-    switch (OSTCBCur->OSTCBStatPend) {                  /* Handle event posted, aborted, or timed-out  */
-        case OS_STAT_PEND_OK:
-        case OS_STAT_PEND_ABORT:
-             pevent = OSTCBCur->OSTCBEventPtr;
-             if (pevent != (OS_EVENT *)0) {             /* If task event ptr != NULL, ...              */
-                *pevents_rdy++ =  pevent;               /* ... return available event ...              */
-                *pevents_rdy   = (OS_EVENT *)0;         /* ... & NULL terminate return event array     */
-                  events_rdy_nbr++;
+    switch (OSTCBCur->OSTCBStatPend)                    /* Handle event posted, aborted, or timed-out  */
+    {
+    case OS_STAT_PEND_OK:
+    case OS_STAT_PEND_ABORT:
+        pevent = OSTCBCur->OSTCBEventPtr;
+        if (pevent != (OS_EVENT *)0)               /* If task event ptr != NULL, ...              */
+        {
+            *pevents_rdy++ =  pevent;               /* ... return available event ...              */
+            *pevents_rdy   = (OS_EVENT *)0;         /* ... & NULL terminate return event array     */
+            events_rdy_nbr++;
 
-             } else {                                   /* Else NO event available, handle as timeout  */
-                 OSTCBCur->OSTCBStatPend = OS_STAT_PEND_TO;
-                 OS_EventTaskRemoveMulti(OSTCBCur, pevents_pend);
-             }
-			 break;
+        }
+        else                                       /* Else NO event available, handle as timeout  */
+        {
+            OSTCBCur->OSTCBStatPend = OS_STAT_PEND_TO;
+            OS_EventTaskRemoveMulti(OSTCBCur, pevents_pend);
+        }
+        break;
 
-        case OS_STAT_PEND_TO:                           /* If events timed out, ...                    */
-        default:                                        /* ... remove task from events' wait lists     */
-             OS_EventTaskRemoveMulti(OSTCBCur, pevents_pend);
-             break;
+    case OS_STAT_PEND_TO:                           /* If events timed out, ...                    */
+    default:                                        /* ... remove task from events' wait lists     */
+        OS_EventTaskRemoveMulti(OSTCBCur, pevents_pend);
+        break;
     }
 
-    switch (OSTCBCur->OSTCBStatPend) {
-        case OS_STAT_PEND_OK:
-             switch (pevent->OSEventType) {             /* Return event's message                      */
+    switch (OSTCBCur->OSTCBStatPend)
+    {
+    case OS_STAT_PEND_OK:
+        switch (pevent->OSEventType)               /* Return event's message                      */
+        {
 #if (OS_SEM_EN > 0u)
-                 case OS_EVENT_TYPE_SEM:
-                     *pmsgs_rdy++ = (void *)0;          /* NO message returned for semaphores          */
-                      break;
+        case OS_EVENT_TYPE_SEM:
+            *pmsgs_rdy++ = (void *)0;          /* NO message returned for semaphores          */
+            break;
 #endif
 
 #if ((OS_MBOX_EN > 0u) ||                 \
     ((OS_Q_EN    > 0u) && (OS_MAX_QS > 0u)))
-                 case OS_EVENT_TYPE_MBOX:
-                 case OS_EVENT_TYPE_Q:
-                     *pmsgs_rdy++ = (void *)OSTCBCur->OSTCBMsg;     /* Return received message         */
-                      break;
+        case OS_EVENT_TYPE_MBOX:
+        case OS_EVENT_TYPE_Q:
+            *pmsgs_rdy++ = (void *)OSTCBCur->OSTCBMsg;     /* Return received message         */
+            break;
 #endif
 
-                 case OS_EVENT_TYPE_MUTEX:
-                 case OS_EVENT_TYPE_FLAG:
-                 default:
-                      OS_EXIT_CRITICAL();
-                     *pevents_rdy = (OS_EVENT *)0;      /* NULL terminate return event array           */
-                     *perr        =  OS_ERR_EVENT_TYPE;
-                      return (events_rdy_nbr);
-             }
-            *perr = OS_ERR_NONE;
-             break;
-
-        case OS_STAT_PEND_ABORT:
-            *pmsgs_rdy++ = (void *)0;                   /* NO message returned for abort               */
-            *perr        =  OS_ERR_PEND_ABORT;          /* Indicate that event  aborted                */
-             break;
-
-        case OS_STAT_PEND_TO:
+        case OS_EVENT_TYPE_MUTEX:
+        case OS_EVENT_TYPE_FLAG:
         default:
-            *pmsgs_rdy++ = (void *)0;                   /* NO message returned for timeout             */
-            *perr        =  OS_ERR_TIMEOUT;             /* Indicate that events timed out              */
-             break;
+            OS_EXIT_CRITICAL();
+            *pevents_rdy = (OS_EVENT *)0;      /* NULL terminate return event array           */
+            *perr        =  OS_ERR_EVENT_TYPE;
+            return (events_rdy_nbr);
+        }
+        *perr = OS_ERR_NONE;
+        break;
+
+    case OS_STAT_PEND_ABORT:
+        *pmsgs_rdy++ = (void *)0;                   /* NO message returned for abort               */
+        *perr        =  OS_ERR_PEND_ABORT;          /* Indicate that event  aborted                */
+        break;
+
+    case OS_STAT_PEND_TO:
+    default:
+        *pmsgs_rdy++ = (void *)0;                   /* NO message returned for timeout             */
+        *perr        =  OS_ERR_TIMEOUT;             /* Indicate that events timed out              */
+        break;
     }
 
     OSTCBCur->OSTCBStat          =  OS_STAT_RDY;        /* Set   task  status to ready                 */
     OSTCBCur->OSTCBStatPend      =  OS_STAT_PEND_OK;    /* Clear pend  status                          */
-    OSTCBCur->OSTCBEventPtr      = (OS_EVENT  *)0;      /* Clear event pointers                        */
+    OSTCBCur->OSTCBEventPtr      = (OS_EVENT *)0;       /* Clear event pointers                        */
     OSTCBCur->OSTCBEventMultiPtr = (OS_EVENT **)0;
 #if ((OS_MBOX_EN > 0u) ||                 \
     ((OS_Q_EN    > 0u) && (OS_MAX_QS > 0u)))
-    OSTCBCur->OSTCBMsg           = (void      *)0;      /* Clear task  message                         */
+    OSTCBCur->OSTCBMsg           = (void *)0;           /* Clear task  message                         */
 #endif
     OS_EXIT_CRITICAL();
 
@@ -634,8 +673,10 @@ void  OSInit (void)
 
 void  OSIntEnter (void)
 {
-    if (OSRunning == OS_TRUE) {
-        if (OSIntNesting < 255u) {
+    if (OSRunning == OS_TRUE)
+    {
+        if (OSIntNesting < 255u)
+        {
             OSIntNesting++;                      /* Increment ISR nesting level                        */
         }
     }
@@ -668,16 +709,21 @@ void  OSIntExit (void)
 
 
 
-    if (OSRunning == OS_TRUE) {
+    if (OSRunning == OS_TRUE)
+    {
         OS_ENTER_CRITICAL();
-        if (OSIntNesting > 0u) {                           /* Prevent OSIntNesting from wrapping       */
+        if (OSIntNesting > 0u)                             /* Prevent OSIntNesting from wrapping       */
+        {
             OSIntNesting--;
         }
-        if (OSIntNesting == 0u) {                          /* Reschedule only if all ISRs complete ... */
-            if (OSLockNesting == 0u) {                     /* ... and not locked.                      */
+        if (OSIntNesting == 0u)                            /* Reschedule only if all ISRs complete ... */
+        {
+            if (OSLockNesting == 0u)                       /* ... and not locked.                      */
+            {
                 OS_SchedNew();
                 OSTCBHighRdy = OSTCBPrioTbl[OSPrioHighRdy];
-                if (OSPrioHighRdy != OSPrioCur) {          /* No Ctx Sw if current task is highest rdy */
+                if (OSPrioHighRdy != OSPrioCur)            /* No Ctx Sw if current task is highest rdy */
+                {
 #if OS_TASK_PROFILE_EN > 0u
                     OSTCBHighRdy->OSTCBCtxSwCtr++;         /* Inc. # of context switches to this task  */
 #endif
@@ -741,10 +787,13 @@ void  OSSchedLock (void)
 
 
 
-    if (OSRunning == OS_TRUE) {                  /* Make sure multitasking is running                  */
+    if (OSRunning == OS_TRUE)                    /* Make sure multitasking is running                  */
+    {
         OS_ENTER_CRITICAL();
-        if (OSIntNesting == 0u) {                /* Can't call from an ISR                             */
-            if (OSLockNesting < 255u) {          /* Prevent OSLockNesting from wrapping back to 0      */
+        if (OSIntNesting == 0u)                  /* Can't call from an ISR                             */
+        {
+            if (OSLockNesting < 255u)            /* Prevent OSLockNesting from wrapping back to 0      */
+            {
                 OSLockNesting++;                 /* Increment lock nesting level                       */
             }
         }
@@ -778,21 +827,31 @@ void  OSSchedUnlock (void)
 
 
 
-    if (OSRunning == OS_TRUE) {                            /* Make sure multitasking is running        */
+    if (OSRunning == OS_TRUE)                              /* Make sure multitasking is running        */
+    {
         OS_ENTER_CRITICAL();
-        if (OSLockNesting > 0u) {                          /* Do not decrement if already 0            */
+        if (OSLockNesting > 0u)                            /* Do not decrement if already 0            */
+        {
             OSLockNesting--;                               /* Decrement lock nesting level             */
-            if (OSLockNesting == 0u) {                     /* See if scheduler is enabled and ...      */
-                if (OSIntNesting == 0u) {                  /* ... not in an ISR                        */
+            if (OSLockNesting == 0u)                       /* See if scheduler is enabled and ...      */
+            {
+                if (OSIntNesting == 0u)                    /* ... not in an ISR                        */
+                {
                     OS_EXIT_CRITICAL();
                     OS_Sched();                            /* See if a HPT is ready                    */
-                } else {
+                }
+                else
+                {
                     OS_EXIT_CRITICAL();
                 }
-            } else {
+            }
+            else
+            {
                 OS_EXIT_CRITICAL();
             }
-        } else {
+        }
+        else
+        {
             OS_EXIT_CRITICAL();
         }
     }
@@ -822,7 +881,8 @@ void  OSSchedUnlock (void)
 
 void  OSStart (void)
 {
-    if (OSRunning == OS_FALSE) {
+    if (OSRunning == OS_FALSE)
+    {
         OS_SchedNew();                               /* Find highest priority's task priority number   */
         OSPrioCur     = OSPrioHighRdy;
         OSTCBHighRdy  = OSTCBPrioTbl[OSPrioHighRdy]; /* Point to highest priority task ready to run    */
@@ -906,46 +966,56 @@ void  OSTimeTick (void)
     OSTime++;
     OS_EXIT_CRITICAL();
 #endif
-    if (OSRunning == OS_TRUE) {
+    if (OSRunning == OS_TRUE)
+    {
 #if OS_TICK_STEP_EN > 0u
-        switch (OSTickStepState) {                         /* Determine whether we need to process a tick  */
-            case OS_TICK_STEP_DIS:                         /* Yes, stepping is disabled                    */
-                 step = OS_TRUE;
-                 break;
+        switch (OSTickStepState)                           /* Determine whether we need to process a tick  */
+        {
+        case OS_TICK_STEP_DIS:                         /* Yes, stepping is disabled                    */
+            step = OS_TRUE;
+            break;
 
-            case OS_TICK_STEP_WAIT:                        /* No,  waiting for uC/OS-View to set ...       */
-                 step = OS_FALSE;                          /*      .. OSTickStepState to OS_TICK_STEP_ONCE */
-                 break;
+        case OS_TICK_STEP_WAIT:                        /* No,  waiting for uC/OS-View to set ...       */
+            step = OS_FALSE;                          /*      .. OSTickStepState to OS_TICK_STEP_ONCE */
+            break;
 
-            case OS_TICK_STEP_ONCE:                        /* Yes, process tick once and wait for next ... */
-                 step            = OS_TRUE;                /*      ... step command from uC/OS-View        */
-                 OSTickStepState = OS_TICK_STEP_WAIT;
-                 break;
+        case OS_TICK_STEP_ONCE:                        /* Yes, process tick once and wait for next ... */
+            step            = OS_TRUE;                /*      ... step command from uC/OS-View        */
+            OSTickStepState = OS_TICK_STEP_WAIT;
+            break;
 
-            default:                                       /* Invalid case, correct situation              */
-                 step            = OS_TRUE;
-                 OSTickStepState = OS_TICK_STEP_DIS;
-                 break;
+        default:                                       /* Invalid case, correct situation              */
+            step            = OS_TRUE;
+            OSTickStepState = OS_TICK_STEP_DIS;
+            break;
         }
-        if (step == OS_FALSE) {                            /* Return if waiting for step command           */
+        if (step == OS_FALSE)                              /* Return if waiting for step command           */
+        {
             return;
         }
 #endif
         ptcb = OSTCBList;                                  /* Point at first TCB in TCB list               */
-        while (ptcb->OSTCBPrio != OS_TASK_IDLE_PRIO) {     /* Go through all TCBs in TCB list              */
+        while (ptcb->OSTCBPrio != OS_TASK_IDLE_PRIO)       /* Go through all TCBs in TCB list              */
+        {
             OS_ENTER_CRITICAL();
-            if (ptcb->OSTCBDly != 0u) {                    /* No, Delayed or waiting for event with TO     */
+            if (ptcb->OSTCBDly != 0u)                      /* No, Delayed or waiting for event with TO     */
+            {
                 ptcb->OSTCBDly--;                          /* Decrement nbr of ticks to end of delay       */
-                if (ptcb->OSTCBDly == 0u) {                /* Check for timeout                            */
+                if (ptcb->OSTCBDly == 0u)                  /* Check for timeout                            */
+                {
 
-                    if ((ptcb->OSTCBStat & OS_STAT_PEND_ANY) != OS_STAT_RDY) {
+                    if ((ptcb->OSTCBStat & OS_STAT_PEND_ANY) != OS_STAT_RDY)
+                    {
                         ptcb->OSTCBStat  &= (INT8U)~(INT8U)OS_STAT_PEND_ANY;          /* Yes, Clear status flag   */
                         ptcb->OSTCBStatPend = OS_STAT_PEND_TO;                 /* Indicate PEND timeout    */
-                    } else {
+                    }
+                    else
+                    {
                         ptcb->OSTCBStatPend = OS_STAT_PEND_OK;
                     }
 
-                    if ((ptcb->OSTCBStat & OS_STAT_SUSPEND) == OS_STAT_RDY) {  /* Is task suspended?       */
+                    if ((ptcb->OSTCBStat & OS_STAT_SUSPEND) == OS_STAT_RDY)    /* Is task suspended?       */
+                    {
                         OSRdyGrp               |= ptcb->OSTCBBitY;             /* No,  Make ready          */
                         OSRdyTbl[ptcb->OSTCBY] |= ptcb->OSTCBBitX;
                     }
@@ -1044,15 +1114,21 @@ INT8U  OS_EventTaskRdy (OS_EVENT  *pevent,
     x    = OSUnMapTbl[pevent->OSEventTbl[y]];
     prio = (INT8U)((y << 3u) + x);                      /* Find priority of task getting the msg       */
 #else
-    if ((pevent->OSEventGrp & 0xFFu) != 0u) {           /* Find HPT waiting for message                */
+    if ((pevent->OSEventGrp & 0xFFu) != 0u)             /* Find HPT waiting for message                */
+    {
         y = OSUnMapTbl[ pevent->OSEventGrp & 0xFFu];
-    } else {
+    }
+    else
+    {
         y = OSUnMapTbl[(OS_PRIO)(pevent->OSEventGrp >> 8u) & 0xFFu] + 8u;
     }
     ptbl = &pevent->OSEventTbl[y];
-    if ((*ptbl & 0xFFu) != 0u) {
+    if ((*ptbl & 0xFFu) != 0u)
+    {
         x = OSUnMapTbl[*ptbl & 0xFFu];
-    } else {
+    }
+    else
+    {
         x = OSUnMapTbl[(OS_PRIO)(*ptbl >> 8u) & 0xFFu] + 8u;
     }
     prio = (INT8U)((y << 4u) + x);                      /* Find priority of task getting the msg       */
@@ -1067,17 +1143,19 @@ INT8U  OS_EventTaskRdy (OS_EVENT  *pevent,
 #endif
     ptcb->OSTCBStat      &= (INT8U)~msk;                /* Clear bit associated with event type        */
     ptcb->OSTCBStatPend   =  pend_stat;                 /* Set pend status of post or abort            */
-                                                        /* See if task is ready (could be susp'd)      */
-    if ((ptcb->OSTCBStat &   OS_STAT_SUSPEND) == OS_STAT_RDY) {
+    /* See if task is ready (could be susp'd)      */
+    if ((ptcb->OSTCBStat &   OS_STAT_SUSPEND) == OS_STAT_RDY)
+    {
         OSRdyGrp         |=  ptcb->OSTCBBitY;           /* Put task in the ready to run list           */
         OSRdyTbl[y]      |=  ptcb->OSTCBBitX;
     }
 
     OS_EventTaskRemove(ptcb, pevent);                   /* Remove this task from event   wait list     */
 #if (OS_EVENT_MULTI_EN > 0u)
-    if (ptcb->OSTCBEventMultiPtr != (OS_EVENT **)0) {   /* Remove this task from events' wait lists    */
+    if (ptcb->OSTCBEventMultiPtr != (OS_EVENT **)0)     /* Remove this task from events' wait lists    */
+    {
         OS_EventTaskRemoveMulti(ptcb, ptcb->OSTCBEventMultiPtr);
-        ptcb->OSTCBEventPtr       = (OS_EVENT  *)pevent;/* Return event as first multi-pend event ready*/
+        ptcb->OSTCBEventPtr       = (OS_EVENT *)pevent; /* Return event as first multi-pend event ready*/
     }
 #endif
 
@@ -1112,7 +1190,8 @@ void  OS_EventTaskWait (OS_EVENT *pevent)
 
     y             =  OSTCBCur->OSTCBY;            /* Task no longer ready                              */
     OSRdyTbl[y]  &= (OS_PRIO)~OSTCBCur->OSTCBBitX;
-    if (OSRdyTbl[y] == 0u) {                      /* Clear event grp bit if this was only task pending */
+    if (OSRdyTbl[y] == 0u)                        /* Clear event grp bit if this was only task pending */
+    {
         OSRdyGrp &= (OS_PRIO)~OSTCBCur->OSTCBBitY;
     }
 }
@@ -1141,12 +1220,13 @@ void  OS_EventTaskWaitMulti (OS_EVENT **pevents_wait)
     INT8U      y;
 
 
-    OSTCBCur->OSTCBEventPtr      = (OS_EVENT  *)0;
+    OSTCBCur->OSTCBEventPtr      = (OS_EVENT *)0;
     OSTCBCur->OSTCBEventMultiPtr = (OS_EVENT **)pevents_wait;       /* Store ptr to ECBs in TCB        */
 
     pevents =  pevents_wait;
     pevent  = *pevents;
-    while (pevent != (OS_EVENT *)0) {                               /* Put task in waiting lists       */
+    while (pevent != (OS_EVENT *)0)                                 /* Put task in waiting lists       */
+    {
         pevent->OSEventTbl[OSTCBCur->OSTCBY] |= OSTCBCur->OSTCBBitX;
         pevent->OSEventGrp                   |= OSTCBCur->OSTCBBitY;
         pevents++;
@@ -1155,7 +1235,8 @@ void  OS_EventTaskWaitMulti (OS_EVENT **pevents_wait)
 
     y             =  OSTCBCur->OSTCBY;            /* Task no longer ready                              */
     OSRdyTbl[y]  &= (OS_PRIO)~OSTCBCur->OSTCBBitX;
-    if (OSRdyTbl[y] == 0u) {                      /* Clear event grp bit if this was only task pending */
+    if (OSRdyTbl[y] == 0u)                        /* Clear event grp bit if this was only task pending */
+    {
         OSRdyGrp &= (OS_PRIO)~OSTCBCur->OSTCBBitY;
     }
 }
@@ -1185,7 +1266,8 @@ void  OS_EventTaskRemove (OS_TCB   *ptcb,
 
     y                       =  ptcb->OSTCBY;
     pevent->OSEventTbl[y]  &= (OS_PRIO)~ptcb->OSTCBBitX;    /* Remove task from wait list              */
-    if (pevent->OSEventTbl[y] == 0u) {
+    if (pevent->OSEventTbl[y] == 0u)
+    {
         pevent->OSEventGrp &= (OS_PRIO)~ptcb->OSTCBBitY;
     }
 }
@@ -1222,9 +1304,11 @@ void  OS_EventTaskRemoveMulti (OS_TCB    *ptcb,
     bitx    =  ptcb->OSTCBBitX;
     pevents =  pevents_multi;
     pevent  = *pevents;
-    while (pevent != (OS_EVENT *)0) {                   /* Remove task from all events' wait lists     */
+    while (pevent != (OS_EVENT *)0)                     /* Remove task from all events' wait lists     */
+    {
         pevent->OSEventTbl[y]  &= (OS_PRIO)~bitx;
-        if (pevent->OSEventTbl[y] == 0u) {
+        if (pevent->OSEventTbl[y] == 0u)
+        {
             pevent->OSEventGrp &= (OS_PRIO)~bity;
         }
         pevents++;
@@ -1253,7 +1337,8 @@ void  OS_EventWaitListInit (OS_EVENT *pevent)
 
 
     pevent->OSEventGrp = 0u;                     /* No task waiting on event                           */
-    for (i = 0u; i < OS_EVENT_TBL_SIZE; i++) {
+    for (i = 0u; i < OS_EVENT_TBL_SIZE; i++)
+    {
         pevent->OSEventTbl[i] = 0u;
     }
 }
@@ -1283,7 +1368,8 @@ static  void  OS_InitEventList (void)
 
 
     OS_MemClr((INT8U *)&OSEventTbl[0], sizeof(OSEventTbl)); /* Clear the event table                   */
-    for (ix = 0u; ix < (OS_MAX_EVENTS - 1u); ix++) {        /* Init. list of free EVENT control blocks */
+    for (ix = 0u; ix < (OS_MAX_EVENTS - 1u); ix++)          /* Init. list of free EVENT control blocks */
+    {
         ix_next = ix + 1u;
         pevent1 = &OSEventTbl[ix];
         pevent2 = &OSEventTbl[ix_next];
@@ -1370,7 +1456,8 @@ static  void  OS_InitRdyList (void)
 
 
     OSRdyGrp      = 0u;                                    /* Clear the ready list                     */
-    for (i = 0u; i < OS_RDY_TBL_SIZE; i++) {
+    for (i = 0u; i < OS_RDY_TBL_SIZE; i++)
+    {
         OSRdyTbl[i] = 0u;
     }
 
@@ -1403,7 +1490,7 @@ static  void  OS_InitTaskIdle (void)
 
 
 #if OS_TASK_CREATE_EXT_EN > 0u
-    #if OS_STK_GROWTH == 1u
+#if OS_STK_GROWTH == 1u
     (void)OSTaskCreateExt(OS_TaskIdle,
                           (void *)0,                                 /* No arguments passed to OS_TaskIdle() */
                           &OSTaskIdleStk[OS_TASK_IDLE_STK_SIZE - 1u],/* Set Top-Of-Stack                     */
@@ -1413,7 +1500,7 @@ static  void  OS_InitTaskIdle (void)
                           OS_TASK_IDLE_STK_SIZE,
                           (void *)0,                                 /* No TCB extension                     */
                           OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);/* Enable stack checking + clear stack  */
-    #else
+#else
     (void)OSTaskCreateExt(OS_TaskIdle,
                           (void *)0,                                 /* No arguments passed to OS_TaskIdle() */
                           &OSTaskIdleStk[0],                         /* Set Top-Of-Stack                     */
@@ -1423,19 +1510,19 @@ static  void  OS_InitTaskIdle (void)
                           OS_TASK_IDLE_STK_SIZE,
                           (void *)0,                                 /* No TCB extension                     */
                           OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);/* Enable stack checking + clear stack  */
-    #endif
+#endif
 #else
-    #if OS_STK_GROWTH == 1u
+#if OS_STK_GROWTH == 1u
     (void)OSTaskCreate(OS_TaskIdle,
                        (void *)0,
                        &OSTaskIdleStk[OS_TASK_IDLE_STK_SIZE - 1u],
                        OS_TASK_IDLE_PRIO);
-    #else
+#else
     (void)OSTaskCreate(OS_TaskIdle,
                        (void *)0,
                        &OSTaskIdleStk[0],
                        OS_TASK_IDLE_PRIO);
-    #endif
+#endif
 #endif
 
 #if OS_TASK_NAME_EN > 0u
@@ -1465,7 +1552,7 @@ static  void  OS_InitTaskStat (void)
 
 
 #if OS_TASK_CREATE_EXT_EN > 0u
-    #if OS_STK_GROWTH == 1u
+#if OS_STK_GROWTH == 1u
     (void)OSTaskCreateExt(OS_TaskStat,
                           (void *)0,                                   /* No args passed to OS_TaskStat()*/
                           &OSTaskStatStk[OS_TASK_STAT_STK_SIZE - 1u],  /* Set Top-Of-Stack               */
@@ -1475,7 +1562,7 @@ static  void  OS_InitTaskStat (void)
                           OS_TASK_STAT_STK_SIZE,
                           (void *)0,                                   /* No TCB extension               */
                           OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);  /* Enable stack checking + clear  */
-    #else
+#else
     (void)OSTaskCreateExt(OS_TaskStat,
                           (void *)0,                                   /* No args passed to OS_TaskStat()*/
                           &OSTaskStatStk[0],                           /* Set Top-Of-Stack               */
@@ -1485,19 +1572,19 @@ static  void  OS_InitTaskStat (void)
                           OS_TASK_STAT_STK_SIZE,
                           (void *)0,                                   /* No TCB extension               */
                           OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);  /* Enable stack checking + clear  */
-    #endif
+#endif
 #else
-    #if OS_STK_GROWTH == 1u
+#if OS_STK_GROWTH == 1u
     (void)OSTaskCreate(OS_TaskStat,
                        (void *)0,                                      /* No args passed to OS_TaskStat()*/
                        &OSTaskStatStk[OS_TASK_STAT_STK_SIZE - 1u],     /* Set Top-Of-Stack               */
                        OS_TASK_STAT_PRIO);                             /* One higher than the idle task  */
-    #else
+#else
     (void)OSTaskCreate(OS_TaskStat,
                        (void *)0,                                      /* No args passed to OS_TaskStat()*/
                        &OSTaskStatStk[0],                              /* Set Top-Of-Stack               */
                        OS_TASK_STAT_PRIO);                             /* One higher than the idle task  */
-    #endif
+#endif
 #endif
 
 #if OS_TASK_NAME_EN > 0u
@@ -1529,7 +1616,8 @@ static  void  OS_InitTCBList (void)
 
     OS_MemClr((INT8U *)&OSTCBTbl[0],     sizeof(OSTCBTbl));      /* Clear all the TCBs                 */
     OS_MemClr((INT8U *)&OSTCBPrioTbl[0], sizeof(OSTCBPrioTbl));  /* Clear the priority table           */
-    for (ix = 0u; ix < (OS_MAX_TASKS + OS_N_SYS_TASKS - 1u); ix++) {    /* Init. list of free TCBs     */
+    for (ix = 0u; ix < (OS_MAX_TASKS + OS_N_SYS_TASKS - 1u); ix++)      /* Init. list of free TCBs     */
+    {
         ix_next =  ix + 1u;
         ptcb1   = &OSTCBTbl[ix];
         ptcb2   = &OSTCBTbl[ix_next];
@@ -1570,7 +1658,8 @@ static  void  OS_InitTCBList (void)
 void  OS_MemClr (INT8U  *pdest,
                  INT16U  size)
 {
-    while (size > 0u) {
+    while (size > 0u)
+    {
         *pdest++ = (INT8U)0;
         size--;
     }
@@ -1604,7 +1693,8 @@ void  OS_MemCopy (INT8U  *pdest,
                   INT8U  *psrc,
                   INT16U  size)
 {
-    while (size > 0u) {
+    while (size > 0u)
+    {
         *pdest++ = *psrc++;
         size--;
     }
@@ -1636,11 +1726,14 @@ void  OS_Sched (void)
 
 
     OS_ENTER_CRITICAL();
-    if (OSIntNesting == 0u) {                          /* Schedule only if all ISRs done and ...       */
-        if (OSLockNesting == 0u) {                     /* ... scheduler is not locked                  */
+    if (OSIntNesting == 0u)                            /* Schedule only if all ISRs done and ...       */
+    {
+        if (OSLockNesting == 0u)                       /* ... scheduler is not locked                  */
+        {
             OS_SchedNew();
             OSTCBHighRdy = OSTCBPrioTbl[OSPrioHighRdy];
-            if (OSPrioHighRdy != OSPrioCur) {          /* No Ctx Sw if current task is highest rdy     */
+            if (OSPrioHighRdy != OSPrioCur)            /* No Ctx Sw if current task is highest rdy     */
+            {
 #if OS_TASK_PROFILE_EN > 0u
                 OSTCBHighRdy->OSTCBCtxSwCtr++;         /* Inc. # of context switches to this task      */
 #endif
@@ -1682,15 +1775,21 @@ static  void  OS_SchedNew (void)
     OS_PRIO  *ptbl;
 
 
-    if ((OSRdyGrp & 0xFFu) != 0u) {
+    if ((OSRdyGrp & 0xFFu) != 0u)
+    {
         y = OSUnMapTbl[OSRdyGrp & 0xFFu];
-    } else {
+    }
+    else
+    {
         y = OSUnMapTbl[(OS_PRIO)(OSRdyGrp >> 8u) & 0xFFu] + 8u;
     }
     ptbl = &OSRdyTbl[y];
-    if ((*ptbl & 0xFFu) != 0u) {
+    if ((*ptbl & 0xFFu) != 0u)
+    {
         OSPrioHighRdy = (INT8U)((y << 4u) + OSUnMapTbl[(*ptbl & 0xFFu)]);
-    } else {
+    }
+    else
+    {
         OSPrioHighRdy = (INT8U)((y << 4u) + OSUnMapTbl[(OS_PRIO)(*ptbl >> 8u) & 0xFFu] + 8u);
     }
 #endif
@@ -1720,7 +1819,8 @@ INT8U  OS_StrLen (INT8U *psrc)
 
 
     len = 0u;
-    while (*psrc != OS_ASCII_NUL) {
+    while (*psrc != OS_ASCII_NUL)
+    {
         psrc++;
         len++;
     }
@@ -1758,7 +1858,8 @@ void  OS_TaskIdle (void *p_arg)
 
 
     p_arg = p_arg;                               /* Prevent compiler warning for not using 'p_arg'     */
-    for (;;) {
+    for (;;)
+    {
         OS_ENTER_CRITICAL();
         OSIdleCtr++;
         OS_EXIT_CRITICAL();
@@ -1800,21 +1901,25 @@ void  OS_TaskStat (void *p_arg)
 
 
     p_arg = p_arg;                               /* Prevent compiler warning for not using 'p_arg'     */
-    while (OSStatRdy == OS_FALSE) {
+    while (OSStatRdy == OS_FALSE)
+    {
         OSTimeDly(2u * OS_TICKS_PER_SEC / 10u);  /* Wait until statistic task is ready                 */
     }
     OSIdleCtrMax /= 100uL;
-    if (OSIdleCtrMax == 0uL) {
+    if (OSIdleCtrMax == 0uL)
+    {
         OSCPUUsage = 0u;
 #if OS_TASK_SUSPEND_EN > 0u
         (void)OSTaskSuspend(OS_PRIO_SELF);
 #else
-        for (;;) {
+        for (;;)
+        {
             OSTimeDly(OS_TICKS_PER_SEC);
         }
 #endif
     }
-    for (;;) {
+    for (;;)
+    {
         OS_ENTER_CRITICAL();
         OSIdleCtrRun = OSIdleCtr;                /* Obtain the of the idle counter for the past second */
         OSIdleCtr    = 0uL;                      /* Reset the idle counter for the next second         */
@@ -1850,18 +1955,22 @@ void  OS_TaskStatStkChk (void)
     INT8U        prio;
 
 
-    for (prio = 0u; prio <= OS_TASK_IDLE_PRIO; prio++) {
+    for (prio = 0u; prio <= OS_TASK_IDLE_PRIO; prio++)
+    {
         err = OSTaskStkChk(prio, &stk_data);
-        if (err == OS_ERR_NONE) {
+        if (err == OS_ERR_NONE)
+        {
             ptcb = OSTCBPrioTbl[prio];
-            if (ptcb != (OS_TCB *)0) {                               /* Make sure task 'ptcb' is ...   */
-                if (ptcb != OS_TCB_RESERVED) {                       /* ... still valid.               */
+            if (ptcb != (OS_TCB *)0)                                 /* Make sure task 'ptcb' is ...   */
+            {
+                if (ptcb != OS_TCB_RESERVED)                         /* ... still valid.               */
+                {
 #if OS_TASK_PROFILE_EN > 0u
-                    #if OS_STK_GROWTH == 1u
+#if OS_STK_GROWTH == 1u
                     ptcb->OSTCBStkBase = ptcb->OSTCBStkBottom + ptcb->OSTCBStkSize;
-                    #else
+#else
                     ptcb->OSTCBStkBase = ptcb->OSTCBStkBottom - ptcb->OSTCBStkSize;
-                    #endif
+#endif
                     ptcb->OSTCBStkUsed = stk_data.OSUsed;            /* Store the number of bytes used */
 #endif
                 }
@@ -1933,7 +2042,8 @@ INT8U  OS_TCBInit (INT8U    prio,
 
     OS_ENTER_CRITICAL();
     ptcb = OSTCBFreeList;                                  /* Get a free TCB from the free TCB list    */
-    if (ptcb != (OS_TCB *)0) {
+    if (ptcb != (OS_TCB *)0)
+    {
         OSTCBFreeList            = ptcb->OSTCBNext;        /* Update pointer to free TCB list          */
         OS_EXIT_CRITICAL();
         ptcb->OSTCBStkPtr        = ptos;                   /* Load Stack pointer in TCB                */
@@ -1967,12 +2077,12 @@ INT8U  OS_TCBInit (INT8U    prio,
         ptcb->OSTCBY             = (INT8U)((INT8U)(prio >> 4u) & 0xFFu);
         ptcb->OSTCBX             = (INT8U) (prio & 0x0Fu);
 #endif
-                                                                  /* Pre-compute BitX and BitY         */
+        /* Pre-compute BitX and BitY         */
         ptcb->OSTCBBitY          = (OS_PRIO)(1uL << ptcb->OSTCBY);
         ptcb->OSTCBBitX          = (OS_PRIO)(1uL << ptcb->OSTCBX);
 
 #if (OS_EVENT_EN)
-        ptcb->OSTCBEventPtr      = (OS_EVENT  *)0;         /* Task is not pending on an  event         */
+        ptcb->OSTCBEventPtr      = (OS_EVENT *)0;          /* Task is not pending on an  event         */
 #if (OS_EVENT_MULTI_EN > 0u)
         ptcb->OSTCBEventMultiPtr = (OS_EVENT **)0;         /* Task is not pending on any events        */
 #endif
@@ -1999,7 +2109,8 @@ INT8U  OS_TCBInit (INT8U    prio,
 #endif
 
 #if OS_TASK_REG_TBL_SIZE > 0u                              /* Initialize the task variables            */
-        for (i = 0u; i < OS_TASK_REG_TBL_SIZE; i++) {
+        for (i = 0u; i < OS_TASK_REG_TBL_SIZE; i++)
+        {
             ptcb->OSTCBRegTbl[i] = 0u;
         }
 #endif
@@ -2012,7 +2123,8 @@ INT8U  OS_TCBInit (INT8U    prio,
         OSTCBPrioTbl[prio] = ptcb;
         ptcb->OSTCBNext    = OSTCBList;                    /* Link into TCB chain                      */
         ptcb->OSTCBPrev    = (OS_TCB *)0;
-        if (OSTCBList != (OS_TCB *)0) {
+        if (OSTCBList != (OS_TCB *)0)
+        {
             OSTCBList->OSTCBPrev = ptcb;
         }
         OSTCBList               = ptcb;
@@ -2025,4 +2137,4 @@ INT8U  OS_TCBInit (INT8U    prio,
     OS_EXIT_CRITICAL();
     return (OS_ERR_TASK_NO_MORE_TCB);
 }
-	 	   	  		 			 	    		   		 		 	 	 			 	    		   	 			 	  	 		 				 		  			 		 					 	  	  		      		  	   		      		  	 		 	      		   		 		  	 		 	      		  		  		  
+

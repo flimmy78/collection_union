@@ -124,11 +124,11 @@
 *                   or application are checked/validated.
 *********************************************************************************************************
 */
-                                                        /* Configure external argument check feature (see Note #1) :    */
+/* Configure external argument check feature (see Note #1) :    */
 #ifndef  LIB_MEM_CFG_ARG_CHK_EXT_EN
 #define  LIB_MEM_CFG_ARG_CHK_EXT_EN     DEF_DISABLED
-                                                        /*   DEF_DISABLED     Argument check DISABLED                   */
-                                                        /*   DEF_ENABLED      Argument check ENABLED                    */
+/*   DEF_DISABLED     Argument check DISABLED                   */
+/*   DEF_ENABLED      Argument check ENABLED                    */
 #endif
 
 
@@ -139,11 +139,11 @@
 * Note(s) : (1) Configure LIB_MEM_CFG_POOL_EN to enable/disable memory pool functions.
 *********************************************************************************************************
 */
-                                                        /* Configure memory pool feature (see Note #1) :                */
+/* Configure memory pool feature (see Note #1) :                */
 #ifndef  LIB_MEM_CFG_POOL_EN
 #define  LIB_MEM_CFG_POOL_EN            DEF_DISABLED
-                                                        /*   DEF_DISABLED     Memory pool(s) DISABLED                   */
-                                                        /*   DEF_ENABLED      Memory pool(s) ENABLED                    */
+/*   DEF_DISABLED     Memory pool(s) DISABLED                   */
+/*   DEF_ENABLED      Memory pool(s) ENABLED                    */
 #endif
 
 
@@ -189,7 +189,7 @@
 *               with their chosen ASCII names.
 **********************************************************************************************************/
 
-                                                                /* ------------------- LIB_MEM TYPES ------------------ */
+/* ------------------- LIB_MEM TYPES ------------------ */
 #if     (CPU_CFG_ENDIAN_TYPE == CPU_ENDIAN_TYPE_BIG)
 #define  LIB_MEM_TYPE_NONE                        0x4E4F4E45    /* "NONE" in ASCII.                                     */
 #define  LIB_MEM_TYPE_HEAP                        0x48454150    /* "HEAP" in ASCII.                                     */
@@ -297,8 +297,9 @@ typedef  CPU_INT16U   MEM_POOL_IX;
 
 typedef  struct  mem_pool  MEM_POOL;
 
-                                                                /* --------------------- MEM POOL --------------------- */
-struct  mem_pool {
+/* --------------------- MEM POOL --------------------- */
+struct  mem_pool
+{
     LIB_MEM_TYPE    Type;                                       /* Pool type : LIB_TYPE_POOL or LIB_TYPE_HEAP.          */
 
     MEM_POOL       *SegPrevPtr;                                 /* Ptr to PREV mem seg.                                 */
@@ -315,7 +316,7 @@ struct  mem_pool {
     CPU_SIZE_T      BlkSize;                                    /* Size  of mem pool   blks (in octets).                */
     CPU_SIZE_T      BlkAlign;                                   /* Align of mem pool   blks (in octets).                */
 
-                                                                /* --------------------- MEM SEG ---------------------- */
+    /* --------------------- MEM SEG ---------------------- */
     void           *SegAddr;                                    /* Ptr      to mem seg's base/start addr.               */
     void           *SegAddrNextAvail;                           /* Ptr      to mem seg's next avail addr.               */
     CPU_SIZE_T      SegSizeTot;                                 /* Tot size of mem seg (in octets).                     */
@@ -725,7 +726,7 @@ struct  mem_pool {
 *********************************************************************************************************
 */
 
-                                                                                /* See Note #5.                         */
+/* See Note #5.                         */
 #define  MEM_VAL_COPY_SET_INT08U_BIG(addr_dest, addr_src)       MEM_VAL_COPY_GET_INT08U_BIG(addr_dest, addr_src)
 #define  MEM_VAL_COPY_SET_INT16U_BIG(addr_dest, addr_src)       MEM_VAL_COPY_GET_INT16U_BIG(addr_dest, addr_src)
 #define  MEM_VAL_COPY_SET_INT32U_BIG(addr_dest, addr_src)       MEM_VAL_COPY_GET_INT32U_BIG(addr_dest, addr_src)
@@ -789,7 +790,7 @@ struct  mem_pool {
 
 void          Mem_Init       (void);
 
-                                                                        /* -------------- MEM API  FNCTS -------------- */
+/* -------------- MEM API  FNCTS -------------- */
 void          Mem_Clr        (void        *pmem,
                               CPU_SIZE_T   size);
 

@@ -1,7 +1,7 @@
 /****************************************Copyright (c)**************************************************
 **                               广州周立功单片机发展有限公司
 **                                     研    究    所
-**                                        产品一部 
+**                                        产品一部
 **
 **                                 http://www.zlgmcu.com
 **
@@ -10,7 +10,7 @@
 **创   建   人: 陈明计
 **最后修改日期: 2003年7月2日
 **描        述: 数据队列的中间件
-**              
+**
 **--------------历史版本信息----------------------------------------------------------------------------
 ** 创建人: 陈明计
 ** 版  本: v1.0
@@ -53,24 +53,24 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-        uint8 QueueCreate(void *Buf,                                 //倪 可重入
-                          uint32 SizeOfBuf,
-                          uint8 (* ReadEmpty)(),
-                          uint8 (* WriteFull)()
-                          )
+uint8 QueueCreate(void *Buf,                                 //倪 可重入
+                  uint32 SizeOfBuf,
+                  uint8 (* ReadEmpty)(),
+                  uint8 (* WriteFull)()
+                 )
 {
-	OS_CPU_SR cpu_sr;
+    OS_CPU_SR cpu_sr;
     DataQueue *Queue;
-    
+
     if (Buf != NULL && SizeOfBuf >= (sizeof(DataQueue)))        /* 判断参数是否有效 */
     {
         Queue = (DataQueue *)Buf;
 
         OS_ENTER_CRITICAL();
-                                                                /* 初始化结构体数据 */
-        Queue->MaxData = (SizeOfBuf - (uint32)(((DataQueue *)0)->Buf)) / 
+        /* 初始化结构体数据 */
+        Queue->MaxData = (SizeOfBuf - (uint32)(((DataQueue *)0)->Buf)) /
                          sizeof(QUEUE_DATA_TYPE);               /* 计算队列可以存储的数据数目 */
-        Queue->End = Queue->Buf + Queue->MaxData;               /* 计算数据缓冲的结束地址 */ //倪注 这里End指向最后一个可用字节的下一个字节  
+        Queue->End = Queue->Buf + Queue->MaxData;               /* 计算数据缓冲的结束地址 */ //倪注 这里End指向最后一个可用字节的下一个字节
         Queue->Out = Queue->Buf;
         Queue->In = Queue->Buf;
         Queue->NData = 0;
@@ -106,21 +106,23 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-        uint8 QueueRead(QUEUE_DATA_TYPE *Ret, void *Buf)//倪 可重入
+uint8 QueueRead(QUEUE_DATA_TYPE *Ret, void *Buf)//倪 可重入
 {
     uint8 err;
-	OS_CPU_SR cpu_sr;
+    OS_CPU_SR cpu_sr;
     DataQueue *Queue;
 
     err = NOT_OK;
     if (Buf != NULL)                                            /* 队列是否有效 */
-    {                                                           /* 有效 */
+    {
+        /* 有效 */
         Queue = (DataQueue *)Buf;
-        
+
         OS_ENTER_CRITICAL();
-        
+
         if (Queue->NData > 0)                                   /* 队列是否为空 */
-        {                                                       /* 不空         */
+        {
+            /* 不空         */
             *Ret = Queue->Out[0];                               /* 数据出队     */
             Queue->Out++;                                       /* 调整出队指针 */
             if (Queue->Out >= Queue->End)
@@ -131,7 +133,8 @@
             err = QUEUE_OK;
         }
         else
-        {                                                       /* 空              */
+        {
+            /* 空              */
             err = QUEUE_EMPTY;
             if (Queue->ReadEmpty != NULL)                       /* 调用用户处理函数 */
             {
@@ -152,7 +155,7 @@
 **         QUEUE_OK   ：收到消息
 **         QUEUE_EMPTY：无消息
 ** 全局变量: 无
-** 调用模块: 
+** 调用模块:
 **
 ** 作　者: Nichenqiang
 ** 日　期: 2010年3月13日
@@ -161,20 +164,22 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-        uint8 QueueRead_Int(QUEUE_DATA_TYPE *Ret, void *Buf)//倪 可重入
+uint8 QueueRead_Int(QUEUE_DATA_TYPE *Ret, void *Buf)//倪 可重入
 {
     uint8 err;
     DataQueue *Queue;
 
     err = NOT_OK;
     if (Buf != NULL)                                            /* 队列是否有效 */
-    {                                                           /* 有效 */
+    {
+        /* 有效 */
         Queue = (DataQueue *)Buf;
-        
+
         //OS_ENTER_CRITICAL();
-        
+
         if (Queue->NData > 0)                                   /* 队列是否为空 */
-        {                                                       /* 不空         */
+        {
+            /* 不空         */
             *Ret = Queue->Out[0];                               /* 数据出队     */
             Queue->Out++;                                       /* 调整出队指针 */
             if (Queue->Out >= Queue->End)
@@ -185,7 +190,8 @@
             err = QUEUE_OK;
         }
         else
-        {                                                       /* 空              */
+        {
+            /* 空              */
             err = QUEUE_EMPTY;
             if (Queue->ReadEmpty != NULL)                       /* 调用用户处理函数 */
             {
@@ -221,21 +227,22 @@
 
 #if EN_QUEUE_WRITE > 0
 
-        uint8 QueueWrite(void *Buf, QUEUE_DATA_TYPE Data)//倪 可重入
+uint8 QueueWrite(void *Buf, QUEUE_DATA_TYPE Data)//倪 可重入
 {
     uint8 err;
-	OS_CPU_SR cpu_sr;
+    OS_CPU_SR cpu_sr;
     DataQueue *Queue;
 
     err = NOT_OK;
     if (Buf != NULL)                                                    /* 队列是否有效 */
     {
         Queue = (DataQueue *)Buf;
-        
+
         OS_ENTER_CRITICAL();
-        
+
         if (Queue->NData < Queue->MaxData)                              /* 队列是否满  */
-        {                                                               /* 不满        */
+        {
+            /* 不满        */
             Queue->In[0] = Data;                                        /* 数据入队    */
             Queue->In++;                                                /* 调整入队指针*/
             if (Queue->In >= Queue->End)
@@ -246,7 +253,8 @@
             err = QUEUE_OK;
         }
         else
-        {                                                               /* 满           */
+        {
+            /* 满           */
             err = QUEUE_FULL;
             if (Queue->WriteFull != NULL)                               /* 调用用户处理函数 */
             {
@@ -276,7 +284,7 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-        uint8 QueueWrite_Int(void *Buf, QUEUE_DATA_TYPE Data)//倪 可重入
+uint8 QueueWrite_Int(void *Buf, QUEUE_DATA_TYPE Data)//倪 可重入
 {
     uint8 err;
     DataQueue *Queue;
@@ -285,11 +293,12 @@
     if (Buf != NULL)                                                    /* 队列是否有效 */
     {
         Queue = (DataQueue *)Buf;
-        
+
         //OS_ENTER_CRITICAL();
-        
+
         if (Queue->NData < Queue->MaxData)                              /* 队列是否满  */
-        {                                                               /* 不满        */
+        {
+            /* 不满        */
             Queue->In[0] = Data;                                        /* 数据入队    */
             Queue->In++;                                                /* 调整入队指针*/
             if (Queue->In >= Queue->End)
@@ -300,7 +309,8 @@
             err = QUEUE_OK;
         }
         else
-        {                                                               /* 满           */
+        {
+            /* 满           */
             err = QUEUE_FULL;
             if (Queue->WriteFull != NULL)                               /* 调用用户处理函数 */
             {
@@ -317,9 +327,9 @@
 **           并去掉了参数的合法性判断,和返回值. 因此,特别注意,必须保证在中断使能前确保中断服务程序中使用的队列已经初始化.
 ** 输　入: Buf :指向队列的指针
 **         Data:消息数据
-** 输　出:   无    
+** 输　出:   无
 ** 全局变量: 无
-** 调用模块: 
+** 调用模块:
 **
 ** 作　者: Nichenqiang
 ** 日　期: 2010年3月24日
@@ -328,23 +338,24 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-        void QueueWrite_Int_f(void *Buf, QUEUE_DATA_TYPE Data)
+void QueueWrite_Int_f(void *Buf, QUEUE_DATA_TYPE Data)
 {
 
     DataQueue *Queue;
-    
+
     Queue = (DataQueue *)Buf;
-        
-	if (Queue->NData < Queue->MaxData)                              /* 队列是否满  */
-	{				                                               /* 不满        */
-		Queue->In[0] = Data;                                        /* 数据入队    */
-		Queue->In++;                                                /* 调整入队指针*/
-		if (Queue->In >= Queue->End)
-		{
-                Queue->In = Queue->Buf;
-		}
-		Queue->NData++;                                             /* 数据增加    */
-	}
+
+    if (Queue->NData < Queue->MaxData)                              /* 队列是否满  */
+    {
+        /* 不满        */
+        Queue->In[0] = Data;                                        /* 数据入队    */
+        Queue->In++;                                                /* 调整入队指针*/
+        if (Queue->In >= Queue->End)
+        {
+            Queue->In = Queue->Buf;
+        }
+        Queue->NData++;                                             /* 数据增加    */
+    }
 
 }
 #endif
@@ -372,7 +383,7 @@
 
 #if EN_QUEUE_WRITE_FRONT > 0
 
-        uint8 QueueWriteFront(void *Buf, QUEUE_DATA_TYPE Data)
+uint8 QueueWriteFront(void *Buf, QUEUE_DATA_TYPE Data)
 {
     uint8 err;
     DataQueue *Queue;
@@ -381,11 +392,12 @@
     if (Buf != NULL)                                                    /* 队列是否有效 */
     {
         Queue = (DataQueue *)Buf;
-        
+
         OS_ENTER_CRITICAL();
-        
+
         if (Queue->NData < Queue->MaxData)                              /* 队列是否满  */
-        {                                                               /* 不满 */
+        {
+            /* 不满 */
             Queue->Out--;                                               /* 调整出队指针 */
             if (Queue->Out < Queue->Buf)
             {
@@ -396,7 +408,8 @@
             err = QUEUE_OK;
         }
         else
-        {                                                               /* 满           */
+        {
+            /* 满           */
             err = QUEUE_FULL;
             if (Queue->WriteFull != NULL)                               /* 调用用户处理函数 */
             {
@@ -431,11 +444,11 @@
 
 #if EN_QUEUE_NDATA > 0
 
-        uint16 QueueNData(void *Buf)//倪 可重入
+uint16 QueueNData(void *Buf)//倪 可重入
 {
     uint16 temp;
-	OS_CPU_SR cpu_sr;
-    
+    OS_CPU_SR cpu_sr;
+
     temp = 0;                                                   /* 队列无效返回0 */
     if (Buf != NULL)
     {
@@ -469,11 +482,11 @@
 
 #if EN_QUEUE_SIZE > 0
 
-        uint16 QueueSize(void *Buf)//倪 可重入
+uint16 QueueSize(void *Buf)//倪 可重入
 {
     uint16 temp;
-	OS_CPU_SR cpu_sr;
-    
+    OS_CPU_SR cpu_sr;
+
     temp = 0;                                                   /* 队列无效返回0 */
     if (Buf != NULL)
     {
@@ -507,13 +520,14 @@
 
 #if EN_QUEUE_FLUSH > 0
 
-        void QueueFlush(void *Buf)//倪 可重入
+void QueueFlush(void *Buf)//倪 可重入
 {
-	OS_CPU_SR cpu_sr;
+    OS_CPU_SR cpu_sr;
     DataQueue *Queue;
-    
+
     if (Buf != NULL)                                                /* 队列是否有效 */
-    {                                                               /* 有效         */
+    {
+        /* 有效         */
         Queue = (DataQueue *)Buf;
         OS_ENTER_CRITICAL();
         Queue->Out = Queue->Buf;
@@ -540,18 +554,20 @@
 ** 日　期:
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
-uint8 QueueNotEnoughPend(void* Buf,uint32 n)
+uint8 QueueNotEnoughPend(void *Buf, uint32 n)
 {
-	uint16 max;
-	max = QueueSize(Buf);
-	if(n>max){
-		return 0xff; //写数据个数超限
-	}
-	while((max-QueueNData((void *)Buf))<n){
-		OSTimeDly(OS_TICKS_PER_SEC/10);
-	}
-	
-	return 0;
+    uint16 max;
+    max = QueueSize(Buf);
+    if(n > max)
+    {
+        return 0xff; //写数据个数超限
+    }
+    while((max - QueueNData((void *)Buf)) < n)
+    {
+        OSTimeDly(OS_TICKS_PER_SEC / 10);
+    }
+
+    return 0;
 }
 /*********************************************************************************************************
 **                            End Of File

@@ -1,6 +1,6 @@
 /****************************************Copyright (c)****************************************************
-**                                      
-**                                 山东华宇空间技术公司(西安分部) 
+**
+**                                 山东华宇空间技术公司(西安分部)
 **
 **--------------File Info---------------------------------------------------------------------------------
 ** File name:               includes.h
@@ -8,10 +8,10 @@
 **
 **--------------------------------------------------------------------------------------------------------
 
-** Modified by:             
-** Modified date:           
-** Version:                 
-** Descriptions:            
+** Modified by:
+** Modified date:
+** Version:
+** Descriptions:
 **
 *********************************************************************************************************/
 
@@ -20,8 +20,8 @@
 #define  __INCLUDES_H__
 
 #ifdef __cplusplus
-	extern "C" {
-	#endif
+extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include  <stdio.h>
@@ -46,7 +46,7 @@
 /*end:yangfei added 2013-01-17*/
 #include "userconfig.h"
 #include "bsp.h"
-#include "StructProtocol.h" 
+#include "StructProtocol.h"
 #include "public.h"
 #include "app_down.h"
 #include "app_flashmem.h"
@@ -56,7 +56,7 @@
 #include "task_uart_shell.h"
 /*end:yangfei added 2012-12-15*/
 
-#include "Valve.h"  
+#include "Valve.h"
 #include "valve_elsonic.h"
 #include "valve_joyo.h"
 #include "valve_binihi.h"
@@ -64,8 +64,8 @@
 
 
 #ifdef __cplusplus
-	}
-	#endif
+}
+#endif
 
 #ifdef  LOG_FULL_ASSERT
 #define LOG_assert_param(expr) ((expr) ? LOG_assert_failed((uint8_t *)__FILE__, __LINE__) : (void)0 )
@@ -109,7 +109,7 @@
 
 /*begin:yangfei added*/
 extern uint8 gDebugLevel ;
-extern uint8 gDebugModule[20];	
+extern uint8 gDebugModule[20];
 //#define DEBUG   LOG_LEVEL_ERROR
 #ifdef DEBUG
 #define debug(fmt,args...)   if(gDebugLevel  >= 1) Uart_Printf(fmt,##args)
@@ -132,16 +132,16 @@ extern uint8 gDebugModule[20];
 #define debug_debug(dev, fmt, args...)		\
    if(dev>=KERN_DEBUG) Uart_Printf_Time(fmt,##args);
 #else
-#define debug(fmt,args...)   
-#define debugX(level,fmt,args...)  
+#define debug(fmt,args...)
+#define debugX(level,fmt,args...)
 #define debug_emerg(dev, fmt, args...)
 #define debug_alert(dev, fmt, args...)
 #define debug_crit(dev, fmt, args...)
-#define debug_err(dev, fmt, args...)	
+#define debug_err(dev, fmt, args...)
 #define debug_warn(dev, fmt, args...)
-#define debug_notice(dev, fmt, args...)	
-#define debug_info(dev, fmt, args...)	
-#define debug_debug(dev, fmt, args...)	
+#define debug_notice(dev, fmt, args...)
+#define debug_info(dev, fmt, args...)
+#define debug_debug(dev, fmt, args...)
 #endif
 /*end  :yangfei added*/
 

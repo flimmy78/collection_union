@@ -1,11 +1,11 @@
 /*******************************************Copyright (c)*******************************************
-									山东华宇空间技术公司(西安分部)                                                          
+									山东华宇空间技术公司(西安分部)
 **  文   件   名: meter.h
 **  创   建   人: 勾江涛
 **	版   本   号: 0.1
-**  创 建  日 期: 2012年9月10日 
+**  创 建  日 期: 2012年9月10日
 **  描        述: 热计量表协议解析
-**	修 改  记 录:   	
+**	修 改  记 录:
 *****************************************************************************************************/
 #ifndef				_METER_H
 #define				_METER_H
@@ -24,124 +24,130 @@ extern uint8 gCurrent_Channel;
 
 #pragma pack(1)
 
-typedef struct {
+typedef struct
+{
     uint8 	Channel;  				//下行MBUS通信的 通道
     uint32  Bps;     				//下行通信波特率
     uint16 	OutTime; 				//等待超时时间  0表示不指定，按底层的缺省超时时间
     uint8 	RpTimes; 				//失败重试次数，0表示不重试
-	} DownCommType;
-
-typedef struct{
-	uint8   PreSmybolNum;			/*前导字符个数*/
-	uint8   MeterType;				/*仪表类型*/
-	uint8 	MeterAddr[7];			/*热计量表地址*/
-	uint8 	ControlCode;			/*控制码*/
-	uint8 	Length;					/*数据域长度*/
-	uint16	DataIdentifier;			/*数据标识符*/
-	uint8 	SER;					/*序列号*/
-	/*begin:yangfei added 2013-09-18 for 真兰热表数据太多*/
-	#if 0
-	uint8   DataBuf[METER_FRAME_LEN_MAX];
-    #else
-    uint8   DataBuf[METER_FRAME_LEN_MAX*2];
-    #endif
-	}DELU_Protocol;
-
-typedef enum 
-{
-    Valve_Ok = 0xA5,
-    Valve_Data_Error = 0x00
-}Valve_Error_Type;
+} DownCommType;
 
 typedef struct
 {
-     char addrString[20];
+    uint8   PreSmybolNum;			/*前导字符个数*/
+    uint8   MeterType;				/*仪表类型*/
+    uint8 	MeterAddr[7];			/*热计量表地址*/
+    uint8 	ControlCode;			/*控制码*/
+    uint8 	Length;					/*数据域长度*/
+    uint16	DataIdentifier;			/*数据标识符*/
+    uint8 	SER;					/*序列号*/
+    /*begin:yangfei added 2013-09-18 for 真兰热表数据太多*/
+#if 0
+    uint8   DataBuf[METER_FRAME_LEN_MAX];
+#else
+    uint8   DataBuf[METER_FRAME_LEN_MAX * 2];
+#endif
+} DELU_Protocol;
+
+typedef enum
+{
+    Valve_Ok = 0xA5,
+    Valve_Data_Error = 0x00
+} Valve_Error_Type;
+
+typedef struct
+{
+    char addrString[20];
     Valve_Error_Type  error_type;
-     double averageTemp;
-     double rOpentime;
-     double inTemp;
-     double outTemp;
+    double averageTemp;
+    double rOpentime;
+    double inTemp;
+    double outTemp;
     double allocationHot;
 
-}Valve_YLIN_Protocol;
+} Valve_YLIN_Protocol;
 
 /*begin:yangfei added 2013-03-18 for meter data format standardized*/
-typedef struct{
-	uint32   DailyHeat;		                /*结算日热量*/	
+typedef struct
+{
+    uint32   DailyHeat;		                /*结算日热量*/
     uint8     DailyHeatUnit;
-	uint32   CurrentHeat;				   /*当前热量*/
+    uint32   CurrentHeat;				   /*当前热量*/
     uint8     CurrentHeatUnit;
-	uint32 	 HeatPower;			      /*热功率*/
+    uint32 	 HeatPower;			      /*热功率*/
     uint8     HeatPowerUnit;
-	uint32 	 Flow;			                 /*流量流速*/
+    uint32 	 Flow;			                 /*流量流速*/
     uint8 	 FlowUnit;
-	uint32 	AccumulateFlow;			/*累积流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint8	WaterInTemp[3];		        /*供水温度*/	
-	uint8 	WaterOutTemp[3];				/*回水温度*/
+    uint32 	AccumulateFlow;			/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint8	WaterInTemp[3];		        /*供水温度*/
+    uint8 	WaterOutTemp[3];				/*回水温度*/
     uint8 	AccumulateWorkTime[3];	/*累计工作时间*/
-	uint8	RealTime[7];		                /*实时时间*/	
-	uint16 	ST;					                    /*状态ST*/  
-	}CJ188_Format;
+    uint8	RealTime[7];		                /*实时时间*/
+    uint16 	ST;					                    /*状态ST*/
+} CJ188_Format;
 
 // 震宇时间无年中的20
-typedef struct{
-   uint32	DailyHeat;					   /*结算日热量*/  
-   uint8	 DailyHeatUnit;
-   uint32	CurrentHeat;				  /*当前热量*/
-   uint8	 CurrentHeatUnit;
-   uint32	HeatPower;				 /*热功率*/
-   uint8	 HeatPowerUnit;
-   uint32	Flow;							/*流量流速*/
-   uint8	FlowUnit;
-   uint32  AccumulateFlow;		   /*累积流量*/
-   uint8   AccumulateFlowUnit; 
-   uint8   WaterInTemp[3];			   /*供水温度*/    
-   uint8   WaterOutTemp[3]; 			   /*回水温度*/
-   uint8   AccumulateWorkTime[3];  /*累计工作时间*/
-   uint8   RealTime[7]; 					   /*实时时间*/    
-   uint16  ST;									   /*状态ST*/  
-   }ZHENYU2_Format;
+typedef struct
+{
+    uint32	DailyHeat;					   /*结算日热量*/
+    uint8	 DailyHeatUnit;
+    uint32	CurrentHeat;				  /*当前热量*/
+    uint8	 CurrentHeatUnit;
+    uint32	HeatPower;				 /*热功率*/
+    uint8	 HeatPowerUnit;
+    uint32	Flow;							/*流量流速*/
+    uint8	FlowUnit;
+    uint32  AccumulateFlow;		   /*累积流量*/
+    uint8   AccumulateFlowUnit;
+    uint8   WaterInTemp[3];			   /*供水温度*/
+    uint8   WaterOutTemp[3]; 			   /*回水温度*/
+    uint8   AccumulateWorkTime[3];  /*累计工作时间*/
+    uint8   RealTime[7]; 					   /*实时时间*/
+    uint16  ST;									   /*状态ST*/
+} ZHENYU2_Format;
 
 //begin: added by zjjin.
-typedef struct{
-	uint32	MeterID;
-	uint8	Constant08;
-	uint32  CurrentCool;		     /*当前冷量*/	
+typedef struct
+{
+    uint32	MeterID;
+    uint8	Constant08;
+    uint32  CurrentCool;		     /*当前冷量*/
     uint8   CurrentCoolUnit;
-	uint32  CurrentHeat;			/*当前热量*/
+    uint32  CurrentHeat;			/*当前热量*/
     uint8   CurrentHeatUnit;
-	uint32 	 Flow;			         /*流量流速*/
+    uint32 	 Flow;			         /*流量流速*/
     uint8 	 FlowUnit;
-	uint32 	AccumulateFlow;			/*累积流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint8	WaterInTemp[3];		        /*供水温度*/	
-	uint8 	WaterOutTemp[3];			/*回水温度*/
+    uint32 	AccumulateFlow;			/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint8	WaterInTemp[3];		        /*供水温度*/
+    uint8 	WaterOutTemp[3];			/*回水温度*/
     uint8 	AccumulateWorkTime[3];	/*累计工作时间*/
-	uint8	RealTime[7];		                /*实时时间*/	
-	uint16 	ST;					                    /*状态ST*/  
-	}YITONGDA_Format;
+    uint8	RealTime[7];		                /*实时时间*/
+    uint16 	ST;					                    /*状态ST*/
+} YITONGDA_Format;
 
 
-typedef struct{
-   uint32	DailyHeat;					   /*结算日热量*/  
-   uint8	DailyHeatUnit;
-   uint32	CurrentHeat;				  /*当前热量*/
-   uint8	CurrentHeatUnit;
-   uint32	HeatPower;				 /*热功率*/
-   uint8	HeatPowerUnit;
-   uint32	Flow;							/*流量流速*/
-   uint8	FlowUnit;
-   uint32  AccumulateFlow1;		   /*累积流量1*/
-   uint8   AccumulateFlowUnit1; 
-   uint32  AccumulateFlow2;		   /*累积流量2*/
-   uint8   AccumulateFlowUnit2; 
-   uint8   WaterInTemp[3];			   /*供水温度*/    
-   uint8   WaterOutTemp[3]; 			   /*回水温度*/
-   uint8   AccumulateWorkTime[3];  /*累计工作时间*/
-   uint8   RealTime[7]; 					   /*实时时间*/    
-   uint16  ST;									   /*状态ST*/  
-   }ZHENYU_S_Format;  //威海震宇S/SZ型热表有2个累计流量，比德鲁协议多出5字节。
+typedef struct
+{
+    uint32	DailyHeat;					   /*结算日热量*/
+    uint8	DailyHeatUnit;
+    uint32	CurrentHeat;				  /*当前热量*/
+    uint8	CurrentHeatUnit;
+    uint32	HeatPower;				 /*热功率*/
+    uint8	HeatPowerUnit;
+    uint32	Flow;							/*流量流速*/
+    uint8	FlowUnit;
+    uint32  AccumulateFlow1;		   /*累积流量1*/
+    uint8   AccumulateFlowUnit1;
+    uint32  AccumulateFlow2;		   /*累积流量2*/
+    uint8   AccumulateFlowUnit2;
+    uint8   WaterInTemp[3];			   /*供水温度*/
+    uint8   WaterOutTemp[3]; 			   /*回水温度*/
+    uint8   AccumulateWorkTime[3];  /*累计工作时间*/
+    uint8   RealTime[7]; 					   /*实时时间*/
+    uint16  ST;									   /*状态ST*/
+} ZHENYU_S_Format; //威海震宇S/SZ型热表有2个累计流量，比德鲁协议多出5字节。
 
 
 //end: added by zjjin.
@@ -151,91 +157,95 @@ typedef union
 {
     u8   gp22_u8[4];
     float gp22_float;
-}To_Float;
+} To_Float;
 
-typedef struct{
-    
-	//float   DailyHeat;		/*结算日热量积成热表的结算日热量是IEEE754协议*/
-	To_Float  DailyHeat;		/*结算日热量积成热表的结算日热量是IEEE754协议*/
-	uint8     DailyHeatUnit;	 //单位 
-	uint32   CurrentHeat;				/*当前热量*/
-	uint8     CurrentHeatUnit;   
-	uint32 	 HeatPower;			/*热功率*/
-	uint8     HeatPowerUnit;
-   	uint32 	 Flow;			/*流量*/
-	uint8 	 FlowUnit;   
-	uint32 	AccumulateFlow;					/*累积流量*/
-	uint8 	AccumulateFlowUnit;	
-	uint8	WaterInTemp[3];		/*供水温度*/	
-	uint8 	WaterOutTemp[3];					        /*回水温度*/
+typedef struct
+{
+
+    //float   DailyHeat;		/*结算日热量积成热表的结算日热量是IEEE754协议*/
+    To_Float  DailyHeat;		/*结算日热量积成热表的结算日热量是IEEE754协议*/
+    uint8     DailyHeatUnit;	 //单位
+    uint32   CurrentHeat;				/*当前热量*/
+    uint8     CurrentHeatUnit;
+    uint32 	 HeatPower;			/*热功率*/
+    uint8     HeatPowerUnit;
+    uint32 	 Flow;			/*流量*/
+    uint8 	 FlowUnit;
+    uint32 	AccumulateFlow;					/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint8	WaterInTemp[3];		/*供水温度*/
+    uint8 	WaterOutTemp[3];					        /*回水温度*/
     uint8 	AccumulateWorkTime[3];					/*累计工作时间*/
-	uint8	RealTime[7];		/*实时时间积成的时间是 年 月 日 时分秒，与CJ188恰好相反*/	
-	uint8 	ST;					        /*状态ST*/  
-	}JICHENG_Format;
+    uint8	RealTime[7];		/*实时时间积成的时间是 年 月 日 时分秒，与CJ188恰好相反*/
+    uint8 	ST;					        /*状态ST*/
+} JICHENG_Format;
 
 
-typedef struct{
-     
-  	
-	uint32   BiaoHao;        //表号
-	uint8     BiaoShi;		 //标识
+typedef struct
+{
 
-	uint32   CurrentHeat;				   /*当前热量*/
-	uint8     CurrentHeatUnit; 
- 	
-	uint32   DailyHeat;		                /*结算日热量 冷量*/
-	uint8     DailyHeatUnit;	
-    
+
+    uint32   BiaoHao;        //表号
+    uint8     BiaoShi;		 //标识
+
+    uint32   CurrentHeat;				   /*当前热量*/
+    uint8     CurrentHeatUnit;
+
+    uint32   DailyHeat;		                /*结算日热量 冷量*/
+    uint8     DailyHeatUnit;
+
 
     //uint8     HeatPowerUnit;
-	//uint32 	 HeatPower;			      /*热功率*/
+    //uint32 	 HeatPower;			      /*热功率*/
 
-    
-	uint32 	 Flow;			                 /*流量流速*/
-	uint8 	 FlowUnit;
 
-    	
-	uint32 	AccumulateFlow;			/*累积流量*/
-	uint8 	AccumulateFlowUnit;
+    uint32 	 Flow;			                 /*流量流速*/
+    uint8 	 FlowUnit;
 
-	uint8	WaterInTemp[3];		        /*供水温度*/	
-	uint8 	WaterOutTemp[3];				/*回水温度*/
+
+    uint32 	AccumulateFlow;			/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+
+    uint8	WaterInTemp[3];		        /*供水温度*/
+    uint8 	WaterOutTemp[3];				/*回水温度*/
     uint8 	AccumulateWorkTime[3];	/*累计工作时间*/
-	uint8	RealTime[7];		                /*实时时间*/	
-	uint16 	ST;	
-	}JingWeiFE_Format;
+    uint8	RealTime[7];		                /*实时时间*/
+    uint16 	ST;
+} JingWeiFE_Format;
 
 
-typedef struct{
+typedef struct
+{
 
- 	uint8     DailyHeatUnit;
-	uint32   DailyHeat;		                /*结算日热量*/	
-    
-	uint8     CurrentHeatUnit;
-	uint32   CurrentHeat;				   /*当前热量*/
+    uint8     DailyHeatUnit;
+    uint32   DailyHeat;		                /*结算日热量*/
+
+    uint8     CurrentHeatUnit;
+    uint32   CurrentHeat;				   /*当前热量*/
 
     uint8     HeatPowerUnit;
-	uint32 	 HeatPower;			      /*热功率*/
+    uint32 	 HeatPower;			      /*热功率*/
 
     uint8 	 FlowUnit;
-	uint32 	 Flow;			                 /*流量流速*/
+    uint32 	 Flow;			                 /*流量流速*/
 
-    uint8 	AccumulateFlowUnit;	
-	uint32 	AccumulateFlow;			/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint32 	AccumulateFlow;			/*累积流量*/
 
-	uint8	WaterInTemp[3];		        /*供水温度*/	
-	uint8 	WaterOutTemp[3];				/*回水温度*/
+    uint8	WaterInTemp[3];		        /*供水温度*/
+    uint8 	WaterOutTemp[3];				/*回水温度*/
     uint8 	AccumulateWorkTime[3];	/*累计工作时间*/
-	uint8	RealTime[7];		                /*实时时间*/	
-	uint16 	ST;	
-	}JingWeiXiping_Format;
+    uint8	RealTime[7];		                /*实时时间*/
+    uint16 	ST;
+} JingWeiXiping_Format;
 
 
 
 
 
 
-typedef struct{
+typedef struct
+{
     uint8     Nouse[9];
     uint8     Vertion;
     uint8     Medium;
@@ -281,7 +291,7 @@ typedef struct{
     uint8     Futurekeydate2[6];
 
     uint8     Operating_Time_err[6];
-    
+
     uint8     Operating_Time_Unit[2];
     uint32     Operating_Time;
 
@@ -291,16 +301,17 @@ typedef struct{
     uint32   CurrentHeat;				   /*当前热量*/
 
     uint8     Currentcooling[7];
-    
-	
-	}ZENNER_Format;
-typedef struct{
+
+
+} ZENNER_Format;
+typedef struct
+{
     uint8     Nouse[12];
     uint8     Status;
     uint16   Signature;
     uint8     Updating_time[3];
     uint8     Averaging_time[3];
-  
+
     uint8     CurrentHeatUnit[2];                  /*06h/0Eh VIF: Heat quantity (kWh, MJ)*/
     uint32   CurrentHeat;				   /*当前热量*/
 
@@ -315,102 +326,107 @@ typedef struct{
 
     uint8     FlowTemperatureUnit[2];   /*Flow temperature (°C)*/
     uint16   FlowTemperature;
-	
+
     uint8     ReturnTemperatureUnit[2]; /*Return temperature (°C)*/
     uint16   ReturnTemperature;
-	}LANDISGYR_Format;
+} LANDISGYR_Format;
 
-typedef struct{
-	uint32   DailyHeat;		/*结算日热量*/	
+typedef struct
+{
+    uint32   DailyHeat;		/*结算日热量*/
     uint8     DailyHeatUnit;
-	uint32   CurrentHeat;				/*当前热量*/
+    uint32   CurrentHeat;				/*当前热量*/
     uint8     CurrentHeatUnit;
-	uint32 	 HeatPower;			/*热功率*/
+    uint32 	 HeatPower;			/*热功率*/
     uint8     HeatPowerUnit;
-	uint32 	 Flow;			/*流量*/
+    uint32 	 Flow;			/*流量*/
     uint8 	 FlowUnit;
-	uint32 	AccumulateFlow;					/*累积流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint8	WaterInTemp[3];		/*供水温度*/	
-	uint8 	WaterOutTemp[3];					        /*回水温度*/
+    uint32 	AccumulateFlow;					/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint8	WaterInTemp[3];		/*供水温度*/
+    uint8 	WaterOutTemp[3];					        /*回水温度*/
     uint8 	AccumulateWorkTime[3];					/*累计工作时间*/
-	uint8	RealTime[7];		/*实时时间*/	
-	uint16 	ST;					        /*状态ST*/  
-	}Danfoss_Format;
-typedef struct{
+    uint8	RealTime[7];		/*实时时间*/
+    uint16 	ST;					        /*状态ST*/
+} Danfoss_Format;
+typedef struct
+{
     uint8     DailyHeatUnit;
-	uint32   DailyHeat;		/*结算日热量*/	
+    uint32   DailyHeat;		/*结算日热量*/
     uint8     CurrentHeatUnit;
-	uint32   CurrentHeat;				/*当前热量*/
+    uint32   CurrentHeat;				/*当前热量*/
     uint8     HeatPowerUnit;
-	uint32 	 HeatPower;			/*热功率*/
+    uint32 	 HeatPower;			/*热功率*/
     uint8 	 FlowUnit;
-	uint32 	 Flow;			/*流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint32 	AccumulateFlow;					/*累积流量*/
-    
-	uint8	WaterInTemp[3];		/*供水温度*/	
-	uint8 	WaterOutTemp[3];					        /*回水温度*/
+    uint32 	 Flow;			/*流量*/
+    uint8 	AccumulateFlowUnit;
+    uint32 	AccumulateFlow;					/*累积流量*/
+
+    uint8	WaterInTemp[3];		/*供水温度*/
+    uint8 	WaterOutTemp[3];					        /*回水温度*/
     uint8 	AccumulateWorkTime[3];					/*累计工作时间*/
-	uint8	RealTime[7];		/*实时时间*/	
-	uint16 	ST;					        /*状态ST*/  
-	}LICHUANG_Format;
-typedef struct{
+    uint8	RealTime[7];		/*实时时间*/
+    uint16 	ST;					        /*状态ST*/
+} LICHUANG_Format;
+typedef struct
+{
     uint8     DailyHeatUnit;
-	uint32   DailyHeat;		/*结算日热量*/	
+    uint32   DailyHeat;		/*结算日热量*/
     uint8     CurrentHeatUnit;
-	uint32   CurrentHeat;				/*当前热量*/
+    uint32   CurrentHeat;				/*当前热量*/
     uint8     HeatPowerUnit;
-	uint32 	 HeatPower;			/*热功率*/
+    uint32 	 HeatPower;			/*热功率*/
     uint8 	 FlowUnit;
-	uint32 	 Flow;			/*流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint32 	AccumulateFlow;					/*累积流量*/
-    
-	uint8	WaterInTemp[3];		/*供水温度*/	
-	uint8 	WaterOutTemp[3];					        /*回水温度*/
+    uint32 	 Flow;			/*流量*/
+    uint8 	AccumulateFlowUnit;
+    uint32 	AccumulateFlow;					/*累积流量*/
+
+    uint8	WaterInTemp[3];		/*供水温度*/
+    uint8 	WaterOutTemp[3];					        /*回水温度*/
     uint8 	AccumulateWorkTime[3];					/*累计工作时间*/
-	uint8	RealTime[7];		/*实时时间*/	
-	uint16 	ST;					        /*状态ST*/  
-	}WANHUA_Format;
-typedef struct{
-	uint32   DailyHeat;		/*冷量*/	
+    uint8	RealTime[7];		/*实时时间*/
+    uint16 	ST;					        /*状态ST*/
+} WANHUA_Format;
+typedef struct
+{
+    uint32   DailyHeat;		/*冷量*/
     uint8     DailyHeatUnit;
-	uint32   CurrentHeat;				/*热量*/
+    uint32   CurrentHeat;				/*热量*/
     uint8     CurrentHeatUnit;
     uint8     CurrentHeatDecimal[2];/*热量小数*/
     uint8     AccumulateFlowDecimal[3];/*累积流量小数*/
-	uint32 	 Flow;			/*流量*/
+    uint32 	 Flow;			/*流量*/
     uint8 	 FlowUnit;
-	uint32 	AccumulateFlow;					/*累积流量*/
-    uint8 	AccumulateFlowUnit;	
-	uint8	WaterInTemp[3];		/*供水温度*/	
-	uint8 	WaterOutTemp[3];					        /*回水温度*/
+    uint32 	AccumulateFlow;					/*累积流量*/
+    uint8 	AccumulateFlowUnit;
+    uint8	WaterInTemp[3];		/*供水温度*/
+    uint8 	WaterOutTemp[3];					        /*回水温度*/
     uint8 	AccumulateWorkTime[3];					/*累计工作时间*/
-	uint8	RealTime[7];		        /*实时时间*/	
-	uint16 	ST;					        /*状态ST*/  
-	}LEYE485_Format;
+    uint8	RealTime[7];		        /*实时时间*/
+    uint16 	ST;					        /*状态ST*/
+} LEYE485_Format;
 
-typedef struct{
+typedef struct
+{
     uint8 Nouse[15];
     uint16   CurrentEnergyUnit;
-	uint32   CurrentEnerg;		/*累积热量*/	
+    uint32   CurrentEnerg;		/*累积热量*/
     uint8     CurrenTariff1[7];
-	uint8     CurrentTariff2[7];			/*当前热量*/
+    uint8     CurrentTariff2[7];			/*当前热量*/
     uint16   CurrentVolumeUnit;
-	uint32 	 CurrentVolume;			/*累积流量*/
+    uint32 	 CurrentVolume;			/*累积流量*/
     uint16 	 CurrentPowerUnit;
-	uint32 	 CurrentPower;			/*热功率*/
-    uint16 	 CurrentFlowRateUnit;	
-	uint8 	 CurrentFlowRate[3];					/*流量*/
+    uint32 	 CurrentPower;			/*热功率*/
+    uint16 	 CurrentFlowRateUnit;
+    uint8 	 CurrentFlowRate[3];					/*流量*/
 
     uint16  ForwardTemperatureUnit;
-	uint8	ForwardTemperature[2];		/*供水温度*/	
-	uint16  ReturnTemperatureUnit;
-	uint8	ReturnTemperature[2];		/*回水温度*/	
-  
-	uint8	RealTime[9];		/*实时时间*/	
-	}HYDROMETER_Format;
+    uint8	ForwardTemperature[2];		/*供水温度*/
+    uint16  ReturnTemperatureUnit;
+    uint8	ReturnTemperature[2];		/*回水温度*/
+
+    uint8	RealTime[9];		/*实时时间*/
+} HYDROMETER_Format;
 
 
 
@@ -433,8 +449,8 @@ extern uint8 METER_DataItem(DELU_Protocol *pProtocoalInfo);
 extern uint8 YILINVALVE_ReadMeterDataTiming(uint16 MeterSn, uint8 *EleBuf);
 extern void YINLINVALVE_CreateFrame(DELU_Protocol *pData, uint8 *pSendFrame, uint8 *plenFrame);
 extern uint8 METER_MeterDataForValve(DELU_Protocol *pProtocoalInfo, uint8 ProtocolVer);
-extern CJ188_Format METER_Data_To_CJ188Format(uint8 ProtocolVer,uint8* DataBuf,uint8 len,uint8* err);
-extern uint8 To_Little_endian(uint8* Databuff,uint8 size);
+extern CJ188_Format METER_Data_To_CJ188Format(uint8 ProtocolVer, uint8 *DataBuf, uint8 len, uint8 *err);
+extern uint8 To_Little_endian(uint8 *Databuff, uint8 size);
 extern uint8 Yilin_Calc_Parity(uint8 *pStart, uint8 ucLen);
 extern uint8 ReadData_Communicate(uint8 *DataFrame, uint8 *DataLen);
 extern uint8 Yilin_Valve_ReceiveFrame(uint8 *buf, uint8 *datalen);

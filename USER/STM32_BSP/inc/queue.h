@@ -1,7 +1,7 @@
 /****************************************Copyright (c)**************************************************
 **                               广州周立功单片机发展有限公司
 **                                     研    究    所
-**                                        产品一部 
+**                                        产品一部
 **
 **                                 http://www.zlgmcu.com
 **
@@ -10,7 +10,7 @@
 **创   建   人: 陈明计
 **最后修改日期: 2003年7月2日
 **描        述: 数据队列的中间件
-**              
+**
 **--------------历史版本信息----------------------------------------------------------------------------
 ** 创建人: 陈明计
 ** 版  本: v1.0
@@ -56,13 +56,14 @@
 #define QUEUE_DATA_TYPE     uint8
 #endif
 
-typedef struct {
+typedef struct
+{
     QUEUE_DATA_TYPE     *Out;                   /* 指向数据输出位置         */
     QUEUE_DATA_TYPE     *In;                    /* 指向数据输入位置         */
     QUEUE_DATA_TYPE     *End;                   /* 指向Buf的结束位置        */
     uint16              NData;                  /* 队列中数据个数           */
     uint16              MaxData;                /* 队列中允许存储的数据个数 */
-    
+
     uint8               (* ReadEmpty)();        /* 读空处理函数             */
     uint8               (* WriteFull)();        /* 写满处理函数             */
     QUEUE_DATA_TYPE     Buf[1];                 /* 存储数据的空间           */
@@ -70,14 +71,14 @@ typedef struct {
 
 
 #ifndef IN_QUEUE
-	#ifdef __cplusplus
-	extern "C" {
-	#endif
- extern      uint8 QueueCreate(void *Buf,
-                          uint32 SizeOfBuf,
-                          uint8 (* ReadEmpty)(),
-                          uint8 (* WriteFull)()
-                          );
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern      uint8 QueueCreate(void *Buf,
+                              uint32 SizeOfBuf,
+                              uint8 (* ReadEmpty)(),
+                              uint8 (* WriteFull)()
+                             );
 /*********************************************************************************************************
 ** 函数名称: QueueCreate
 ** 功能描述: 初始化数据队列
@@ -114,7 +115,7 @@ extern uint8 QueueRead_Int(QUEUE_DATA_TYPE *Ret, void *Buf);
 **         QUEUE_OK   ：收到消息
 **         QUEUE_EMPTY：无消息
 ** 全局变量: 无
-** 调用模块: 
+** 调用模块:
 ********************************************************************************************************/
 extern uint8 QueueWrite(void *Buf, QUEUE_DATA_TYPE Data);
 /*********************************************************************************************************
@@ -148,9 +149,9 @@ extern void QueueWrite_Int_f(void *Buf, QUEUE_DATA_TYPE Data);
 **           并去掉了参数的合法性判断,和返回值. 因此,特别注意,必须保证在中断使能前确保中断服务程序中使用的队列已经初始化.
 ** 输　入: Buf :指向队列的指针
 **         Data:消息数据
-** 输　出:   无    
+** 输　出:   无
 ** 全局变量: 无
-** 调用模块: 
+** 调用模块:
 ********************************************************************************************************/
 
 extern uint8 QueueWriteFront(void *Buf, QUEUE_DATA_TYPE Data);
@@ -196,7 +197,7 @@ extern void QueueFlush(void *Buf);
 ********************************************************************************************************/
 
 
-extern uint8 QueueNotEnoughPend(void* Buf,uint32 n);
+extern uint8 QueueNotEnoughPend(void *Buf, uint32 n);
 /*********************************************************************************************************
 ** 函数名称: QueueNotEnoughPend
 ** 功能描述: 查看队列空间是否足够,若不够,则挂起等待
@@ -208,9 +209,9 @@ extern uint8 QueueNotEnoughPend(void* Buf,uint32 n);
 
 
 
-	#ifdef __cplusplus
-	}
-	#endif
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 #endif

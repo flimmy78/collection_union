@@ -17,7 +17,7 @@
 /************************************* UART Config  ******************************************************/
 /*begin:yangfei modified 2013-01-30*/
 //#define	DEBUG_BAUNDRATE		9600					//usart1
-#define	DEBUG_BAUNDRATE		115200		
+#define	DEBUG_BAUNDRATE		115200
 /*end:yangfei modified 2013-01-30*/
 #define	DEBUG_CHECK			USART_Parity_No
 
@@ -33,10 +33,10 @@
 #define	ZIGBEE_BAUNDRATE	9600					//uart4
 #define	ZIGBEE_CHECK		USART_Parity_No
 
-#define	RS485_BAUNDRATE		1200					
+#define	RS485_BAUNDRATE		1200
 #define	RS485_CHECK			USART_Parity_Even
 
-#define MBUS_DEFAULT_PARA 	WAN_HUA	
+#define MBUS_DEFAULT_PARA 	WAN_HUA
 
 
 /*begin:yangfei added 2014-02-24 for support 时间通断面积法热分配表法*/
@@ -52,7 +52,7 @@
 #define  GPRS_CHECK_CYCLE	 			3
 #else
 
-//GPRS模块检查周期 时间单位为秒, 最小为10秒,最大为60秒  ,一般情况下不要更改，保持为 10 
+//GPRS模块检查周期 时间单位为秒, 最小为10秒,最大为60秒  ,一般情况下不要更改，保持为 10
 #define  GPRS_CHECK_CYCLE	 			10
 #endif
 
@@ -63,7 +63,7 @@
 #else
 //GPRS模块自检周期 时间单位为秒,必须为GPRS_CHECK_CYCLE的整数倍,程序以此时间为周期对GPRS模块的状态进行查询，并记录，作为是否需要重启的依据。
 //最小为GPRS_CHECK_CYCLE秒,最大为5*GPRS_CHECK_CYCLE，调试时可设置很大，
-//如100*GPRS_CHECK_CYCLE，以防止数据对本地口通信有影响 
+//如100*GPRS_CHECK_CYCLE，以防止数据对本地口通信有影响
 #define  GPRS_SELF_CHECK_CYCLE	 		5*GPRS_CHECK_CYCLE
 #endif
 

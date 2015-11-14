@@ -228,7 +228,7 @@ extern uint16 Menu_RealOrHis[][6] ;//抄读数据类型选择
 //其他信息：
 extern const uint16 Menu_VerInfo[][5] ;//终端版本信息
 extern const uint16 Menu_VerInfo1[][8];//具体信息
-extern const uint8 date[];             //shijian 
+extern const uint8 date[];             //shijian
 
 //zengxl20101012添加通信通道配置类型
 //主站ip配置
@@ -279,8 +279,8 @@ extern uint16 Menu_UpCommuParaShow[][5] ; //上行通信参数查看 如上所示
 
 //移动网络
 //联通网络
-//以太网  
-//短信    
+//以太网
+//短信
 extern uint16 Menu_ChannelType[][6];//当前通道类型，如上所示
 
 extern const uint16 Menu_RemoteCommType[][5];//远程通信方式，UDP和TCP两种
@@ -340,13 +340,13 @@ extern uint16 Rotate4_5[] ;//反向无功(Kw):
 extern uint16 Rotate5[];//电压和电流
 
 extern uint16 Rotate5_1[] ;//电压(V)
-extern uint16 Ua[] ;//Ua= 
-extern uint16 Ub[] ;//Ub= 
-extern uint16 Uc[] ;//Uc= 
+extern uint16 Ua[] ;//Ua=
+extern uint16 Ub[] ;//Ub=
+extern uint16 Uc[] ;//Uc=
 extern uint16 Rotate5_2[] ;//电流(A)
-extern uint16 Ia[] ;//Ia= 
-extern uint16 Ib[] ;//Ib= 
-extern uint16 Ic[] ;//Ic= 
+extern uint16 Ia[] ;//Ia=
+extern uint16 Ib[] ;//Ib=
+extern uint16 Ic[] ;//Ic=
 
 extern uint8 NoValue[] ;//--------
 extern uint16 RotateWGDL[] ;//总无功电量
@@ -368,7 +368,7 @@ extern uint8  IniTestAddr[];//初始测试点电表地址 000000000001
 extern uint8  IniDate[] ;//08年09月01日
 extern uint8  IniTime[] ; //00时00分00秒
 extern uint8  IniIp[]  ;//192.168.000.001
-extern uint16  Dot[]	;  //. . . 
+extern uint16  Dot[]	;  //. . .
 extern uint8  IniPort[] ;//08001
 extern uint8  IniSecIp[] ;
 extern uint8  IniSecPort[] ;

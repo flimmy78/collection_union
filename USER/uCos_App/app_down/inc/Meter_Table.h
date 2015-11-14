@@ -13,7 +13,7 @@
 #define DE_LU			COMSET_1
 #define TIAN_GANG		COMSET_1
 #define	LI_CHUANG		COMSET_1
-#define DAN_FUSEN		COMSET_1	
+#define DAN_FUSEN		COMSET_1
 #define WAN_HUA			COMSET_2
 
 #define WANHUA_VER			 1		//天津万华。
@@ -49,7 +49,7 @@
 
 
 /*begin:201303141153 yangfei modified 2013-03-14 for added lichuang PROTOCOL*/
- /*yangfei added 2013-03-25 for support leye 485 meter*/
+/*yangfei added 2013-03-25 for support leye 485 meter*/
 #define PROTOCOL_MAX	80  //原为8 林晓彬改为80
 /*end:yangfei modified 2013-03-14 for added lichuang PROTOCOL*/
 extern void (*METER_ComParaSetArray[])(void);

@@ -4,14 +4,14 @@
   * @author  zjjin
   * @version V0.0.0
   * @date    04-15-2015
-  * @brief   
+  * @brief
   ********************************************************************************************************
   * @attention
   *		为在集中器中实现多厂家不同协议阀门的兼容，在表基础信息中加入了
   *	阀控协议版本，各厂家阀控器相关程序在Valve.c中，本文件是Valve.c文件的头文件。
   *
   ********************************************************************************************************
-  */  
+  */
 #ifndef _VALVE_H_
 #define _VALVE_H_
 
@@ -57,7 +57,7 @@
 #define SETTEMP_UPLOADPERIOD		15		//设置温控面板温度上报周期。
 #define READ_VALVEDATA				16		//通断时间面积法用，读取阀控器数据，包括开阀时间、进回水温度、室内温度。
 #define WRITE_DIVHEATDATA			17		//通断时间面积法用，向阀控器下发分摊热量值。
-	
+
 
 
 
@@ -67,7 +67,7 @@ extern uint8 gVALVE_Table[][2];
 
 
 
-extern uint8 ValveContron(MeterFileType *p_mf,uint8 functype,uint8 *p_DataIn,uint8 *p_databuf,uint8 *p_datalenback);
+extern uint8 ValveContron(MeterFileType *p_mf, uint8 functype, uint8 *p_DataIn, uint8 *p_databuf, uint8 *p_datalenback);
 
 
 

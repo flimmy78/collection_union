@@ -6,9 +6,9 @@
 *                               (c) Copyright 2005-2009, Micrium, Weston, FL
 *                                          All Rights Reserved
 *
-*				 
+*
 * File    : OS_AppHooks.c
-* By      : 
+* By      :
 * Version : V2.91
 *
 * LICENSING TERMS:
@@ -24,10 +24,10 @@
 /*
 *********************************************************************************************************
 *********************************************************************************************************
-*                                          
+*
 *********************************************************************************************************
 *********************************************************************************************************
-*/	   
+*/
 
 
 /*
@@ -40,17 +40,17 @@
 #include  "stm32f10x_it.h"
 /*yangfei added time gloable variables  */
 uint8  gSystemTime[6] = {0x00};
-u32 jiffies=0;
+u32 jiffies = 0;
 
 /*
 *********************************************************************************************************
 *                                      TASK RETURN HOOK (APPLICATION)
 *
-* Description : 
+* Description :
 *
 * Argument : ptcb   is a pointer to the task control block of the task being created.
 *
-* Note     : 
+* Note     :
 *********************************************************************************************************
 */
 void          OSTaskReturnHook(OS_TCB          *ptcb)
@@ -93,8 +93,8 @@ void          App_TaskCreateHook      (OS_TCB          *ptcb)
 *********************************************************************************************************
 */
 void          App_TaskDelHook         (OS_TCB          *ptcb)
-{ 
-	(void)ptcb; 
+{
+    (void)ptcb;
 }
 
 /*
@@ -111,7 +111,7 @@ void          App_TaskDelHook         (OS_TCB          *ptcb)
 */
 #if OS_VERSION >= 251
 void          App_TaskIdleHook        (void)
-{		
+{
 }
 #endif
 
@@ -123,7 +123,7 @@ void          App_TaskIdleHook        (void)
 *
 * Argument : none.
 *
-* Note     : 
+* Note     :
 *********************************************************************************************************
 */
 void          App_TaskReturnHook      (OS_TCB          *ptcb)
@@ -164,10 +164,10 @@ void          App_TaskStatHook        (void)
 #if OS_TASK_SW_HOOK_EN > 0u
 
 void          App_TaskSwHook          (void)
-{ 
+{
 #if (OS_VIEW_MODULE == DEF_ENABLED)
     OSView_TaskSwHook();
-#endif 
+#endif
 }
 
 #endif
@@ -188,7 +188,7 @@ void          App_TaskSwHook          (void)
 #if OS_VERSION >= 204
 void          App_TCBInitHook         (OS_TCB          *ptcb)
 {
-	(void)ptcb;	
+    (void)ptcb;
 }
 #endif
 
@@ -197,53 +197,53 @@ void          App_TCBInitHook         (OS_TCB          *ptcb)
 *********************************************************************************************************
 *                                     App_TimeTickHook() HOOK (APPLICATION)
 *
-* Description : 
+* Description :
 *
-* Argument : 
+* Argument :
 *
-* Note     : 
+* Note     :
 *********************************************************************************************************
 */
 #if OS_TIME_TICK_HOOK_EN > 0u
 void          App_TimeTickHook        (void)
-{ 
+{
 #if (OS_VIEW_MODULE == DEF_ENABLED)
     OSView_TickHook();
 #endif
 
-	/*begin:yangfei added 2012-12-19 for time*/	
-	jiffies++;
-	if(jiffies >=1000)
-	{
-		jiffies = 0;
-		gSystemTime[ARRAY_SECOND]++;
-		if(gSystemTime[ARRAY_SECOND] >= 60)
-		{
-			gSystemTime[ARRAY_SECOND] = 0;
-			gSystemTime[ARRAY_MINUTE]++;
-			if(gSystemTime[ARRAY_MINUTE] >= 60)
-			{
-				gSystemTime[ARRAY_MINUTE] = 0;
-				gSystemTime[ARRAY_HOUR]++;
-				if(gSystemTime[ARRAY_HOUR]>=24)
-				{
-					gSystemTime[ARRAY_HOUR]=0;
-				}
-			}
-		}
-	}
-	/*end  :yangfei added 2012-12-19 for time*/	
+    /*begin:yangfei added 2012-12-19 for time*/
+    jiffies++;
+    if(jiffies >= 1000)
+    {
+        jiffies = 0;
+        gSystemTime[ARRAY_SECOND]++;
+        if(gSystemTime[ARRAY_SECOND] >= 60)
+        {
+            gSystemTime[ARRAY_SECOND] = 0;
+            gSystemTime[ARRAY_MINUTE]++;
+            if(gSystemTime[ARRAY_MINUTE] >= 60)
+            {
+                gSystemTime[ARRAY_MINUTE] = 0;
+                gSystemTime[ARRAY_HOUR]++;
+                if(gSystemTime[ARRAY_HOUR] >= 24)
+                {
+                    gSystemTime[ARRAY_HOUR] = 0;
+                }
+            }
+        }
+    }
+    /*end  :yangfei added 2012-12-19 for time*/
 
-	
+
 }
 
 #endif
 
-#endif	
+#endif
 
 
 
 
- 
+
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

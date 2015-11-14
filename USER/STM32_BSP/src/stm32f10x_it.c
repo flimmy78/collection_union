@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file    Project/STM32F10x_StdPeriph_Template/stm32f10x_it.c 
+  * @file    Project/STM32F10x_StdPeriph_Template/stm32f10x_it.c
   * @author  MCD Application Team
   * @version V3.4.0
   * @date    10/15/2010
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and 
+  *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @copy
@@ -18,7 +18,7 @@
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
   * <h2><center>&copy; COPYRIGHT 2010 STMicroelectronics</center></h2>
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include <includes.h>
@@ -56,10 +56,10 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -69,10 +69,10 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Memory Manage exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -82,10 +82,10 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Bus Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -95,10 +95,10 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Usage Fault exception occurs */
+    while (1)
+    {
+    }
 }
 
 /**
@@ -128,8 +128,8 @@ void DebugMon_Handler(void)
   */
 void SysTick_Handler(void)
 {
-	CPU_SR         cpu_sr;
-	OS_ENTER_CRITICAL();                         /* Tell uC/OS-II that we are starting an ISR          */
+    CPU_SR         cpu_sr;
+    OS_ENTER_CRITICAL();                         /* Tell uC/OS-II that we are starting an ISR          */
     OSIntNesting++;
     OS_EXIT_CRITICAL();
 
@@ -161,17 +161,17 @@ void USART1_IRQHandler(void)
   * @param  None
   * @retval None
   */
-	/*
+/*
 void OTG_FS_IRQHandler(void)
 {
-	CPU_SR         cpu_sr;
-	OS_ENTER_CRITICAL();                         // Tell uC/OS-II that we are starting an ISR          
-    OSIntNesting++;
-    OS_EXIT_CRITICAL();
+CPU_SR         cpu_sr;
+OS_ENTER_CRITICAL();                         // Tell uC/OS-II that we are starting an ISR
+OSIntNesting++;
+OS_EXIT_CRITICAL();
 
-    USBH_OTG_ISR_Handler(&USB_OTG_FS_dev);
+USBH_OTG_ISR_Handler(&USB_OTG_FS_dev);
 
-    OSIntExit();                                 // Tell uC/OS-II that we are leaving the ISR          
+OSIntExit();                                 // Tell uC/OS-II that we are leaving the ISR
 }		 */
 
 /******************************************************************************/
@@ -192,7 +192,7 @@ void OTG_FS_IRQHandler(void)
 
 /**
   * @}
-  */ 
+  */
 
 
 /******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE****/

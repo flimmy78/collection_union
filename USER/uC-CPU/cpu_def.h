@@ -59,19 +59,19 @@
 *********************************************************************************************************
 */
 
-                                                        /* ----------------------- CPU WORD SIZE ---------------------- */
+/* ----------------------- CPU WORD SIZE ---------------------- */
 #define  CPU_WORD_SIZE_08                          1    /*  8-bit word size = sizeof(CPU_INT08x).                       */
 #define  CPU_WORD_SIZE_16                          2    /* 16-bit word size = sizeof(CPU_INT16x).                       */
 #define  CPU_WORD_SIZE_32                          4    /* 32-bit word size = sizeof(CPU_INT32x).                       */
 #define  CPU_WORD_SIZE_64                          8    /* 64-bit word size = sizeof(CPU_INT64x) [see Note #1a].        */
 
 
-                                                        /* ------------------- CPU WORD-ENDIAN ORDER ------------------ */
+/* ------------------- CPU WORD-ENDIAN ORDER ------------------ */
 #define  CPU_ENDIAN_TYPE_NONE                      0    /*                                                              */
 #define  CPU_ENDIAN_TYPE_BIG                       1    /* Big-   endian word order (CPU words' most  significant ...   */
-                                                        /*                           ... octet @ lowest mem addr).      */
+/*                           ... octet @ lowest mem addr).      */
 #define  CPU_ENDIAN_TYPE_LITTLE                    2    /* Little-endian word order (CPU words' least significant ...   */
-                                                        /*                           ... octet @ lowest mem addr).      */
+/*                           ... octet @ lowest mem addr).      */
 
 
 /*$PAGE*/
@@ -125,7 +125,7 @@
 *********************************************************************************************************
 */
 
-                                                        /* --------------- CPU CRITICAL SECTION METHODS --------------- */
+/* --------------- CPU CRITICAL SECTION METHODS --------------- */
 #define  CPU_CRITICAL_METHOD_NONE                  0    /*                                                              */
 #define  CPU_CRITICAL_METHOD_INT_DIS_EN            1    /* DIS/EN       ints.                                           */
 #define  CPU_CRITICAL_METHOD_STATUS_STK            2    /* Push/Pop     int status onto stk.                            */

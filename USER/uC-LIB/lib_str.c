@@ -145,7 +145,8 @@ CPU_SIZE_T  Str_Len (CPU_CHAR  *pstr)
 
     len = 0;
     while (( pstr != (CPU_CHAR *)0) &&                          /* Calc str len until NULL ptr (see Note #2a) ...       */
-           (*pstr != (CPU_CHAR  )0)) {                          /* ... or NULL char found      (see Note #2b).          */
+            (*pstr != (CPU_CHAR  )0))                            /* ... or NULL char found      (see Note #2b).          */
+    {
         len++;
         pstr++;
     }
@@ -173,7 +174,7 @@ CPU_SIZE_T  Str_Len (CPU_CHAR  *pstr)
 *
 * Note(s)     : (1) Destination buffer size NOT validated; buffer overruns MUST be prevented by caller.
 *
-*                   (a) Destination buffer size MUST be large enough to accommodate the entire source 
+*                   (a) Destination buffer size MUST be large enough to accommodate the entire source
 *                       string size including the terminating NULL character.
 *
 *               (2) String copy terminates when :
@@ -198,11 +199,13 @@ CPU_CHAR  *Str_Copy (CPU_CHAR  *pdest,
     CPU_CHAR  *pstr;
     CPU_CHAR  *pstr_next;
 
-                                                                /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
-    if (pdest == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
+    if (pdest == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
-    if (psrc  == (CPU_CHAR *)0) {
+    if (psrc  == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
 
@@ -211,15 +214,16 @@ CPU_CHAR  *Str_Copy (CPU_CHAR  *pdest,
     pstr_next = pstr;
     pstr_next++;
     while (( pstr_next != (CPU_CHAR *)0) &&                     /* Copy str until NULL ptr(s) (see Note #2b) ...        */
-           ( psrc      != (CPU_CHAR *)0) &&
-           (*psrc      != (CPU_CHAR  )0)) {                     /* ... or NULL char found     (see Note #2c).           */
-       *pstr = *psrc;
+            ( psrc      != (CPU_CHAR *)0) &&
+            (*psrc      != (CPU_CHAR  )0))                       /* ... or NULL char found     (see Note #2c).           */
+    {
+        *pstr = *psrc;
         pstr++;
         pstr_next++;
         psrc++;
     }
 
-   *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2b2).                    */
+    *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2b2).                    */
 
 
     return (pdest);
@@ -247,7 +251,7 @@ CPU_CHAR  *Str_Copy (CPU_CHAR  *pdest,
 *
 * Note(s)     : (1) Destination buffer size NOT validated; buffer overruns MUST be prevented by caller.
 *
-*                   (a) Destination buffer size MUST be large enough to accommodate the entire source 
+*                   (a) Destination buffer size MUST be large enough to accommodate the entire source
 *                       string size including the terminating NULL character.
 *
 *               (2) String copy terminates when :
@@ -279,15 +283,18 @@ CPU_CHAR  *Str_Copy_N (CPU_CHAR    *pdest,
     CPU_CHAR    *pstr_next;
     CPU_SIZE_T   len_copy;
 
-                                                                /* Rtn NULL if str ptr(s) NULL      (see Note #2a).     */
-    if (pdest == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr(s) NULL      (see Note #2a).     */
+    if (pdest == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
-    if (psrc  == (CPU_CHAR *)0) {
+    if (psrc  == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
 
-    if (len_max == (CPU_SIZE_T)0) {                             /* Rtn NULL if copy len equals zero (see Note #2d).     */
+    if (len_max == (CPU_SIZE_T)0)                               /* Rtn NULL if copy len equals zero (see Note #2d).     */
+    {
         return  ((CPU_CHAR *)0);
     }
 
@@ -298,17 +305,18 @@ CPU_CHAR  *Str_Copy_N (CPU_CHAR    *pdest,
     len_copy  = 0;
 
     while (( pstr_next != (CPU_CHAR *)0) &&                     /* Copy str until NULL ptr(s)  (see Note #2b)  ...      */
-           ( psrc      != (CPU_CHAR *)0) &&
-           (*psrc      != (CPU_CHAR  )0) &&                     /* ... or NULL char found      (see Note #2c); ...      */
-           ( len_copy  <  (CPU_SIZE_T)len_max)) {               /* ... or max nbr chars copied (see Note #2d).          */
-       *pstr = *psrc;
+            ( psrc      != (CPU_CHAR *)0) &&
+            (*psrc      != (CPU_CHAR  )0) &&                     /* ... or NULL char found      (see Note #2c); ...      */
+            ( len_copy  <  (CPU_SIZE_T)len_max))                 /* ... or max nbr chars copied (see Note #2d).          */
+    {
+        *pstr = *psrc;
         pstr++;
         pstr_next++;
         psrc++;
         len_copy++;
     }
 
-   *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2b2).                    */
+    *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2b2).                    */
 
 
     return (pdest);
@@ -362,36 +370,41 @@ CPU_CHAR  *Str_Cat (CPU_CHAR  *pdest,
     CPU_CHAR  *pstr;
     CPU_CHAR  *pstr_next;
 
-                                                                /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
-    if (pdest == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
+    if (pdest == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
-    if (pstr_cat == (CPU_CHAR *)0) {
+    if (pstr_cat == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
 
 
     pstr = pdest;
     while (( pstr != (CPU_CHAR *)0) &&                          /* Adv to end of cur dest str until NULL ptr ...        */
-           (*pstr != (CPU_CHAR  )0)) {                          /* ... or NULL char found..                             */
+            (*pstr != (CPU_CHAR  )0))                            /* ... or NULL char found..                             */
+    {
         pstr++;
     }
-    if (pstr == (CPU_CHAR *)0) {                                /* If NULL str overrun, rtn NULL (see Note #2b).        */
+    if (pstr == (CPU_CHAR *)0)                                  /* If NULL str overrun, rtn NULL (see Note #2b).        */
+    {
         return ((CPU_CHAR *)0);
     }
 
     pstr_next = pstr;
     pstr_next++;
     while (( pstr_next != (CPU_CHAR *)0) &&                     /* Cat str until NULL ptr(s) (see Note #2c) ...         */
-           ( pstr_cat  != (CPU_CHAR *)0) &&
-           (*pstr_cat  != (CPU_CHAR  )0)) {                     /* ... or NULL char found    (see Note #2d).            */
-       *pstr = *pstr_cat;
+            ( pstr_cat  != (CPU_CHAR *)0) &&
+            (*pstr_cat  != (CPU_CHAR  )0))                       /* ... or NULL char found    (see Note #2d).            */
+    {
+        *pstr = *pstr_cat;
         pstr++;
         pstr_next++;
         pstr_cat++;
     }
 
-   *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2c2).                    */
+    *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2c2).                    */
 
 
     return (pdest);
@@ -454,25 +467,30 @@ CPU_CHAR  *Str_Cat_N (CPU_CHAR    *pdest,
     CPU_CHAR    *pstr_next;
     CPU_SIZE_T   len_cat;
 
-                                                                /* Rtn NULL if str ptr(s) NULL     (see Note #2a).      */
-    if (pdest == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr(s) NULL     (see Note #2a).      */
+    if (pdest == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
-    if (pstr_cat == (CPU_CHAR *)0) {
+    if (pstr_cat == (CPU_CHAR *)0)
+    {
         return  ((CPU_CHAR *)0);
     }
 
-    if (len_max == (CPU_SIZE_T)0) {                             /* Rtn NULL if cat len equals zero (see Note #2e).      */
+    if (len_max == (CPU_SIZE_T)0)                               /* Rtn NULL if cat len equals zero (see Note #2e).      */
+    {
         return  ((CPU_CHAR *)0);
     }
 
 
     pstr = pdest;
     while (( pstr != (CPU_CHAR *)0) &&                          /* Adv to end of cur dest str until NULL ptr ...        */
-           (*pstr != (CPU_CHAR  )0)) {                          /* ... or NULL char found..                             */
+            (*pstr != (CPU_CHAR  )0))                            /* ... or NULL char found..                             */
+    {
         pstr++;
     }
-    if (pstr == (CPU_CHAR *)0) {                                /* If NULL str overrun, rtn NULL (see Note #2b).        */
+    if (pstr == (CPU_CHAR *)0)                                  /* If NULL str overrun, rtn NULL (see Note #2b).        */
+    {
         return ((CPU_CHAR *)0);
     }
 
@@ -481,17 +499,18 @@ CPU_CHAR  *Str_Cat_N (CPU_CHAR    *pdest,
     len_cat   = 0;
 
     while (( pstr_next != (CPU_CHAR *)0) &&                     /* Cat str until NULL ptr(s)  (see Note #2c)  ...       */
-           ( pstr_cat  != (CPU_CHAR *)0) &&
-           (*pstr_cat  != (CPU_CHAR  )0) &&                     /* ... or NULL char found     (see Note #2d); ...       */
-           ( len_cat   <  (CPU_SIZE_T)len_max)) {               /* ... or max nbr chars cat'd (see Note #2d).           */
-       *pstr = *pstr_cat;
+            ( pstr_cat  != (CPU_CHAR *)0) &&
+            (*pstr_cat  != (CPU_CHAR  )0) &&                     /* ... or NULL char found     (see Note #2d); ...       */
+            ( len_cat   <  (CPU_SIZE_T)len_max))                 /* ... or max nbr chars cat'd (see Note #2d).           */
+    {
+        *pstr = *pstr_cat;
         pstr++;
         pstr_next++;
         pstr_cat++;
         len_cat++;
     }
 
-   *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2c2).                    */
+    *pstr = (CPU_CHAR)0;                                         /* Append NULL char (see Note #2c2).                    */
 
 
     return (pdest);
@@ -566,14 +585,17 @@ CPU_INT16S  Str_Cmp (CPU_CHAR  *p1_str,
     CPU_INT16S   cmp_val;
 
 
-    if (p1_str == (CPU_CHAR *)0) {
-        if (p2_str == (CPU_CHAR *)0) {
+    if (p1_str == (CPU_CHAR *)0)
+    {
+        if (p2_str == (CPU_CHAR *)0)
+        {
             return ((CPU_INT16S)0);                             /* If BOTH str ptrs NULL, rtn 0 (see Note #2a).         */
         }
         cmp_val = (CPU_INT16S)0 - (CPU_INT16S)(*p2_str);
         return (cmp_val);                                       /* If p1_str NULL, rtn neg p2_str val (see Note #2b).   */
     }
-    if (p2_str == (CPU_CHAR *)0) {
+    if (p2_str == (CPU_CHAR *)0)
+    {
         cmp_val = (CPU_INT16S)(*p1_str);
         return (cmp_val);                                       /* If p2_str NULL, rtn pos p1_str val (see Note #2c).   */
     }
@@ -584,9 +606,10 @@ CPU_INT16S  Str_Cmp (CPU_CHAR  *p1_str,
     p1_str_next++;
     p2_str_next++;
     while ((*p1_str      == *p2_str)       &&                   /* Cmp strs until non-matching char (see Note #2d) ..   */
-           (*p1_str      != (CPU_CHAR  )0) &&                   /* .. or NULL char(s)               (see Note #2e) ..   */
-           ( p1_str_next != (CPU_CHAR *)0) &&                   /* .. or NULL ptr(s) found (see Notes #2f, #2g, & #2h). */
-           ( p2_str_next != (CPU_CHAR *)0)) {
+            (*p1_str      != (CPU_CHAR  )0) &&                   /* .. or NULL char(s)               (see Note #2e) ..   */
+            ( p1_str_next != (CPU_CHAR *)0) &&                   /* .. or NULL ptr(s) found (see Notes #2f, #2g, & #2h). */
+            ( p2_str_next != (CPU_CHAR *)0))
+    {
         p1_str_next++;
         p2_str_next++;
         p1_str++;
@@ -594,20 +617,31 @@ CPU_INT16S  Str_Cmp (CPU_CHAR  *p1_str,
     }
 
 
-    if (*p1_str != *p2_str) {                                           /* If strs NOT identical, ...                   */
-         cmp_val = (CPU_INT16S)(*p1_str) - (CPU_INT16S)(*p2_str);       /* ... calc & rtn char diff  (see Note #2d1).   */
+    if (*p1_str != *p2_str)                                             /* If strs NOT identical, ...                   */
+    {
+        cmp_val = (CPU_INT16S)(*p1_str) - (CPU_INT16S)(*p2_str);       /* ... calc & rtn char diff  (see Note #2d1).   */
 
-    } else if (*p1_str == (CPU_CHAR)0) {                                /* If NULL char(s) found, ...                   */
-         cmp_val = 0;                                                   /* ... strs identical; rtn 0 (see Note #2e).    */
+    }
+    else if (*p1_str == (CPU_CHAR)0)                                    /* If NULL char(s) found, ...                   */
+    {
+        cmp_val = 0;                                                   /* ... strs identical; rtn 0 (see Note #2e).    */
 
-    } else {
-        if (p1_str_next == (CPU_CHAR *)0) {
-            if (p2_str_next == (CPU_CHAR *)0) {                         /* If BOTH next str ptrs NULL, ...              */
+    }
+    else
+    {
+        if (p1_str_next == (CPU_CHAR *)0)
+        {
+            if (p2_str_next == (CPU_CHAR *)0)                           /* If BOTH next str ptrs NULL, ...              */
+            {
                 cmp_val = (CPU_INT16S)0;                                /* ... rtn 0                   (see Note #2f).  */
-            } else {                                                    /* If p1_str_next NULL, ...                     */
+            }
+            else                                                        /* If p1_str_next NULL, ...                     */
+            {
                 cmp_val = (CPU_INT16S)0 - (CPU_INT16S)(*p2_str_next);   /* ... rtn neg p2_str_next val (see Note #2g).  */
             }
-        } else {                                                        /* If p2_str_next NULL, ...                     */
+        }
+        else                                                            /* If p2_str_next NULL, ...                     */
+        {
             cmp_val = (CPU_INT16S)(*p1_str_next);                       /* ... rtn pos p1_str_next val (see Note #2h).  */
         }
     }
@@ -695,18 +729,22 @@ CPU_INT16S  Str_Cmp_N (CPU_CHAR    *p1_str,
     CPU_SIZE_T   cmp_len;
 
 
-    if (len_max == 0) {                                         /* If cmp len equals zero, rtn 0      (see Note #2i).   */
+    if (len_max == 0)                                           /* If cmp len equals zero, rtn 0      (see Note #2i).   */
+    {
         return ((CPU_INT16S)0);
     }
 
-    if (p1_str == (CPU_CHAR *)0) {
-        if (p2_str == (CPU_CHAR *)0) {
+    if (p1_str == (CPU_CHAR *)0)
+    {
+        if (p2_str == (CPU_CHAR *)0)
+        {
             return ((CPU_INT16S)0);                             /* If BOTH str ptrs NULL,  rtn 0      (see Note #2a).   */
         }
         cmp_val = (CPU_INT16S)0 - (CPU_INT16S)(*p2_str);
         return (cmp_val);                                       /* If p1_str NULL, rtn neg p2_str val (see Note #2b).   */
     }
-    if (p2_str == (CPU_CHAR *)0) {
+    if (p2_str == (CPU_CHAR *)0)
+    {
         cmp_val = (CPU_INT16S)(*p1_str);
         return (cmp_val);                                       /* If p2_str NULL, rtn pos p1_str val (see Note #2c).   */
     }
@@ -718,10 +756,11 @@ CPU_INT16S  Str_Cmp_N (CPU_CHAR    *p1_str,
     p2_str_next++;
     cmp_len     = 0;
     while ((*p1_str      == *p2_str)       &&                   /* Cmp strs until non-matching char (see Note #2d) ..   */
-           (*p1_str      != (CPU_CHAR  )0) &&                   /* .. or NULL char(s)               (see Note #2e) ..   */
-           ( p1_str_next != (CPU_CHAR *)0) &&                   /* .. or NULL ptr(s) found (see Notes #2f, #2g, & #2h); */
-           ( p2_str_next != (CPU_CHAR *)0) &&
-           ( cmp_len     <  (CPU_SIZE_T)len_max)) {             /* .. or len nbr chars cmp'd        (see Note #2j).     */
+            (*p1_str      != (CPU_CHAR  )0) &&                   /* .. or NULL char(s)               (see Note #2e) ..   */
+            ( p1_str_next != (CPU_CHAR *)0) &&                   /* .. or NULL ptr(s) found (see Notes #2f, #2g, & #2h); */
+            ( p2_str_next != (CPU_CHAR *)0) &&
+            ( cmp_len     <  (CPU_SIZE_T)len_max))               /* .. or len nbr chars cmp'd        (see Note #2j).     */
+    {
         p1_str_next++;
         p2_str_next++;
         p1_str++;
@@ -730,24 +769,36 @@ CPU_INT16S  Str_Cmp_N (CPU_CHAR    *p1_str,
     }
 
 
-    if (cmp_len == len_max) {                                           /* If strs     identical for len nbr of chars,  */
+    if (cmp_len == len_max)                                             /* If strs     identical for len nbr of chars,  */
+    {
         return ((CPU_INT16S)0);                                         /* ... rtn 0 (see Note #2j).                    */
     }
 
-    if (*p1_str != *p2_str) {                                           /* If strs NOT identical, ...                   */
-         cmp_val = (CPU_INT16S)(*p1_str) - (CPU_INT16S)(*p2_str);       /* ... calc & rtn char diff  (see Note #2d1).   */
+    if (*p1_str != *p2_str)                                             /* If strs NOT identical, ...                   */
+    {
+        cmp_val = (CPU_INT16S)(*p1_str) - (CPU_INT16S)(*p2_str);       /* ... calc & rtn char diff  (see Note #2d1).   */
 
-    } else if (*p1_str == (CPU_CHAR)0) {                                /* If NULL char(s) found, ...                   */
-         cmp_val = 0;                                                   /* ... strs identical; rtn 0 (see Note #2e).    */
+    }
+    else if (*p1_str == (CPU_CHAR)0)                                    /* If NULL char(s) found, ...                   */
+    {
+        cmp_val = 0;                                                   /* ... strs identical; rtn 0 (see Note #2e).    */
 
-    } else {
-        if (p1_str_next == (CPU_CHAR *)0) {
-            if (p2_str_next == (CPU_CHAR *)0) {                         /* If BOTH next str ptrs NULL, ...              */
+    }
+    else
+    {
+        if (p1_str_next == (CPU_CHAR *)0)
+        {
+            if (p2_str_next == (CPU_CHAR *)0)                           /* If BOTH next str ptrs NULL, ...              */
+            {
                 cmp_val = (CPU_INT16S)0;                                /* ... rtn 0                   (see Note #2f).  */
-            } else {                                                    /* If p1_str_next NULL, ...                     */
+            }
+            else                                                        /* If p1_str_next NULL, ...                     */
+            {
                 cmp_val = (CPU_INT16S)0 - (CPU_INT16S)(*p2_str_next);   /* ... rtn neg p2_str_next val (see Note #2g).  */
             }
-        } else {                                                        /* If p2_str_next NULL, ...                     */
+        }
+        else                                                            /* If p2_str_next NULL, ...                     */
+        {
             cmp_val = (CPU_INT16S)(*p1_str_next);                       /* ... rtn pos p1_str_next val (see Note #2h).  */
         }
     }
@@ -800,7 +851,8 @@ CPU_CHAR  *Str_Char (CPU_CHAR  *pstr,
     CPU_CHAR  *pstr_next;
 
 
-    if (pstr == (CPU_CHAR *)0) {                                /* Rtn NULL if srch str ptr NULL (see Note #2a).        */
+    if (pstr == (CPU_CHAR *)0)                                  /* Rtn NULL if srch str ptr NULL (see Note #2a).        */
+    {
         return ((CPU_CHAR *)0);
     }
 
@@ -808,14 +860,16 @@ CPU_CHAR  *Str_Char (CPU_CHAR  *pstr,
     pstr_next = pstr;
     pstr_next++;
     while (( pstr_next != (CPU_CHAR *)0) &&                     /* Srch str until NULL ptr(s) (see Note #2b) ...        */
-           (*pstr      != (CPU_CHAR  )0) &&                     /* ... or NULL char           (see Note #2c) ...        */
-           (*pstr      != (CPU_CHAR  )srch_char)) {             /* ... or srch char found     (see Note #2d).           */
+            (*pstr      != (CPU_CHAR  )0) &&                     /* ... or NULL char           (see Note #2c) ...        */
+            (*pstr      != (CPU_CHAR  )srch_char))               /* ... or srch char found     (see Note #2d).           */
+    {
         pstr++;
         pstr_next++;
     }
 
 
-    if (*pstr != srch_char) {                                   /* If srch char NOT found, str points to NULL; ...      */
+    if (*pstr != srch_char)                                     /* If srch char NOT found, str points to NULL; ...      */
+    {
         return ((CPU_CHAR *)0);                                 /* ... rtn NULL (see Notes #2b & #2c).                  */
     }
 
@@ -878,11 +932,13 @@ CPU_CHAR  *Str_Char_N (CPU_CHAR    *pstr,
     CPU_SIZE_T   len_srch;
 
 
-    if (pstr == (CPU_CHAR *)0) {                                /* Rtn NULL if srch str ptr NULL    (see Note #2a).     */
+    if (pstr == (CPU_CHAR *)0)                                  /* Rtn NULL if srch str ptr NULL    (see Note #2a).     */
+    {
         return ((CPU_CHAR *)0);
     }
 
-    if (len_max == (CPU_SIZE_T)0) {                             /* Rtn NULL if srch len equals zero (see Note #2e).     */
+    if (len_max == (CPU_SIZE_T)0)                               /* Rtn NULL if srch len equals zero (see Note #2e).     */
+    {
         return ((CPU_CHAR *)0);
     }
 
@@ -891,16 +947,18 @@ CPU_CHAR  *Str_Char_N (CPU_CHAR    *pstr,
     pstr_next++;
     len_srch  = 0;
     while (( pstr_next != (CPU_CHAR *)0)         &&             /* Srch str until NULL ptr(s)  (see Note #2b)  ...      */
-           (*pstr      != (CPU_CHAR  )0)         &&             /* ... or NULL char            (see Note #2c)  ...      */
-           (*pstr      != (CPU_CHAR  )srch_char) &&             /* ... or srch char found      (see Note #2d); ...      */
-           ( len_srch  <  (CPU_SIZE_T)len_max)) {               /* ... or max nbr chars srch'd (see Note #2e).          */
+            (*pstr      != (CPU_CHAR  )0)         &&             /* ... or NULL char            (see Note #2c)  ...      */
+            (*pstr      != (CPU_CHAR  )srch_char) &&             /* ... or srch char found      (see Note #2d); ...      */
+            ( len_srch  <  (CPU_SIZE_T)len_max))                 /* ... or max nbr chars srch'd (see Note #2e).          */
+    {
         pstr++;
         pstr_next++;
         len_srch++;
     }
 
 
-    if (*pstr != srch_char) {                                   /* If srch char NOT found, str points to NULL; ...      */
+    if (*pstr != srch_char)                                     /* If srch char NOT found, str points to NULL; ...      */
+    {
         return ((CPU_CHAR *)0);                                 /* ... rtn NULL (see Notes #2b & #2c).                  */
     }
 
@@ -953,7 +1011,8 @@ CPU_CHAR  *Str_Char_Last (CPU_CHAR  *pstr,
     CPU_SIZE_T   str_len;
 
 
-    if (pstr == (CPU_CHAR *)0) {                                /* Rtn NULL if srch str ptr NULL (see Note #2a).        */
+    if (pstr == (CPU_CHAR *)0)                                  /* Rtn NULL if srch str ptr NULL (see Note #2a).        */
+    {
         return ((CPU_CHAR *)0);
     }
 
@@ -962,12 +1021,14 @@ CPU_CHAR  *Str_Char_Last (CPU_CHAR  *pstr,
     str_len    = Str_Len(pstr);
     pstr_next += str_len;
     while (( pstr_next != pstr) &&                              /* Srch str from end until beg (see Note #2c) ...       */
-           (*pstr_next != srch_char)) {                         /* ... until srch char found   (see Note #2d).          */
+            (*pstr_next != srch_char))                           /* ... until srch char found   (see Note #2d).          */
+    {
         pstr_next--;
     }
 
 
-    if (*pstr_next != srch_char) {                              /* If srch char NOT found, str points to NULL; ...      */
+    if (*pstr_next != srch_char)                                /* If srch char NOT found, str points to NULL; ...      */
+    {
         return ((CPU_CHAR *)0);                                 /* ... rtn NULL (see Notes #2b & #2c).                  */
     }
 
@@ -1028,21 +1089,25 @@ CPU_CHAR  *Str_Str (CPU_CHAR  *pstr,
     CPU_INT16S    srch_cmp     = 0;
     CPU_CHAR     *pstr_srch_ix = NULL ;
 
-                                                                /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
-    if (pstr == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr(s) NULL (see Note #2a).          */
+    if (pstr == (CPU_CHAR *)0)
+    {
         return ((CPU_CHAR *)0);
     }
-    if (psrch_str == (CPU_CHAR *)0) {
+    if (psrch_str == (CPU_CHAR *)0)
+    {
         return ((CPU_CHAR *)0);
     }
 
 
     str_len      = Str_Len(pstr);
     srch_str_len = Str_Len(psrch_str);
-    if (srch_str_len > str_len) {                               /* If srch str len > str len, rtn NULL  (see Note #2b). */
+    if (srch_str_len > str_len)                                 /* If srch str len > str len, rtn NULL  (see Note #2b). */
+    {
         return ((CPU_CHAR *)0);
     }
-    if (srch_str_len == 0) {                                    /* If srch str len = 0, srch str equal NULL str; ...    */
+    if (srch_str_len == 0)                                      /* If srch str len = 0, srch str equal NULL str; ...    */
+    {
         pstr_srch_ix = (CPU_CHAR *)(pstr + str_len);            /* ... rtn ptr to NULL str found in str (see Note #2c). */
         return (pstr_srch_ix);
     }
@@ -1050,7 +1115,8 @@ CPU_CHAR  *Str_Str (CPU_CHAR  *pstr,
     srch_len  = str_len - srch_str_len;                         /* Determine srch len (see Note #2d1).                  */
     srch_ix   = 0;
     srch_done = DEF_NO;
-    while ((srch_done == DEF_NO) && (srch_ix <= srch_len)) {
+    while ((srch_done == DEF_NO) && (srch_ix <= srch_len))
+    {
         pstr_srch_ix = (CPU_CHAR *)(pstr + srch_ix);
         srch_cmp     =  Str_Cmp_N(pstr_srch_ix, psrch_str, srch_str_len);
         srch_done    = (srch_cmp == 0) ? DEF_YES : DEF_NO;
@@ -1058,7 +1124,8 @@ CPU_CHAR  *Str_Str (CPU_CHAR  *pstr,
     }
 
 
-    if (srch_cmp != 0) {                                        /* If srch str NOT found, rtn NULL  (see Note #2d).     */
+    if (srch_cmp != 0)                                          /* If srch str NOT found, rtn NULL  (see Note #2d).     */
+    {
         return ((CPU_CHAR *)0);
     }
 
@@ -1114,7 +1181,7 @@ CPU_CHAR  *Str_Str (CPU_CHAR  *pstr,
 *
 *                   (b) Some compilers' floating-point routines MAY further reduce the maximum accuracy.
 *
-*                   (c) If the total number of digits to format ('nbr_dig + nbr_dp') is greater than the 
+*                   (c) If the total number of digits to format ('nbr_dig + nbr_dp') is greater than the
 *                       maximum accuracy; digits following the first, significantly-accurate digits will
 *                       be inaccurate.
 *
@@ -1193,54 +1260,64 @@ CPU_CHAR  *Str_FmtNbr_32 (CPU_FP32      nbr,
     CPU_FP32     dig_exp;
     CPU_FP32     dp_exp;
 
-                                                                /* Rtn NULL if str ptr NULL (see Note #6a).             */
-    if (pstr_fmt == (CPU_CHAR *)0) {
+    /* Rtn NULL if str ptr NULL (see Note #6a).             */
+    if (pstr_fmt == (CPU_CHAR *)0)
+    {
         return ((CPU_CHAR *)0);
     }
 
 
     pstr = pstr_fmt;
 
-    if (nbr < 0.0) {                                            /* If nbr neg,             ...                          */
+    if (nbr < 0.0)                                              /* If nbr neg,             ...                          */
+    {
         if ((nbr_dig > 0) ||                                    /* ... &  at least one dig ...                          */
-            (nbr_dp  > 0)) {                                    /* ... or at least one dp; ...                          */
-             nbr     = -nbr;                                    /* ... negate nbr &        ...                          */
+                (nbr_dp  > 0))                                      /* ... or at least one dp; ...                          */
+        {
+            nbr     = -nbr;                                    /* ... negate nbr &        ...                          */
             *pstr++  = '-';                                     /* ... prefix with neg sign (see Note #2b).             */
         }
     }
 
-    if (nbr_dig > 0) {
+    if (nbr_dig > 0)
+    {
         dig_exp = 1.0;
-        for (i = 1; i < nbr_dig; i++) {
+        for (i = 1; i < nbr_dig; i++)
+        {
             dig_exp *= 10.0;
         }
-        for (i = nbr_dig; i > 0; i--) {                         /* Fmt str for desired nbr digs.                        */
+        for (i = nbr_dig; i > 0; i--)                           /* Fmt str for desired nbr digs.                        */
+        {
             dig_nbr = (CPU_INT32U)(nbr / dig_exp);
             if ((dig_nbr >  0) ||                               /* If dig nbr > 0,                              ...     */
-                (nbr_dig == 1) ||                               /* ... OR exactly 1 dig to fmt,                 ...     */
-                (i       == 1) ||                               /* ... OR on one's  dig to fmt,                 ...     */
-                (lead_zeros == DEF_YES)) {                      /* ... OR lead zeros opt ENABLED (see Note #3), ...     */
-                                                                /* ... calc & fmt dig val.                              */
-                 dig_val = (CPU_INT32U)(dig_nbr % 10 );
+                    (nbr_dig == 1) ||                               /* ... OR exactly 1 dig to fmt,                 ...     */
+                    (i       == 1) ||                               /* ... OR on one's  dig to fmt,                 ...     */
+                    (lead_zeros == DEF_YES))                        /* ... OR lead zeros opt ENABLED (see Note #3), ...     */
+            {
+                /* ... calc & fmt dig val.                              */
+                dig_val = (CPU_INT32U)(dig_nbr % 10 );
                 *pstr++  = (CPU_CHAR  )(dig_val + '0');
             }
             dig_exp /= 10.0;                                    /* Shift to next least-significant dig.                 */
         }
     }
 
-    if (nbr_dp > 0) {
-       *pstr++ = '.';                                           /* Append dp prior to dp conversion.                    */
+    if (nbr_dp > 0)
+    {
+        *pstr++ = '.';                                           /* Append dp prior to dp conversion.                    */
         dp_exp = 10.0;
-        for (i = 0; i < nbr_dp; i++) {                          /* Fmt str for desired nbr dp.                          */
+        for (i = 0; i < nbr_dp; i++)                            /* Fmt str for desired nbr dp.                          */
+        {
             dig_nbr  = (CPU_INT32U)(nbr * dp_exp );
             dig_val  = (CPU_INT32U)(dig_nbr % 10 );
-           *pstr++   = (CPU_CHAR  )(dig_val + '0');
+            *pstr++   = (CPU_CHAR  )(dig_val + '0');
             dp_exp  *=  10.0;                                   /* Shift to next least-significant dp.                  */
         }
     }
 
-    if (nul != DEF_NO) {                                        /* If NOT DISABLED, append NULL char (see Note #4).     */
-       *pstr = (CPU_CHAR)0;
+    if (nul != DEF_NO)                                          /* If NOT DISABLED, append NULL char (see Note #4).     */
+    {
+        *pstr = (CPU_CHAR)0;
     }
 
 

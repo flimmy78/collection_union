@@ -39,15 +39,16 @@ typedef signed   char  int8;                                            /*  有符
 typedef unsigned short uint16;                                          /*  无符号16位整型变量          */
 typedef signed   short int16;                                           /*  有符号16位整型变量          */
 typedef unsigned int   uint32;                                          /*  无符号32位整型变量          */
-typedef unsigned long long  uint64; 
+typedef unsigned long long  uint64;
 typedef signed   int   int32;                                           /*  有符号32位整型变量          */
 typedef float          fp32;                                            /*  单精度浮点数（32位长度）    */
 typedef double         fp64;                                            /*  双精度浮点数（64位长度）    */
 
-typedef struct {
-	uint8 Sta;
-	uint32 DogCnt;
-	uint32 DogCntThrd;
+typedef struct
+{
+    uint8 Sta;
+    uint32 DogCnt;
+    uint32 DogCntThrd;
 } BLT_CTR ;
 /*
 *********************************************************************************************************
@@ -56,10 +57,10 @@ typedef struct {
 */
 
 #ifdef __cplusplus
-	extern "C" {
-	#endif
+extern "C" {
+#endif
 #include "stm32f10x_it.h"
-#include "SPI_MSD_Driver.h"	 
+#include "SPI_MSD_Driver.h"
 #include "queue.h"
 #include "Usart1.h"
 #include "Usart2.h"
@@ -72,14 +73,14 @@ typedef struct {
 #include "TaskDog.h"
 #include "Meter_Table.h"
 #include "gprs.h"
-	#ifdef __cplusplus
-	}
-	#endif
+#ifdef __cplusplus
+}
+#endif
 #include "lcmdrv.h"
 
 /************************************* Up Down Right Left Ok Cancel **************************************/
 #define	KEY_CANCEL_PIN		GPIO_Pin_6		//pc
-#define KEY_UP_PIN			GPIO_Pin_7		
+#define KEY_UP_PIN			GPIO_Pin_7
 #define KEY_DOWN_PIN		GPIO_Pin_8
 #define	KEY_RIGHT_PIN		GPIO_Pin_9
 #define	KEY_LEFT_PIN		GPIO_Pin_11		//pa
@@ -137,7 +138,7 @@ typedef struct {
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
 							gCurrent_Channel = 1
 
-							
+
 #define ENABLE_MBUS_2()		GPIO_SetBits(GPIOA,GPIO_Pin_4);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
@@ -148,32 +149,32 @@ typedef struct {
 							GPIO_ResetBits(GPIOA,GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
 							gCurrent_Channel = 1
-							
+
 #define ENABLE_MBUS_2()		GPIO_SetBits(GPIOA,GPIO_Pin_5);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_4 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
 							gCurrent_Channel = 2
-#endif							
+#endif
 #define ENABLE_MBUS_3()		GPIO_SetBits(GPIOA,GPIO_Pin_6);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_5 | GPIO_Pin_4 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
 							gCurrent_Channel = 3
-							
+
 #define ENABLE_MBUS_4()		GPIO_SetBits(GPIOA,GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_4);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4 | GPIO_Pin_5);\
 							gCurrent_Channel = 4
-							
+
 #define ENABLE_MBUS_5()		GPIO_SetBits(GPIOC,GPIO_Pin_4);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_5);\
 							gCurrent_Channel = 5
-							
+
 #define ENABLE_MBUS_6()		GPIO_SetBits(GPIOC,GPIO_Pin_5);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4);\
 							gCurrent_Channel = 6
-							
+
 #define DISABLE_MBUS()		GPIO_ResetBits(GPIOC,GPIO_Pin_5);\
 							GPIO_ResetBits(GPIOA,GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7);\
 							GPIO_ResetBits(GPIOC,GPIO_Pin_4);\
@@ -200,39 +201,39 @@ typedef struct {
 *********************************************************************************************************
 */
 
- extern void BSP_Init(void);
- extern void BSP_All_ControlLines_Init(void);
- extern void NVIC_Configuration_EXTI(void);
- extern void EXTI_Configuration(void);
- extern void BSP_Key_Init(void);
- extern void BSP_I2C_Init(void);
- extern void NVIC_Configuration_USART(void);
- extern void BSP_USART1_Init(void);
- extern void BSP_USART2_Init(void);
- extern void BSP_USART3_Init(void);
- extern void BSP_UART4_Init(void);
- extern void BSP_UART5_Init(void);
- extern void BSP_SD_SPI_Init(void);
- extern void BSP_FSMC_IO_Init(void);
- extern void BSP_LCM_Init(void);
- extern void BSP_SRAM_Init(void);
- extern void ProBltStaDog(void);
- extern uint8 ProBltSta(void);
- extern void IWDG_Configuration(void);
- extern void METER_ComSet1(void);
- extern void METER_ComSet2(void);
- extern void METER_ComSet3(void);
- extern void METER_ComSet4(void) ;
- extern void METER_ComSet5(void) ;
- extern void METER_ComSet6(void) ;
- extern void METER_ComSet7(void) ;
- extern void BSP_Gprs_CtrInit_Xmz(void);
- /*begin:yangfei added 2013-01-16*/
- extern void CRC_Init(void);
- extern void BKP_Init(void);
- extern void USART3_BAUNDRATE_Init(uint32  BAUNDRATE); 
- extern void BSP_GPIOPolling_Init(void);//muxiaoqing add
+extern void BSP_Init(void);
+extern void BSP_All_ControlLines_Init(void);
+extern void NVIC_Configuration_EXTI(void);
+extern void EXTI_Configuration(void);
+extern void BSP_Key_Init(void);
+extern void BSP_I2C_Init(void);
+extern void NVIC_Configuration_USART(void);
+extern void BSP_USART1_Init(void);
+extern void BSP_USART2_Init(void);
+extern void BSP_USART3_Init(void);
+extern void BSP_UART4_Init(void);
+extern void BSP_UART5_Init(void);
+extern void BSP_SD_SPI_Init(void);
+extern void BSP_FSMC_IO_Init(void);
+extern void BSP_LCM_Init(void);
+extern void BSP_SRAM_Init(void);
+extern void ProBltStaDog(void);
+extern uint8 ProBltSta(void);
+extern void IWDG_Configuration(void);
+extern void METER_ComSet1(void);
+extern void METER_ComSet2(void);
+extern void METER_ComSet3(void);
+extern void METER_ComSet4(void) ;
+extern void METER_ComSet5(void) ;
+extern void METER_ComSet6(void) ;
+extern void METER_ComSet7(void) ;
+extern void BSP_Gprs_CtrInit_Xmz(void);
+/*begin:yangfei added 2013-01-16*/
+extern void CRC_Init(void);
+extern void BKP_Init(void);
+extern void USART3_BAUNDRATE_Init(uint32  BAUNDRATE);
+extern void BSP_GPIOPolling_Init(void);//muxiaoqing add
 
 
- extern void  METER_ComSet6(void); //林晓彬添加
+extern void  METER_ComSet6(void); //林晓彬添加
 #endif                                                          /* End of module include.                               */

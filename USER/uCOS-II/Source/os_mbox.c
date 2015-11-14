@@ -54,11 +54,13 @@ void  *OSMboxAccept (OS_EVENT *pevent)
 
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                        /* Validate 'pevent'                         */
+    if (pevent == (OS_EVENT *)0)                          /* Validate 'pevent'                         */
+    {
         return ((void *)0);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {      /* Validate event block type                 */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)        /* Validate event block type                 */
+    {
         return ((void *)0);
     }
     OS_ENTER_CRITICAL();
@@ -95,21 +97,25 @@ OS_EVENT  *OSMboxCreate (void *pmsg)
 
 
 #ifdef OS_SAFETY_CRITICAL_IEC61508
-    if (OSSafetyCriticalStartFlag == OS_TRUE) {
+    if (OSSafetyCriticalStartFlag == OS_TRUE)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
-    if (OSIntNesting > 0u) {                     /* See if called from ISR ...                         */
+    if (OSIntNesting > 0u)                       /* See if called from ISR ...                         */
+    {
         return ((OS_EVENT *)0);                  /* ... can't CREATE from an ISR                       */
     }
     OS_ENTER_CRITICAL();
     pevent = OSEventFreeList;                    /* Get next free event control block                  */
-    if (OSEventFreeList != (OS_EVENT *)0) {      /* See if pool of free ECB pool was empty             */
+    if (OSEventFreeList != (OS_EVENT *)0)        /* See if pool of free ECB pool was empty             */
+    {
         OSEventFreeList = (OS_EVENT *)OSEventFreeList->OSEventPtr;
     }
     OS_EXIT_CRITICAL();
-    if (pevent != (OS_EVENT *)0) {
+    if (pevent != (OS_EVENT *)0)
+    {
         pevent->OSEventType    = OS_EVENT_TYPE_MBOX;
         pevent->OSEventCnt     = 0u;
         pevent->OSEventPtr     = pmsg;           /* Deposit message in event control block             */
@@ -171,75 +177,88 @@ OS_EVENT  *OSMboxDel (OS_EVENT  *pevent,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                         /* Validate 'pevent'                        */
+    if (pevent == (OS_EVENT *)0)                           /* Validate 'pevent'                        */
+    {
         *perr = OS_ERR_PEVENT_NULL;
         return (pevent);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {       /* Validate event block type                */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)         /* Validate event block type                */
+    {
         *perr = OS_ERR_EVENT_TYPE;
         return (pevent);
     }
-    if (OSIntNesting > 0u) {                               /* See if called from ISR ...               */
+    if (OSIntNesting > 0u)                                 /* See if called from ISR ...               */
+    {
         *perr = OS_ERR_DEL_ISR;                            /* ... can't DELETE from an ISR             */
         return (pevent);
     }
     OS_ENTER_CRITICAL();
-    if (pevent->OSEventGrp != 0u) {                        /* See if any tasks waiting on mailbox      */
+    if (pevent->OSEventGrp != 0u)                          /* See if any tasks waiting on mailbox      */
+    {
         tasks_waiting = OS_TRUE;                           /* Yes                                      */
-    } else {
+    }
+    else
+    {
         tasks_waiting = OS_FALSE;                          /* No                                       */
     }
-    switch (opt) {
-        case OS_DEL_NO_PEND:                               /* Delete mailbox only if no task waiting   */
-             if (tasks_waiting == OS_FALSE) {
+    switch (opt)
+    {
+    case OS_DEL_NO_PEND:                               /* Delete mailbox only if no task waiting   */
+        if (tasks_waiting == OS_FALSE)
+        {
 #if OS_EVENT_NAME_EN > 0u
-                 pevent->OSEventName = (INT8U *)(void *)"?";
+            pevent->OSEventName = (INT8U *)(void *)"?";
 #endif
-                 pevent->OSEventType = OS_EVENT_TYPE_UNUSED;
-                 pevent->OSEventPtr  = OSEventFreeList;    /* Return Event Control Block to free list  */
-                 pevent->OSEventCnt  = 0u;
-                 OSEventFreeList     = pevent;             /* Get next free event control block        */
-                 OS_EXIT_CRITICAL();
-                 *perr               = OS_ERR_NONE;
-                 pevent_return       = (OS_EVENT *)0;      /* Mailbox has been deleted                 */
-             } else {
-                 OS_EXIT_CRITICAL();
-                 *perr               = OS_ERR_TASK_WAITING;
-                 pevent_return       = pevent;
-             }
-             break;
+            pevent->OSEventType = OS_EVENT_TYPE_UNUSED;
+            pevent->OSEventPtr  = OSEventFreeList;    /* Return Event Control Block to free list  */
+            pevent->OSEventCnt  = 0u;
+            OSEventFreeList     = pevent;             /* Get next free event control block        */
+            OS_EXIT_CRITICAL();
+            *perr               = OS_ERR_NONE;
+            pevent_return       = (OS_EVENT *)0;      /* Mailbox has been deleted                 */
+        }
+        else
+        {
+            OS_EXIT_CRITICAL();
+            *perr               = OS_ERR_TASK_WAITING;
+            pevent_return       = pevent;
+        }
+        break;
 
-        case OS_DEL_ALWAYS:                                /* Always delete the mailbox                */
-             while (pevent->OSEventGrp != 0u) {            /* Ready ALL tasks waiting for mailbox      */
-                 (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_OK);
-             }
+    case OS_DEL_ALWAYS:                                /* Always delete the mailbox                */
+        while (pevent->OSEventGrp != 0u)              /* Ready ALL tasks waiting for mailbox      */
+        {
+            (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_OK);
+        }
 #if OS_EVENT_NAME_EN > 0u
-             pevent->OSEventName    = (INT8U *)(void *)"?";
+        pevent->OSEventName    = (INT8U *)(void *)"?";
 #endif
-             pevent->OSEventType    = OS_EVENT_TYPE_UNUSED;
-             pevent->OSEventPtr     = OSEventFreeList;     /* Return Event Control Block to free list  */
-             pevent->OSEventCnt     = 0u;
-             OSEventFreeList        = pevent;              /* Get next free event control block        */
-             OS_EXIT_CRITICAL();
-             if (tasks_waiting == OS_TRUE) {               /* Reschedule only if task(s) were waiting  */
-                 OS_Sched();                               /* Find highest priority task ready to run  */
-             }
-             *perr         = OS_ERR_NONE;
-             pevent_return = (OS_EVENT *)0;                /* Mailbox has been deleted                 */
-             break;
+        pevent->OSEventType    = OS_EVENT_TYPE_UNUSED;
+        pevent->OSEventPtr     = OSEventFreeList;     /* Return Event Control Block to free list  */
+        pevent->OSEventCnt     = 0u;
+        OSEventFreeList        = pevent;              /* Get next free event control block        */
+        OS_EXIT_CRITICAL();
+        if (tasks_waiting == OS_TRUE)                 /* Reschedule only if task(s) were waiting  */
+        {
+            OS_Sched();                               /* Find highest priority task ready to run  */
+        }
+        *perr         = OS_ERR_NONE;
+        pevent_return = (OS_EVENT *)0;                /* Mailbox has been deleted                 */
+        break;
 
-        default:
-             OS_EXIT_CRITICAL();
-             *perr         = OS_ERR_INVALID_OPT;
-             pevent_return = pevent;
-             break;
+    default:
+        OS_EXIT_CRITICAL();
+        *perr         = OS_ERR_INVALID_OPT;
+        pevent_return = pevent;
+        break;
     }
     return (pevent_return);
 }
@@ -291,32 +310,38 @@ void  *OSMboxPend (OS_EVENT  *pevent,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                    /* Validate 'pevent'                             */
+    if (pevent == (OS_EVENT *)0)                      /* Validate 'pevent'                             */
+    {
         *perr = OS_ERR_PEVENT_NULL;
         return ((void *)0);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {  /* Validate event block type                     */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)    /* Validate event block type                     */
+    {
         *perr = OS_ERR_EVENT_TYPE;
         return ((void *)0);
     }
-    if (OSIntNesting > 0u) {                          /* See if called from ISR ...                    */
+    if (OSIntNesting > 0u)                            /* See if called from ISR ...                    */
+    {
         *perr = OS_ERR_PEND_ISR;                      /* ... can't PEND from an ISR                    */
         return ((void *)0);
     }
-    if (OSLockNesting > 0u) {                         /* See if called with scheduler locked ...       */
+    if (OSLockNesting > 0u)                           /* See if called with scheduler locked ...       */
+    {
         *perr = OS_ERR_PEND_LOCKED;                   /* ... can't PEND when locked                    */
         return ((void *)0);
     }
     OS_ENTER_CRITICAL();
     pmsg = pevent->OSEventPtr;
-    if (pmsg != (void *)0) {                          /* See if there is already a message             */
+    if (pmsg != (void *)0)                            /* See if there is already a message             */
+    {
         pevent->OSEventPtr = (void *)0;               /* Clear the mailbox                             */
         OS_EXIT_CRITICAL();
         *perr = OS_ERR_NONE;
@@ -329,31 +354,32 @@ void  *OSMboxPend (OS_EVENT  *pevent,
     OS_EXIT_CRITICAL();
     OS_Sched();                                       /* Find next highest priority task ready to run  */
     OS_ENTER_CRITICAL();
-    switch (OSTCBCur->OSTCBStatPend) {                /* See if we timed-out or aborted                */
-        case OS_STAT_PEND_OK:
-             pmsg =  OSTCBCur->OSTCBMsg;
-            *perr =  OS_ERR_NONE;
-             break;
+    switch (OSTCBCur->OSTCBStatPend)                  /* See if we timed-out or aborted                */
+    {
+    case OS_STAT_PEND_OK:
+        pmsg =  OSTCBCur->OSTCBMsg;
+        *perr =  OS_ERR_NONE;
+        break;
 
-        case OS_STAT_PEND_ABORT:
-             pmsg = (void *)0;
-            *perr =  OS_ERR_PEND_ABORT;               /* Indicate that we aborted                      */
-             break;
+    case OS_STAT_PEND_ABORT:
+        pmsg = (void *)0;
+        *perr =  OS_ERR_PEND_ABORT;               /* Indicate that we aborted                      */
+        break;
 
-        case OS_STAT_PEND_TO:
-        default:
-             OS_EventTaskRemove(OSTCBCur, pevent);
-             pmsg = (void *)0;
-            *perr =  OS_ERR_TIMEOUT;                  /* Indicate that we didn't get event within TO   */
-             break;
+    case OS_STAT_PEND_TO:
+    default:
+        OS_EventTaskRemove(OSTCBCur, pevent);
+        pmsg = (void *)0;
+        *perr =  OS_ERR_TIMEOUT;                  /* Indicate that we didn't get event within TO   */
+        break;
     }
     OSTCBCur->OSTCBStat          =  OS_STAT_RDY;      /* Set   task  status to ready                   */
     OSTCBCur->OSTCBStatPend      =  OS_STAT_PEND_OK;  /* Clear pend  status                            */
-    OSTCBCur->OSTCBEventPtr      = (OS_EVENT  *)0;    /* Clear event pointers                          */
+    OSTCBCur->OSTCBEventPtr      = (OS_EVENT *)0;     /* Clear event pointers                          */
 #if (OS_EVENT_MULTI_EN > 0u)
     OSTCBCur->OSTCBEventMultiPtr = (OS_EVENT **)0;
 #endif
-    OSTCBCur->OSTCBMsg           = (void      *)0;    /* Clear  received message                       */
+    OSTCBCur->OSTCBMsg           = (void *)0;         /* Clear  received message                       */
     OS_EXIT_CRITICAL();
     return (pmsg);                                    /* Return received message                       */
 }
@@ -403,37 +429,43 @@ INT8U  OSMboxPendAbort (OS_EVENT  *pevent,
 
 
 #ifdef OS_SAFETY_CRITICAL
-    if (perr == (INT8U *)0) {
+    if (perr == (INT8U *)0)
+    {
         OS_SAFETY_CRITICAL_EXCEPTION();
     }
 #endif
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                         /* Validate 'pevent'                        */
+    if (pevent == (OS_EVENT *)0)                           /* Validate 'pevent'                        */
+    {
         *perr = OS_ERR_PEVENT_NULL;
         return (0u);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {       /* Validate event block type                */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)         /* Validate event block type                */
+    {
         *perr = OS_ERR_EVENT_TYPE;
         return (0u);
     }
     OS_ENTER_CRITICAL();
-    if (pevent->OSEventGrp != 0u) {                        /* See if any task waiting on mailbox?      */
+    if (pevent->OSEventGrp != 0u)                          /* See if any task waiting on mailbox?      */
+    {
         nbr_tasks = 0u;
-        switch (opt) {
-            case OS_PEND_OPT_BROADCAST:                    /* Do we need to abort ALL waiting tasks?   */
-                 while (pevent->OSEventGrp != 0u) {        /* Yes, ready ALL tasks waiting on mailbox  */
-                     (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_ABORT);
-                     nbr_tasks++;
-                 }
-                 break;
+        switch (opt)
+        {
+        case OS_PEND_OPT_BROADCAST:                    /* Do we need to abort ALL waiting tasks?   */
+            while (pevent->OSEventGrp != 0u)          /* Yes, ready ALL tasks waiting on mailbox  */
+            {
+                (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_ABORT);
+                nbr_tasks++;
+            }
+            break;
 
-            case OS_PEND_OPT_NONE:
-            default:                                       /* No,  ready HPT       waiting on mailbox  */
-                 (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_ABORT);
-                 nbr_tasks++;
-                 break;
+        case OS_PEND_OPT_NONE:
+        default:                                       /* No,  ready HPT       waiting on mailbox  */
+            (void)OS_EventTaskRdy(pevent, (void *)0, OS_STAT_MBOX, OS_STAT_PEND_ABORT);
+            nbr_tasks++;
+            break;
         }
         OS_EXIT_CRITICAL();
         OS_Sched();                                        /* Find HPT ready to run                    */
@@ -480,25 +512,30 @@ INT8U  OSMboxPost (OS_EVENT  *pevent,
 
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                    /* Validate 'pevent'                             */
+    if (pevent == (OS_EVENT *)0)                      /* Validate 'pevent'                             */
+    {
         return (OS_ERR_PEVENT_NULL);
     }
-    if (pmsg == (void *)0) {                          /* Make sure we are not posting a NULL pointer   */
+    if (pmsg == (void *)0)                            /* Make sure we are not posting a NULL pointer   */
+    {
         return (OS_ERR_POST_NULL_PTR);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {  /* Validate event block type                     */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)    /* Validate event block type                     */
+    {
         return (OS_ERR_EVENT_TYPE);
     }
     OS_ENTER_CRITICAL();
-    if (pevent->OSEventGrp != 0u) {                   /* See if any task pending on mailbox            */
-                                                      /* Ready HPT waiting on event                    */
+    if (pevent->OSEventGrp != 0u)                     /* See if any task pending on mailbox            */
+    {
+        /* Ready HPT waiting on event                    */
         (void)OS_EventTaskRdy(pevent, pmsg, OS_STAT_MBOX, OS_STAT_PEND_OK);
         OS_EXIT_CRITICAL();
         OS_Sched();                                   /* Find highest priority task ready to run       */
         return (OS_ERR_NONE);
     }
-    if (pevent->OSEventPtr != (void *)0) {            /* Make sure mailbox doesn't already have a msg  */
+    if (pevent->OSEventPtr != (void *)0)              /* Make sure mailbox doesn't already have a msg  */
+    {
         OS_EXIT_CRITICAL();
         return (OS_ERR_MBOX_FULL);
     }
@@ -553,32 +590,42 @@ INT8U  OSMboxPostOpt (OS_EVENT  *pevent,
 
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                    /* Validate 'pevent'                             */
+    if (pevent == (OS_EVENT *)0)                      /* Validate 'pevent'                             */
+    {
         return (OS_ERR_PEVENT_NULL);
     }
-    if (pmsg == (void *)0) {                          /* Make sure we are not posting a NULL pointer   */
+    if (pmsg == (void *)0)                            /* Make sure we are not posting a NULL pointer   */
+    {
         return (OS_ERR_POST_NULL_PTR);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {  /* Validate event block type                     */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)    /* Validate event block type                     */
+    {
         return (OS_ERR_EVENT_TYPE);
     }
     OS_ENTER_CRITICAL();
-    if (pevent->OSEventGrp != 0u) {                   /* See if any task pending on mailbox            */
-        if ((opt & OS_POST_OPT_BROADCAST) != 0x00u) { /* Do we need to post msg to ALL waiting tasks ? */
-            while (pevent->OSEventGrp != 0u) {        /* Yes, Post to ALL tasks waiting on mailbox     */
+    if (pevent->OSEventGrp != 0u)                     /* See if any task pending on mailbox            */
+    {
+        if ((opt & OS_POST_OPT_BROADCAST) != 0x00u)   /* Do we need to post msg to ALL waiting tasks ? */
+        {
+            while (pevent->OSEventGrp != 0u)          /* Yes, Post to ALL tasks waiting on mailbox     */
+            {
                 (void)OS_EventTaskRdy(pevent, pmsg, OS_STAT_MBOX, OS_STAT_PEND_OK);
             }
-        } else {                                      /* No,  Post to HPT waiting on mbox              */
+        }
+        else                                          /* No,  Post to HPT waiting on mbox              */
+        {
             (void)OS_EventTaskRdy(pevent, pmsg, OS_STAT_MBOX, OS_STAT_PEND_OK);
         }
         OS_EXIT_CRITICAL();
-        if ((opt & OS_POST_OPT_NO_SCHED) == 0u) {     /* See if scheduler needs to be invoked          */
+        if ((opt & OS_POST_OPT_NO_SCHED) == 0u)       /* See if scheduler needs to be invoked          */
+        {
             OS_Sched();                               /* Find HPT ready to run                         */
         }
         return (OS_ERR_NONE);
     }
-    if (pevent->OSEventPtr != (void *)0) {            /* Make sure mailbox doesn't already have a msg  */
+    if (pevent->OSEventPtr != (void *)0)              /* Make sure mailbox doesn't already have a msg  */
+    {
         OS_EXIT_CRITICAL();
         return (OS_ERR_MBOX_FULL);
     }
@@ -621,21 +668,25 @@ INT8U  OSMboxQuery (OS_EVENT      *pevent,
 
 
 #if OS_ARG_CHK_EN > 0u
-    if (pevent == (OS_EVENT *)0) {                         /* Validate 'pevent'                        */
+    if (pevent == (OS_EVENT *)0)                           /* Validate 'pevent'                        */
+    {
         return (OS_ERR_PEVENT_NULL);
     }
-    if (p_mbox_data == (OS_MBOX_DATA *)0) {                /* Validate 'p_mbox_data'                   */
+    if (p_mbox_data == (OS_MBOX_DATA *)0)                  /* Validate 'p_mbox_data'                   */
+    {
         return (OS_ERR_PDATA_NULL);
     }
 #endif
-    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX) {       /* Validate event block type                */
+    if (pevent->OSEventType != OS_EVENT_TYPE_MBOX)         /* Validate event block type                */
+    {
         return (OS_ERR_EVENT_TYPE);
     }
     OS_ENTER_CRITICAL();
     p_mbox_data->OSEventGrp = pevent->OSEventGrp;          /* Copy message mailbox wait list           */
     psrc                    = &pevent->OSEventTbl[0];
     pdest                   = &p_mbox_data->OSEventTbl[0];
-    for (i = 0u; i < OS_EVENT_TBL_SIZE; i++) {
+    for (i = 0u; i < OS_EVENT_TBL_SIZE; i++)
+    {
         *pdest++ = *psrc++;
     }
     p_mbox_data->OSMsg = pevent->OSEventPtr;               /* Get message from mailbox                 */
@@ -644,4 +695,4 @@ INT8U  OSMboxQuery (OS_EVENT      *pevent,
 }
 #endif                                                     /* OS_MBOX_QUERY_EN                         */
 #endif                                                     /* OS_MBOX_EN                               */
-	 	   	  		 			 	    		   		 		 	 	 			 	    		   	 			 	  	 		 				 		  			 		 					 	  	  		      		  	   		      		  	 		 	      		   		 		  	 		 	      		  		  		  
+

@@ -225,81 +225,72 @@ void TaskUsart1Rec(void *pdata)
 *****************************************************************************/
 void USART1_IRQHandler(void)
 {
-    CPU_SR		cpu_sr;
-    uint8 Err = 0x00;
+	CPU_SR		cpu_sr;
+	uint8 Err = 0x00;
 	uint8 tmp = 0x00;
-	
-	
+
 	OS_ENTER_CRITICAL();
 	OSIntNesting++;
 	OS_EXIT_CRITICAL();
-	
-	//有产生 Tansmit Data Register empty interrupt
-	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET)
-		{
-			Err = QueueRead(&tmp, USART1SendQueue);
-			if (Err == QUEUE_OK)
-				{
-					USART1->DR = tmp;
-				}
-			else if(Err == QUEUE_EMPTY)
-				{
-					USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
-					if(autotestmode)
-						{
-                          forbidsending1 = 1;
-					    }
-				}
-			
-		}
-	else if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
-			{ //产生 Receive Data register not empty interrupt
-				IRQBuf[IRQBuf_Counter] = USART1->DR;
-				OSQPost(Usart1QMsg, &IRQBuf[IRQBuf_Counter]);
-				if(IRQBuf_Counter>=30)	IRQBuf_Counter = 0;
-				IRQBuf_Counter++;
-				
-                //#ifdef DEBUG_SHELL
-               // #if 0
-               // Uart_ReceiveChar(); 
-               // #else	
-	           // {
-				//	IRQ1testBuf[IRQ1testBuf_Counter]=IRQBuf[IRQBuf_Counter];
-				//	IRQ1testBuf_Counter ++;
-				//	if(IRQ1testBuf_Counter>=19)	
-         		//	{
-         		//	IRQ1testBuf_Counter = 0;
-         		//	}
-				//}		
 
-               	//#endif
+	//有产生 Tansmit Data Register empty interrupt
+	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET){
+		Err = QueueRead(&tmp, USART1SendQueue);
+		if (Err == QUEUE_OK){
+			USART1->DR = tmp;
+		}
+		else if(Err == QUEUE_EMPTY){
+			USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
+			if(autotestmode){
+				forbidsending1 = 1;
 			}
-		else if( (USART_GetFlagStatus(USART1,USART_FLAG_ORE)==SET) || 
+		}
+	}
+	else if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET){//产生 Receive Data register not empty interrupt
+		IRQBuf[IRQBuf_Counter] = USART1->DR;
+		OSQPost(Usart1QMsg, &IRQBuf[IRQBuf_Counter]);
+		if(IRQBuf_Counter>=30)	IRQBuf_Counter = 0;
+		IRQBuf_Counter++;
+				
+// 	#ifdef DEBUG_SHELL
+// 		#if 0
+// 			Uart_ReceiveChar(); 
+// 		#else	
+// 			{
+// 				IRQ1testBuf[IRQ1testBuf_Counter]=IRQBuf[IRQBuf_Counter];
+// 				IRQ1testBuf_Counter ++;
+// 				if(IRQ1testBuf_Counter>=19)	
+// 				{
+// 				IRQ1testBuf_Counter = 0;
+// 				}
+// 			}
+// 		#endif
+// 	#endif
+	}
+	else if( (USART_GetFlagStatus(USART1,USART_FLAG_ORE)==SET) || 
 				 (USART_GetFlagStatus(USART1,USART_FLAG_NE)==SET) ||
 				 (USART_GetFlagStatus(USART1,USART_FLAG_FE)==SET) ||
 				 (USART_GetFlagStatus(USART1,USART_FLAG_PE)==SET) )
-    			{//溢出-如果发生溢出需要先读SR,再读DR寄存器 则可清除不断入中断的问题
-        			USART_ClearFlag(USART1, USART_FLAG_ORE);    //读SR
-        			tmp = USART1->DR;							//读DR
-    			}
-			else
-				{
-					//清除中断标志
-					USART_ClearITPendingBit(USART1, USART_IT_TC);
-				}
+	{//溢出-如果发生溢出需要先读SR,再读DR寄存器 则可清除不断入中断的问题
+		USART_ClearFlag(USART1, USART_FLAG_ORE);    //读SR
+		tmp = USART1->DR;							//读DR
+	}
+	else{//清除中断标志
+		USART_ClearITPendingBit(USART1, USART_IT_TC);
+	}
+
 	OSIntExit();
 }
-
 
 //if you don't use vsprintf(), the code size is reduced very much.
 void Uart_Printf(char *fmt,...)
 {
 	va_list ap;
 	char string[256] = {0};
-  
+
 	va_start(ap,fmt);
 	vsprintf(string,fmt,ap);
-    USART1Send((uint8*) string,sizeof(string));
+	USART1Send((uint8*) string,sizeof(string));
 	//Uart_SendString(string);
 	va_end(ap);
 }
@@ -313,7 +304,7 @@ void Uart_Printf(char *fmt,...)
 *****************************************************************************/
 void Uart_Printf_Time(char *fmt,...)
 {
-    char StringBuf[356] 	   	= {0x00};
+	char StringBuf[356] 	   	= {0x00};
 	uint8 lTimeDate[6]			= {0x00};
 	int16 StringLen				= 0x00;
 	va_list argptr;
@@ -378,6 +369,3 @@ u8 Uart_GetChar(void)
 	TempChar =(u8) ( (u32) (u32*) OSQPend ( UartMsgOSQ, 0, &Err )  &0xFF );
 	return TempChar;
 }
-
-
-

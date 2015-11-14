@@ -1,5 +1,5 @@
 #ifndef				_TASKS1_H
-#define				_TASKS1_H				
+#define				_TASKS1_H
 
 
 //====================

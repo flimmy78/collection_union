@@ -145,7 +145,7 @@ typedef            void     (*CPU_FNCT_PTR )(void *);           /* See Note #2b.
 *********************************************************************************************************
 */
 
-                                                                /* Define  CPU         word sizes (see Note #1) :       */
+/* Define  CPU         word sizes (see Note #1) :       */
 #define  CPU_CFG_ADDR_SIZE              CPU_WORD_SIZE_32        /* Defines CPU address word size.                       */
 
 #define  CPU_CFG_DATA_SIZE              CPU_WORD_SIZE_32        /* Defines CPU data    word size.                       */
@@ -158,7 +158,7 @@ typedef            void     (*CPU_FNCT_PTR )(void *);           /* See Note #2b.
 *********************************************************************************************************
 */
 
-                                                                /* CPU address type based on address bus size.          */
+/* CPU address type based on address bus size.          */
 #if     (CPU_CFG_ADDR_SIZE == CPU_WORD_SIZE_32)
 typedef  CPU_INT32U  CPU_ADDR;
 #elif   (CPU_CFG_ADDR_SIZE == CPU_WORD_SIZE_16)
@@ -167,7 +167,7 @@ typedef  CPU_INT16U  CPU_ADDR;
 typedef  CPU_INT08U  CPU_ADDR;
 #endif
 
-                                                                /* CPU data    type based on data    bus size.          */
+/* CPU data    type based on data    bus size.          */
 #if     (CPU_CFG_DATA_SIZE == CPU_WORD_SIZE_32)
 typedef  CPU_INT32U  CPU_DATA;
 #elif   (CPU_CFG_DATA_SIZE == CPU_WORD_SIZE_16)
@@ -234,7 +234,7 @@ typedef  CPU_DATA    CPU_SIZE_T;                                /* Defines CPU s
 
 typedef  CPU_INT32U  CPU_SR;                                    /* Defines   CPU status register size (see Note #3).    */
 
-                                                                /* Configure CPU critical method      (see Note #1) :   */
+/* Configure CPU critical method      (see Note #1) :   */
 #define  CPU_CFG_CRITICAL_METHOD        CPU_CRITICAL_METHOD_STATUS_LOCAL
 
 #define  CPU_CRITICAL_ENTER()           { cpu_sr = CPU_SR_Save(); }
@@ -305,17 +305,17 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 #define  CPU_REG_NVIC_ST_RELOAD         (*((volatile CPU_INT32U *)(0xE000E014))) /* SysTick Reload      Value Reg.      */
 #define  CPU_REG_NVIC_ST_CURRENT        (*((volatile CPU_INT32U *)(0xE000E018))) /* SysTick Current     Value Reg.      */
 #define  CPU_REG_NVIC_ST_CAL            (*((volatile CPU_INT32U *)(0xE000E01C))) /* SysTick Calibration Value Reg.      */
-                                                                                 /* IRQ Set En Reg.                     */
+/* IRQ Set En Reg.                     */
 #define  CPU_REG_NVIC_SETEN(n)          (*((volatile CPU_INT32U *)(0xE000E100 + (n) * 4)))
-                                                                                 /* IRQ Clr En Reg.                     */
+/* IRQ Clr En Reg.                     */
 #define  CPU_REG_NVIC_CLREN(n)          (*((volatile CPU_INT32U *)(0xE000E180 + (n) * 4)))
-                                                                                 /* IRQ Set Pending Reg.                */
+/* IRQ Set Pending Reg.                */
 #define  CPU_REG_NVIC_SETPEND(n)        (*((volatile CPU_INT32U *)(0xE000E200 + (n) * 4)))
-                                                                                 /* IRQ Clr Pending Reg.                */
+/* IRQ Clr Pending Reg.                */
 #define  CPU_REG_NVIC_CLRPEND(n)        (*((volatile CPU_INT32U *)(0xE000E280 + (n) * 4)))
-                                                                                 /* IRQ Active Reg.                     */
+/* IRQ Active Reg.                     */
 #define  CPU_REG_NVIC_ACTIVE(n)         (*((volatile CPU_INT32U *)(0xE000E300 + (n) * 4)))
-                                                                                 /* IRQ Prio Reg.                       */
+/* IRQ Prio Reg.                       */
 #define  CPU_REG_NVIC_PRIO(n)           (*((volatile CPU_INT32U *)(0xE000E400 + (n) * 4)))
 
 #define  CPU_REG_NVIC_CPUID             (*((volatile CPU_INT32U *)(0xE000ED00))) /* CPUID Base Reg.                     */
@@ -367,18 +367,18 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 *********************************************************************************************************
 */
 
-                                                                /* ---------- SYSTICK CTRL & STATUS REG BITS ---------- */
+/* ---------- SYSTICK CTRL & STATUS REG BITS ---------- */
 #define  CPU_REG_NVIC_ST_CTRL_COUNTFLAG         DEF_BIT_16
 #define  CPU_REG_NVIC_ST_CTRL_CLKSOURCE         DEF_BIT_02
 #define  CPU_REG_NVIC_ST_CTRL_TICKINT           DEF_BIT_01
 #define  CPU_REG_NVIC_ST_CTRL_ENABLE            DEF_BIT_00
 
 
-                                                                /* -------- SYSTICK CALIBRATION VALUE REG BITS -------- */
+/* -------- SYSTICK CALIBRATION VALUE REG BITS -------- */
 #define  CPU_REG_NVIC_ST_CAL_NOREF              DEF_BIT_31
 #define  CPU_REG_NVIC_ST_CAL_SKEW               DEF_BIT_30
 
-                                                                /* -------------- INT CTRL STATE REG BITS ------------- */
+/* -------------- INT CTRL STATE REG BITS ------------- */
 #define  CPU_REG_NVIC_ICSR_NMIPENDSET           DEF_BIT_31
 #define  CPU_REG_NVIC_ICSR_PENDSVSET            DEF_BIT_28
 #define  CPU_REG_NVIC_ICSR_PENDSVCLR            DEF_BIT_27
@@ -388,21 +388,21 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 #define  CPU_REG_NVIC_ICSR_ISRPENDING           DEF_BIT_22
 #define  CPU_REG_NVIC_ICSR_RETTOBASE            DEF_BIT_11
 
-                                                                /* ------------- VECT TBL OFFSET REG BITS ------------- */
+/* ------------- VECT TBL OFFSET REG BITS ------------- */
 #define  CPU_REG_NVIC_VTOR_TBLBASE              DEF_BIT_29
 
-                                                                /* ------------ APP INT/RESET CTRL REG BITS ----------- */
+/* ------------ APP INT/RESET CTRL REG BITS ----------- */
 #define  CPU_REG_NVIC_AIRCR_ENDIANNESS          DEF_BIT_15
 #define  CPU_REG_NVIC_AIRCR_SYSRESETREQ         DEF_BIT_02
 #define  CPU_REG_NVIC_AIRCR_VECTCLRACTIVE       DEF_BIT_01
 #define  CPU_REG_NVIC_AIRCR_VECTRESET           DEF_BIT_00
 
-                                                                /* --------------- SYSTEM CTRL REG BITS --------------- */
+/* --------------- SYSTEM CTRL REG BITS --------------- */
 #define  CPU_REG_NVIC_SCR_SEVONPEND             DEF_BIT_04
 #define  CPU_REG_NVIC_SCR_SLEEPDEEP             DEF_BIT_02
 #define  CPU_REG_NVIC_SCR_SLEEPONEXIT           DEF_BIT_01
 
-                                                                /* ----------------- CFG CTRL REG BITS ---------------- */
+/* ----------------- CFG CTRL REG BITS ---------------- */
 #define  CPU_REG_NVIC_CCR_STKALIGN              DEF_BIT_09
 #define  CPU_REG_NVIC_CCR_BFHFNMIGN             DEF_BIT_08
 #define  CPU_REG_NVIC_CCR_DIV_0_TRP             DEF_BIT_04
@@ -410,7 +410,7 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 #define  CPU_REG_NVIC_CCR_USERSETMPEND          DEF_BIT_01
 #define  CPU_REG_NVIC_CCR_NONBASETHRDENA        DEF_BIT_00
 
-                                                                /* ------- SYSTEM HANDLER CTRL & STATE REG BITS ------- */
+/* ------- SYSTEM HANDLER CTRL & STATE REG BITS ------- */
 #define  CPU_REG_NVIC_SHCSR_USGFAULTENA         DEF_BIT_18
 #define  CPU_REG_NVIC_SHCSR_BUSFAULTENA         DEF_BIT_17
 #define  CPU_REG_NVIC_SHCSR_MEMFAULTENA         DEF_BIT_16
@@ -426,7 +426,7 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 #define  CPU_REG_NVIC_SHCSR_BUSFAULTACT         DEF_BIT_01
 #define  CPU_REG_NVIC_SHCSR_MEMFAULTACT         DEF_BIT_00
 
-                                                                /* -------- CONFIGURABLE FAULT STATUS REG BITS -------- */
+/* -------- CONFIGURABLE FAULT STATUS REG BITS -------- */
 #define  CPU_REG_NVIC_CFSR_DIVBYZERO            DEF_BIT_25
 #define  CPU_REG_NVIC_CFSR_UNALIGNED            DEF_BIT_24
 #define  CPU_REG_NVIC_CFSR_NOCP                 DEF_BIT_19
@@ -445,12 +445,12 @@ void        CPU_BitBandSet   (CPU_ADDR    addr,
 #define  CPU_REG_NVIC_CFSR_DACCVIOL             DEF_BIT_01
 #define  CPU_REG_NVIC_CFSR_IACCVIOL             DEF_BIT_00
 
-                                                                /* ------------ HARD FAULT STATUS REG BITS ------------ */
+/* ------------ HARD FAULT STATUS REG BITS ------------ */
 #define  CPU_REG_NVIC_HFSR_DEBUGEVT             DEF_BIT_31
 #define  CPU_REG_NVIC_HFSR_FORCED               DEF_BIT_30
 #define  CPU_REG_NVIC_HFSR_VECTTBL              DEF_BIT_01
 
-                                                                /* ------------ DEBUG FAULT STATUS REG BITS ----------- */
+/* ------------ DEBUG FAULT STATUS REG BITS ----------- */
 #define  CPU_REG_NVIC_DFSR_EXTERNAL             DEF_BIT_04
 #define  CPU_REG_NVIC_DFSR_VCATCH               DEF_BIT_03
 #define  CPU_REG_NVIC_DFSR_DWTTRAP              DEF_BIT_02

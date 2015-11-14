@@ -9,8 +9,5 @@
 *.hex
 *.lnp
 *.axf
-*.bak
-*.plg
-Project.*
-*/obj/*
+Project*.bak
 MDK-ARM/obj/Project.htm

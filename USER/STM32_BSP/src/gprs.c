@@ -434,6 +434,8 @@ uint8 CMD_AT_RP_1(char* AtComd,char* AtRightAnsw,char* OrAtRightAnsw,uint16 OutT
 		//UpQueueFlush(UP_COMMU_DEV_AT);
 	}
 	return err;
+	
+	
 }
 
 //使用设备UP_COMMU_DEV_AT，故不可重入，其他使用设备UP_COMMU_DEV_AT的函数不能与其并发！
@@ -446,7 +448,7 @@ uint8 CMD_AT(char* AtComd,char* AtRightAnsw,char* OrAtRightAnsw,uint16 OutTime,u
 	UGprsWriteStr(AtComd);//注意函数返回后硬件发送并没有完成
 //	}
 	OSTimeDly(OS_TICKS_PER_SEC/8);
-
+   
 	if(ATEMode==TRUE){
 		err=GprsGetHead(UP_COMMU_DEV_AT,AtComd,NULL,OS_TICKS_PER_SEC/8,TRUE);//接收回显，超时设置较小
 		//当建立连接时，OS_TICKS_PER_SEC/20的话会收第一个回显字节就超时，是因为发送的字节多，发送占去了很多时间

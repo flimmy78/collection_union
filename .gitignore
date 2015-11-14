@@ -9,5 +9,8 @@
 *.hex
 *.lnp
 *.axf
+*.__i
+*.sfb
+*.iex
 Project*.bak
 MDK-ARM/obj/Project.htm
